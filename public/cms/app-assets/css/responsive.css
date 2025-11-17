@@ -1,0 +1,13 @@
+@media only screen and (max-width: 768px) {
+    #invoice-template{
+        padding: 15px;
+    }
+    .left-mobile{
+        text-align: left !important;
+    }
+}
+
+
+.w-70{
+    width: 70%;
+}

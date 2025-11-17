@@ -1,0 +1,68 @@
+
+
+.dropdown-menu-teeth {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    min-width: 200px;
+    padding: 0;
+    z-index: 1000;
+    display: none;
+    list-style: none;
+}
+
+/* Submenu item with > indicator */
+.dropdown-menu-teeth li {
+    padding: 8px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    position: relative;
+}
+
+.dropdown-menu-teeth li:hover {
+    background-color: #f8f9fa;
+}
+
+/* Show > symbol for submenu items */
+.dropdown-menu-teeth .submenu::after {
+    content: '>';
+    position: absolute;
+    right: 12px;
+    font-weight: bold;
+}
+
+/* Submenu container (opens to the left) */
+.dropdown-menu-teeth .submenu {
+    position: relative;
+}
+
+.dropdown-menu-teeth .submenu .dropdown-menu-teeth {
+    top: 0;
+    right: auto;
+    left: 100%;
+    margin-top: 0;
+    display: none;
+    max-height: 300px;
+    width: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.dropdown-menu-teeth .submenu:hover > .dropdown-menu-teeth {
+    display: block;
+}
+
+/* Button and wrapper */
+.dropdown-wrapper-teeth {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-button-teeth {
+    padding: 10px 20px;
+    background: #08B1BA;
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}

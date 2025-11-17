@@ -1,0 +1,80 @@
+
+.card {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* This adds the subtle shadow */
+}
+
+
+.section-title {
+    font-size: 18px;
+    color: #000;
+}
+
+.section-title span {
+    color: #089bab;
+    text-transform: capitalize;
+}
+
+.checkbox-list label {
+    display: block;
+    margin: 10px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.checkbox-list input[type="checkbox"] {
+    margin-right: 10px;
+}
+.form-group {
+    margin-bottom: 1.5rem;
+    font-family: Arial, sans-serif;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.me-3 {
+    margin-right: 1rem;
+}
+
+.radio-group label {
+    font-weight: normal;
+    color: #555;
+}
+
+.allergy-input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px dotted #ccc;
+    padding: 8px 0;
+    color: #888;
+    font-style: italic;
+    background: transparent;
+}
+
+.allergy-input:focus {
+    outline: none;
+    border-bottom: 1px solid #666;
+    color: #000;
+    font-style: normal;
+}
+
+.ml14px{
+    margin-left: 14px;
+}
+
+.pl-0{
+    padding-left: 0px !important;
+}

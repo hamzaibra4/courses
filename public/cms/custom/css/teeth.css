@@ -1,0 +1,96 @@
+.arch {
+    display: flex;
+    justify-content: left;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.quadrant {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.teeth-row {
+    display: flex;
+    gap: 5px;
+    flex-wrap: nowrap;
+}
+
+.tooth-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 3px;
+}
+
+.tooth {
+    width: 40px;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.tooth:hover {
+    transform: scale(1.1);
+}
+
+.tooth-number {
+    font-size: 12px;
+    margin-top: 4px;
+    color: #333;
+}
+
+.tooth-check {
+    margin-top: 4px;
+}
+
+.quadrant-label {
+    font-weight: bold;
+    color: var(--bs-primary);
+    margin: 6px 0;
+    position: relative;
+}
+
+.quadrant-label.top::before,
+.quadrant-label.bottom::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--bs-primary);
+}
+
+.selected-teeth{
+    border-color:  var(--bs-primary);;
+}
+
+
+.teeth-checkbox{
+    width: 1.5em;
+    height: 1.5em;
+}
+
+
+
+
+
+
+.template-btn{
+    padding: 10px 20px;
+    background: var(--bs-primary);
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.gap-6{
+    gap:5rem
+}
+
+
+.template-btn-2{
+    float: right;
+    margin-top: 10px;
+}

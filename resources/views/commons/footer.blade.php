@@ -1,0 +1,5 @@
+<footer class="footer footer-static footer-light navbar-border navbar-shadow no-print">
+    <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2">
+        &copy; Copyright {{now()->year}} <a  target="_blank"  href="https://basolutions-lb.com/">BA Solutions</a> All Rights Reserved.
+    </p>
+</footer>
