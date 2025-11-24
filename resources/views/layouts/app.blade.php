@@ -8,7 +8,7 @@
     <meta name="description" content="Prime Court Sport Club ">
     <meta name="keywords"  content="Prime Court Sport Club, Padel, Sport, Ball,Sport, Padel ">
     <meta name="author"  content="BA Solutions">
-    <title>Hijazi Ordering</title>
+    <title>TechnoMath</title>
     <link rel="apple-touch-icon" href="{{asset('cms/app-assets/images/ico/apple-icon-120.png')}}">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('cms/app-assets/images/ico/favicon.ico')}}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Quicksand:300,400,500,700"

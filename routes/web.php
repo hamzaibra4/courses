@@ -8,6 +8,12 @@ use App\Models\ConfigurationTable;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\StudentTypeController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CustomFieldController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\RelatedCoursesStatusController;
 
 
 
@@ -41,5 +47,13 @@ foreach (ConfigurationTable::all() as $page){
 }
 
 
+Route::resource('student-type', StudentTypeController::class);
+Route::resource('student', StudentController::class);
+Route::resource('user', UserController::class);
+Route::get('reset-password-modal', [UserController::class, 'resetPasswordModal'])->name('reset-password-modal');
+Route::post('reset-password-form', [UserController::class, 'updatePassword'])->name('reset-password-form');
+Route::resource('custom-field', CustomFieldController::class);
+Route::resource('payment', PaymentController::class);
+Route::resource('courses-status', RelatedCoursesStatusController::class);
 
 

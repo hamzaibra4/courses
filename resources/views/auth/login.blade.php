@@ -7,7 +7,7 @@
     <meta name="description" content=" CvBuilder">
     <meta name="keywords" content="Informations">
     <meta name="author" content="BA Solutions">
-    <title> Hijazi Ordering
+    <title> TechnoMath
     </title>
     <link rel="apple-touch-icon" href="{{asset('cms/app-assets/images/ico/apple-icon-120.png')}}">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('cms/app-assets/images/ico/favicon.ico')}}">
@@ -51,7 +51,7 @@
                                     </div>
                                 </div>
                                 <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">
-                                    <span>Login to Hijazi Ordering </span>
+                                    <span>Login to TechnoMath </span>
                                 </h6>
                             </div>
 

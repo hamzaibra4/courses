@@ -47,13 +47,14 @@ $('.pickdate_date').pickadate({
 
 
 $('.dobpickdate_year').pickadate({
-    format:  'yyyy-mm-dd',
+    format: 'yyyy-mm-dd',
     formatSubmit: 'yyyy-mm-dd',
     selectMonths: true,
-    selectYears: true,
-    min: new Date(1900, 0, 1), // Set the minimum year (e.g., 1900)
-    max: new Date() // Set the maximum year to today
+    selectYears: 200,   // show 200 years in the dropdown
+    min: new Date(1900, 0, 1),
+    max: new Date()
 });
+
 
 
 $('.pickdate_date2').pickadate({
@@ -126,3 +127,13 @@ $(function () {
         '<i class="la la-fw la-times"></i>' +
         '</button>';
 })
+
+// Handle Reset Password button click
+$(document).on('click', '.resetPassword', function(e) {
+    e.preventDefault();
+    var userId = $(this).data('id');
+    // Set the user_id in the hidden input field
+    $('#exampleModalCenter input[name="user_id"]').val(userId);
+    // Show the modal
+    $('#exampleModalCenter').modal('show');
+});
