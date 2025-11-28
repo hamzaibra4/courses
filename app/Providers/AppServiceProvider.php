@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\ConfigurationTable;
+use App\Models\Configuration;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
-        $configurations = ConfigurationTable::select(['screen_name','route','icon_class','model_name'])->orderBy('item_index')->get();
+        $configurations = Configuration::select(['screen_name','route','icon_class','model_name'])->orderBy('item_index')->get();
         View::share(['configurations'=>$configurations]);
     }
 }

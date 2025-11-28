@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('courses', function (Blueprint $table) {
+        Schema::create('sections', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name')->nullable();
-            $table->string('price')->nullable();
-            $table->string('description')->nullable();
-            $table->string('image')->nullable();
-            $table->string('item_index')->nullable();
-            $table->boolean('is_featured')->default('0');
+            $table->text('title')->nullable();
+            $table->string('document')->nullable(); // PDF path
+            $table->integer('item_index')->nullable();
+            $table->foreignUuid('chapter_id')->nullable()->constrained('chapters')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('courses');
+        Schema::dropIfExists('sections');
     }
 };

@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('courses', function (Blueprint $table) {
+        Schema::create('section_videos', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name')->nullable();
-            $table->string('price')->nullable();
-            $table->string('description')->nullable();
-            $table->string('image')->nullable();
-            $table->string('item_index')->nullable();
-            $table->boolean('is_featured')->default('0');
+            $table->text('path')->nullable();
+            $table->integer('item_index')->nullable();
+            $table->foreignUuid('section_id')->nullable()->constrained('sections')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('courses');
+        Schema::dropIfExists('section_videos');
     }
 };

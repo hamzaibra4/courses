@@ -50,6 +50,41 @@ class permissionSeeder extends Seeder
         Permission::create(['name' => 'Delete_Courses_Status']);
         Permission::create(['name' => 'List_Courses_Status']);
 
+        Permission::create(['name' => 'Add_Section']);
+        Permission::create(['name' => 'Edit_Section']);
+        Permission::create(['name' => 'Delete_Section']);
+        Permission::create(['name' => 'List_Section']);
+
+        Permission::create(['name' => 'Add_Chapter']);
+        Permission::create(['name' => 'Edit_Chapter']);
+        Permission::create(['name' => 'Delete_Chapter']);
+        Permission::create(['name' => 'List_Chapter']);
+
+        Permission::create(['name' => 'Add_Course']);
+        Permission::create(['name' => 'Edit_Course']);
+        Permission::create(['name' => 'Delete_Course']);
+        Permission::create(['name' => 'List_Course']);
+
+        Permission::create(['name' => 'Add_Section_Video']);
+        Permission::create(['name' => 'Edit_Section_Video']);
+        Permission::create(['name' => 'Delete_Section_Video']);
+        Permission::create(['name' => 'List_Section_Video']);
+
+        Permission::create(['name' => 'Add_Material']);
+        Permission::create(['name' => 'Edit_Material']);
+        Permission::create(['name' => 'Delete_Material']);
+        Permission::create(['name' => 'List_Material']);
+
+        Permission::create(['name' => 'Add_Watched_Video']);
+        Permission::create(['name' => 'Edit_Watched_Video']);
+        Permission::create(['name' => 'Delete_Watched_Video']);
+        Permission::create(['name' => 'List_Watched_Video']);
+
+        Permission::create(['name' => 'Add_Favorite_Video']);
+        Permission::create(['name' => 'Edit_Favorite_Video']);
+        Permission::create(['name' => 'Delete_Favorite_Video']);
+        Permission::create(['name' => 'List_Favorite_Video']);
+
 
         Permission::create(['name' => 'Assign_Permission']);
         $admin = User::first();

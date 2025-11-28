@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ConfigurationTable;
+use App\Models\Configuration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +20,7 @@ class ConfigurationController extends Controller
 
     public function index($route)
     {
-        $routeData = ConfigurationTable::where('route',$route)->firstOrFail();
+        $routeData = Configuration::where('route',$route)->firstOrFail();
         $modelName = $routeData->model_name;
         $user = Auth::user();
         if (!$user->can('List_'.$modelName)) {
@@ -39,7 +39,7 @@ class ConfigurationController extends Controller
      */
     public function create($route)
     {
-        $routeData = ConfigurationTable::where('route',$route)->firstOrFail();
+        $routeData = Configuration::where('route',$route)->firstOrFail();
         $modelName = $routeData->model_name;
         $user = Auth::user();
         if (!$user->can('Add_'.$modelName)) {
@@ -69,7 +69,7 @@ class ConfigurationController extends Controller
      */
     public function store($route,Request $request)
     {
-        $routeData = ConfigurationTable::where('route',$route)->firstOrFail();
+        $routeData = Configuration::where('route',$route)->firstOrFail();
         $modelName = $routeData->model_name;
         $user = Auth::user();
         if (!$user->can('Add_'.$modelName)) {
@@ -191,7 +191,7 @@ class ConfigurationController extends Controller
      */
     public function edit($id,$route)
     {
-        $routeData = ConfigurationTable::where('route',$route)->firstOrFail();
+        $routeData = Configuration::where('route',$route)->firstOrFail();
         $modelName = $routeData->model_name;
         $user = Auth::user();
         if (!$user->can('Edit_'.$modelName)) {
@@ -220,7 +220,7 @@ class ConfigurationController extends Controller
      */
     public function update($id,Request  $request ,$route)
     {
-        $routeData = ConfigurationTable::where('route',$route)->firstOrFail();
+        $routeData = Configuration::where('route',$route)->firstOrFail();
         $modelName = $routeData->model_name;
         $user = Auth::user();
         if (!$user->can('Edit_'.$modelName)) {
@@ -313,7 +313,7 @@ class ConfigurationController extends Controller
 
     public function destroy($id,$route)
     {
-        $routeData = ConfigurationTable::where('route',$route)->firstOrFail();
+        $routeData = Configuration::where('route',$route)->firstOrFail();
         $modelName = $routeData->model_name;
         $user = Auth::user();
         if (!$user->can('Delete_'.$modelName)) {

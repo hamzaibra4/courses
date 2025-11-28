@@ -4,7 +4,7 @@
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
-use App\Models\ConfigurationTable;
+use App\Models\Configuration;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +14,13 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomFieldController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RelatedCoursesStatusController;
+use App\Http\Controllers\SectionController;
+use App\Http\Controllers\ChapterController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\SectionVideoController;
+use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\WatchedVideoController;
+use App\Http\Controllers\FavoriteVideoController;
 
 
 
@@ -37,7 +44,7 @@ Route::get('/users/assign-permissions', [PermissionController::class, 'assignPer
 Route::post('/users/assign-permissions', [PermissionController::class, 'assignPermissions'])->name('users.assign_permissions');
 Route::get('/users/{id}/permissions', [PermissionController::class, 'getUserPermissions']);
 
-foreach (ConfigurationTable::all() as $page){
+foreach (Configuration::all() as $page){
     Route::get('/' . $page->route, [ConfigurationController::class,'index'])->defaults('route', $page->route)->name($page->route);
     Route::get('/' . $page->route .'/create', [ConfigurationController::class,'create'])->defaults('route', $page->route)->name($page->route.'.'.'create');
     Route::post('/' . $page->route .'/store', [ConfigurationController::class,'store'])->defaults('route', $page->route)->name($page->route.'.'.'store');
@@ -55,5 +62,10 @@ Route::post('reset-password-form', [UserController::class, 'updatePassword'])->n
 Route::resource('custom-field', CustomFieldController::class);
 Route::resource('payment', PaymentController::class);
 Route::resource('courses-status', RelatedCoursesStatusController::class);
-
-
+Route::resource('section', SectionController::class);
+Route::resource('chapter', ChapterController::class);
+Route::resource('course', CourseController::class);
+Route::resource('section-video',SectionVideoController::class);
+Route::resource('material',MaterialController::class);
+Route::resource('watched-video',WatchedVideoController::class);
+Route::resource('favorite-video',FavoriteVideoController::class);

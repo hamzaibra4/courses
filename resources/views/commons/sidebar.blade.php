@@ -107,7 +107,21 @@
                     </li>
                 @endcan
             @endforeach
-
+                <li class="nav-item">
+                    <a href="{{ route('course.index') }}"><i class="fa-solid fa-book-open"></i>
+                       <span class="menu-title" data-i18n="nav.dash.main">Course</span></a></li>
+                <li class=" nav-item "><a href="{{route('chapter.index')}}"><i class="fa-solid fa-book"></i><span class="menu-title" data-i18n="nav.dash.main">Chapter</span></a>
+                </li>
+                <li class=" nav-item "><a href="{{route('section.index')}}"><i class="fa-solid fa-atlas"></i> <span class="menu-title" data-i18n="nav.dash.main">Section</span></a>
+                </li>
+                <li class=" nav-item "><a href="{{route('section-video.index')}}"><i class="fa-solid fa-video"></i> <span class="menu-title" data-i18n="nav.dash.main">Section Video</span></a>
+                </li>
+                <li class=" nav-item "><a href="{{route('material.index')}}"><i class="fa-solid fa-list"></i> <span class="menu-title" data-i18n="nav.dash.main">Material</span></a>
+                </li>
+                <li class=" nav-item "><a href="{{route('watched-video.index')}}"><i class="fa-solid fa-eye"></i> <span class="menu-title" data-i18n="nav.dash.main">Watched Videos</span></a>
+                </li>
+                <li class=" nav-item "><a href="{{route('favorite-video.index')}}"><i class="fa-solid fa-star"></i> <span class="menu-title" data-i18n="nav.dash.main">Favorite Videos</span></a>
+                </li>
 
             <li class=" nav-item"><a href="{{route('logout')}}"><i class=" la la-sign-out"></i><span class="menu-title" data-i18n="nav.dash.main">logout</span></a>
             </li>

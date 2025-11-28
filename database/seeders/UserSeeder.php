@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
     {
         $user=new User();
         $user->name='Admin';
-        $user->email="admin@municipality.com";
+        $user->email="admin@course.com";
         $user->password=Hash::make('123');
         $role = UserType::where("key","A")->firstOrFail();
         $user->user_type_id = $role->id;

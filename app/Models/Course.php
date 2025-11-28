@@ -12,4 +12,8 @@ class Course extends Model
     public function getPayment(){
         return $this->hasMany(Payment::class);
     }
+    public function getChapter()
+    {
+        return $this->hasMany(Chapter::class, 'course_id','id');
+    }
 }

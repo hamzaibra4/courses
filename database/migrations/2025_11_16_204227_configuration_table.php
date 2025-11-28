@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('configuration_tables', function (Blueprint $table) {
+        Schema::create('configurations', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('screen_name');
             $table->string('route');
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->boolean('has_parent')->default(false);
             $table->string('parent_model')->nullable();
             $table->string('parent_key')->nullable();
-            $table->boolean('has_image')->default(false);
+            $table->boolean('has_image')->default(false)->nullable();
             $table->boolean('has_additional_field1')->default(false);
             $table->string('additional_field1_name')->nullable();
             $table->boolean('has_additional_field2')->default(false);
