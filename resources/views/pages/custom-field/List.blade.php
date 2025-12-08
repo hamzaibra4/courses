@@ -61,7 +61,7 @@
                                                         @foreach($objs as $obj)
                                                             <tr id="row{{$obj->id}}">
                                                                 <td>{{$obj->name}}</td>
-                                                                <td>{{$obj->getStudent->f_name}}{{$obj->getStudent->l_name}}</td>
+                                                                <td>{{$obj->getStudent->f_name}} {{$obj->getStudent->l_name}}</td>
                                                                 <td>
                                                                     @can('Edit_Custom_Field')<a href="{{route('custom-field.edit',['custom_field'=>$obj])}}" class="icons warning"><i class="fa-solid fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="Edit"></i></a>@endcan
                                                                     @can('Delete_Custom_Field') <a href="#" data-id='{{$obj->id}}' data-url='{{route('custom-field.destroy',['custom_field'=>$obj])}}' class="deleteRow icons danger"><i class="fa-solid fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i></a>@endcan

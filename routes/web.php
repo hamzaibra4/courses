@@ -21,11 +21,12 @@ use App\Http\Controllers\SectionVideoController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\WatchedVideoController;
 use App\Http\Controllers\FavoriteVideoController;
+use App\Http\Controllers\inRolledCourseController;
 
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('home');
 });
 
 
@@ -44,14 +45,14 @@ Route::get('/users/assign-permissions', [PermissionController::class, 'assignPer
 Route::post('/users/assign-permissions', [PermissionController::class, 'assignPermissions'])->name('users.assign_permissions');
 Route::get('/users/{id}/permissions', [PermissionController::class, 'getUserPermissions']);
 
-foreach (Configuration::all() as $page){
-    Route::get('/' . $page->route, [ConfigurationController::class,'index'])->defaults('route', $page->route)->name($page->route);
-    Route::get('/' . $page->route .'/create', [ConfigurationController::class,'create'])->defaults('route', $page->route)->name($page->route.'.'.'create');
-    Route::post('/' . $page->route .'/store', [ConfigurationController::class,'store'])->defaults('route', $page->route)->name($page->route.'.'.'store');
-    Route::get('/' . $page->route .'/edit/{id}', [ConfigurationController::class,'edit'])->defaults('route', $page->route)->name($page->route.'.'.'edit');
-    Route::put('/' . $page->route .'/update/{id}', [ConfigurationController::class,'update'])->defaults('route', $page->route)->name($page->route.'.'.'update');
-    Route::delete('/' . $page->route .'/delete/{id}', [ConfigurationController::class,'destroy'])->defaults('route', $page->route)->name($page->route.'.'.'delete');
-}
+//foreach (Configuration::all() as $page){
+//    Route::get('/' . $page->route, [ConfigurationController::class,'index'])->defaults('route', $page->route)->name($page->route);
+//    Route::get('/' . $page->route .'/create', [ConfigurationController::class,'create'])->defaults('route', $page->route)->name($page->route.'.'.'create');
+//    Route::post('/' . $page->route .'/store', [ConfigurationController::class,'store'])->defaults('route', $page->route)->name($page->route.'.'.'store');
+//    Route::get('/' . $page->route .'/edit/{id}', [ConfigurationController::class,'edit'])->defaults('route', $page->route)->name($page->route.'.'.'edit');
+//    Route::put('/' . $page->route .'/update/{id}', [ConfigurationController::class,'update'])->defaults('route', $page->route)->name($page->route.'.'.'update');
+//    Route::delete('/' . $page->route .'/delete/{id}', [ConfigurationController::class,'destroy'])->defaults('route', $page->route)->name($page->route.'.'.'delete');
+//}
 
 
 Route::resource('student-type', StudentTypeController::class);
@@ -69,3 +70,5 @@ Route::resource('section-video',SectionVideoController::class);
 Route::resource('material',MaterialController::class);
 Route::resource('watched-video',WatchedVideoController::class);
 Route::resource('favorite-video',FavoriteVideoController::class);
+Route::resource('enrolled-course',inRolledCourseController::class);
+Route::get('view-student/{id}', [StudentController::class, 'viewStudent'])->name('view-student');

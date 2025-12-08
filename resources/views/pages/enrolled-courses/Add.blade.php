@@ -8,13 +8,13 @@
                 <div class="row breadcrumbs-top">
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb">
-                            @can('List_Payments')
+                            @can('List_enRolled_Course')
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('payment.index') }}">Home</a>
+                                    <a href="{{ route('enrolled-course.index') }}">Home</a>
                                 </li>
                             @endcan
                             <li class="breadcrumb-item active">
-                                {{ $payments ? 'Edit Payment' : 'Add Payment' }}
+                                {{ $rolledCourse ? 'Edit enRolled Course' : 'Add En Rolled Course' }}
                             </li>
                         </ol>
                     </div>
@@ -29,7 +29,7 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Payments</h4>
+                                <h4 class="card-title">En Rolled Course</h4>
                                 <a class="heading-elements-toggle">
                                     <i class="la la-ellipsis-v font-medium-3"></i>
                                 </a>
@@ -46,11 +46,11 @@
                             <div class="card-content collapse show">
                                 <div class="card-body">
 
-                                    <form action="{{ $payments ? route('payment.update', $payments->id) : route('payment.store') }}"
+                                    <form action="{{ $rolledCourse ? route('enrolled-course.update', $rolledCourse->id) : route('enrolled-course.store') }}"
                                           method="POST" class="floating-labels" enctype="multipart/form-data">
 
                                         @csrf
-                                        @if($payments)
+                                        @if($rolledCourse)
                                             @method('PUT')
                                         @endif
                                         <div class="form-body">
@@ -60,25 +60,27 @@
                                                         <label for="amount">Amount<span>*</span></label>
                                                         <input id="amount" required type="number" class="form-control"
                                                                name="amount" placeholder="Enter Amount"
-                                                               value="{{ old('amount', $payments->amount ?? '') }}">
+                                                               value="{{ old('amount', $rolledCourse->amount ?? '') }}">
 
                                                         @error('amount')
                                                         <div class="error-msg">{{ $message }}</div>
                                                         @enderror
                                                     </div>
                                                 </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="date">Date<span>*</span></label>
-                                                        <input id="date" type="text" class="form-control dobpickdate_year" name="date" required  value="{{ old('date', $payments->date ?? '') }}">
-                                                        @error('date')
-                                                        <div class='error-msg'>{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
+                                                <div class="form-group cust-form-input col-12">
+                                                    <label for="status_id">Status<span class="is-required">*</span></label>
+                                                    @php $current = old('status_id', optional($rolledCourse)->status_id); @endphp
+                                                    <select class="form-control my-2 select2" name="status_id" id="status_id" required>
+                                                        <option value="" {{ $current ? '' : 'selected' }}>Select Status</option>
+                                                        @foreach($status as $id => $name)
+                                                            <option value="{{ $id }}" @selected($current == $id)>{{ $name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('status_id') <div class="error-msg">{{ $message }}</div> @enderror
                                                 </div>
                                                 <div class="form-group cust-form-input col-12">
                                                     <label for="student_id">Student<span class="is-required">*</span></label>
-                                                    @php $current = old('student_id', optional($payments)->student_id); @endphp
+                                                    @php $current = old('student_id', optional($rolledCourse)->student_id); @endphp
                                                     <select class="form-control my-2 select2" name="student_id" id="student_id" required>
                                                         <option value="" {{ $current ? '' : 'selected' }}>Select Student</option>
                                                         @foreach($students as $id => $name)
@@ -91,9 +93,9 @@
                                                 <div class="form-group cust-form-input col-12">
                                                     <label for="course_id">Course(s)<span class="is-required">*</span></label>
                                                     @php
-                                                        $current = old('course_id', $payments ? $payments->getCourses->pluck('id')->toArray() : []);
+                                                        $current = old('course_id', $rolledCourse ? $rolledCourse->getCourses->pluck('id')->toArray() : []);
                                                     @endphp
-                                                    <select multiple class="form-control my-2 select2" name="course_id[]" id="course_id" required>
+                                                    <selec  multiple class="form-control my-2 select2" name="course_id[]" id="course_id" required>
                                                         @foreach($courses as $id => $name)
                                                             <option value="{{ $id }}" @selected(in_array($id, $current))>{{ $name }}</option>
                                                         @endforeach
@@ -108,20 +110,20 @@
                                             <div class="col-12">
                                                 <div class="form-actions">
 
-                                                    @can('List_Payments')
-                                                        <a href="{{ route('payment.index') }}" class="btn btn-warning mr-1 button-cancel">
+                                                    @can('List_enRolled_Course')
+                                                        <a href="{{ route('enrolled-course.index') }}" class="btn btn-warning mr-1 button-cancel">
                                                             <i class="ft-x"></i>&nbsp;Cancel
                                                         </a>
                                                     @endcan
 
-                                                    @if(is_null($payments))
-                                                        @can('List_Payments')
+                                                    @if(is_null($rolledCourse))
+                                                        @can('List_enRolled_Course')
                                                             <button type="submit" class="btn btn-primary">
                                                                 <i class="la la-check-square-o"></i>&nbsp;Save
                                                             </button>
                                                         @endcan
                                                     @else
-                                                        @can('Edit_Payments')
+                                                        @can('Edit_enRolled_Course')
                                                             <button type="submit" class="btn btn-primary">
                                                                 <i class="la la-check-square-o"></i>&nbsp;Save
                                                             </button>
@@ -131,10 +133,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
                                     </form>
-
                                 </div>
                             </div>
 

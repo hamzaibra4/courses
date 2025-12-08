@@ -2,75 +2,126 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Material;
+use App\Models\MaterialPdf;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 
 class MaterialController extends Controller
 {
+    public function __construct(GenericController $generic){
+        $this->genericController = $generic;
+        $this->middleware('auth');
+    }
     public function index()
     {
+        $user = Auth::user();
+        if (!$user->can('List_Material')) {
+            abort(403);
+        }
         $material = Material::all();
         return view('pages.material.list', compact('material'));
     }
 
     public function create()
     {
+        $user = Auth::user();
+        if (!$user->can('Add_Material')) {
+            abort(403);
+        }
         $material = null;
-        $course = Course::all();
-
-        return view('pages.material.add', compact('material', 'course'));
+        $chapters = Chapter::pluck('name','id');
+        return view('pages.material.add', compact('material', 'chapters'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'itemindex' => 'required|integer',
-            'courseid' => 'required|uuid|exists:courses,id',
+        $user = Auth::user();
+        if (!$user->can('Add_Material')) {
+            abort(403);
+        }
+        $request->validate([
+            'item_index' => 'required',
+            'chapter_id' => 'required',
+            'path' => 'required|array|min:1',
+            'path.*' => 'required|mimes:pdf|max:10240',
         ]);
-
         $material = new Material();
-        $material->id = Str::uuid()->toString();
-        $material->path = $request->path;
-        $material->item_index = $request->itemindex;
-        $material->course_id = $request->courseid;
-
+        $material->item_index = $request->item_index;
+        $material->chapter_id = $request->chapter_id;
         $material->save();
+        $pdfName = 'path';
+        $paths = $this->genericController->uploadPdfs($request, $pdfName);
+
+        foreach ($paths as $index => $path) {
+            $obj=new MaterialPdf();
+            $obj->material_id=$material->id;
+            $obj->path=$path; // Changed from $paths to $path
+            $obj->order=$index;
+            $obj->save();
+        }
 
         return redirect()->route('material.index');
     }
 
     public function edit($id)
     {
+        $user = Auth::user();
+        if (!$user->can('Edit_Material')) {
+            abort(403);
+        }
         $material = Material::findOrFail($id);
-        $course = Course::all();
-        return view('pages.material.add', compact('material', 'course'));
+        $chapters = Chapter::pluck('name','id');
+        return view('pages.material.add', compact('material', 'chapters'));
     }
 
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'itemindex' => 'required|integer',
-            'courseid' => 'required|uuid|exists:courses,id',
+        $user = Auth::user();
+        if (!$user->can('Edit_Material')) {
+            abort(403);
+        }
+        $request->validate([
+            'item_index' => 'required',
+            'chapter_id' => 'required',
         ]);
 
         $material = Material::findOrFail($id);
-        $material->path = $request->path;
-        $material->item_index = $request->itemindex;
-        $material->course_id = $request->courseid;
+        $material->item_index = $request->item_index;
+        $material->chapter_id = $request->chapter_id;
+        $material->save();
+        MaterialPdf::where('material_id',$material->id)->delete();
+        $pdfName = 'path';
+        $paths = $this->genericController->uploadPdfs($request, $pdfName);
 
-        $material->save();
-        $material->save();
+        foreach ($paths as $index => $path) {
+            $obj=new MaterialPdf();
+            $obj->material_id=$material->id;
+            $obj->path=$path;
+            $obj->order=$index;
+            $obj->save();
+        }
         return redirect()->route('material.index');
     }
 
     public function destroy($id)
     {
-        $material = Material::findOrFail($id);
+        $user = Auth::user();
+        if (!$user->can('Delete_Material')) {
+            abort(403);
+        }
+        $material=Material::find($id);
         $material->delete();
-
-        return redirect()->route('material.index');
+        $code = 200;
+        $msg = 'The selected material has been successfully deleted!';
+        return response()->json([
+            'code' => $code,
+            'msg'=>$msg
+        ]);
     }
 }

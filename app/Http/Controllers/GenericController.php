@@ -50,20 +50,72 @@ class GenericController extends Controller
         }
         return $imagePaths; // Return array of image paths
     }
+    public function uploadVideo($request, $videoName)
+    {
+        $videoPath = false;
 
+        if ($request->hasFile($videoName)) {
+            $file = $request->file($videoName);
 
-    public function sendNotification($chanel, $event,DTO $dto){
-        $options = array(
-            'cluster' => 'mt1',
-            'encrypted' => true
-        );
-        $pusher = new Pusher(
-            env('PUSHER_APP_KEY'),
-            env('PUSHER_APP_SECRET'),
-            env('PUSHER_APP_ID'),
-            $options
-        );
-        $pusher->trigger($chanel,$event,$dto);
+            // Optional: Validate video file type
+            $allowedExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm', 'mkv'];
+            $extension = strtolower($file->getClientOriginalExtension());
+
+            if (!in_array($extension, $allowedExtensions)) {
+                return false; // or throw an exception
+            }
+
+            $fileNameWithExt = $file->getClientOriginalName();
+            error_log("----------------" . $fileNameWithExt);
+            $fileNameWithExt = str_replace(' ', '', $fileNameWithExt);
+
+            if (strpos($fileNameWithExt, '(') !== false || strpos($fileNameWithExt, ')') !== false) {
+                $fileNameWithExt = str_replace(['(', ')'], '', $fileNameWithExt);
+            }
+
+            $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+            $fileNameToStore = $fileName . '_' . time() . '.' . $extension;
+
+            // Store in videos directory instead of images
+            $file->storeAs('public/videos', $fileNameToStore, 'public');
+            $videoPath = 'storage/public/videos/' . $fileNameToStore;
+        }
+
+        return $videoPath;
     }
+
+    public function uploadPdfs($request, $pdfName)
+    {
+        $pdfPaths = []; // Array to store the paths of uploaded PDFs
+
+        if ($request->hasFile($pdfName)) {
+            $files = $request->file($pdfName); // Retrieve all files
+
+            foreach ($files as $file) {
+                // Optional: Validate PDF file type
+                $extension = strtolower($file->getClientOriginalExtension());
+
+                if ($extension !== 'pdf') {
+                    continue; // Skip non-PDF files
+                }
+
+                $fileNameWithExt = $file->getClientOriginalName();
+                $fileNameWithExt = str_replace(' ', '', $fileNameWithExt);
+
+                if (strpos($fileNameWithExt, '(') !== false || strpos($fileNameWithExt, ')') !== false) {
+                    $fileNameWithExt = str_replace(['(', ')'], '', $fileNameWithExt);
+                }
+
+                $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+                $fileNameToStore = $fileName . '_' . time() . '_' . rand(1000, 9999) . '.' . $extension;
+
+                // Store in pdfs directory
+                $file->storeAs('public/pdfs', $fileNameToStore, 'public');
+                $pdfPaths[] = 'storage/public/pdfs/' . $fileNameToStore;
+            }
+        }
+        return $pdfPaths; // Return array of PDF paths
+    }
+
 
 }

@@ -5,38 +5,59 @@ namespace App\Http\Controllers;
 use App\Models\Section;
 use App\Models\SectionVideo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 
 class SectionVideoController extends Controller
 {
+
+    private $genericController;
+    public function __construct(GenericController $generic){
+        $this->middleware('auth');
+        $this->genericController = $generic;
+    }
     public function index()
     {
+        $user = Auth::user();
+        if (!$user->can('List_Section_Video')) {
+            abort(403);
+        }
         $sectionvideo = SectionVideo::all();
         return view('pages.section-video.list', compact('sectionvideo'));
     }
 
     public function create()
     {
+        $user = Auth::user();
+        if (!$user->can('Add_Section_Video')) {
+            abort(403);
+        }
         $sectionvideo = null;
-        $section = Section::all();
-
-        return view('pages.section-video.add', compact('sectionvideo', 'section'));
+        $sections = Section::pluck('title','id');
+        return view('pages.section-video.add', compact('sectionvideo', 'sections'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'itemindex' => 'required|integer',
-            'sectionid' => 'required|uuid|exists:sections,id',
+        $user = Auth::user();
+        if (!$user->can('Add_Section_Video')) {
+            abort(403);
+        }
+          $request->validate([
+            'item_index' => 'required',
+            'section_id' => 'required',
+            'path' => 'required',
         ]);
 
         $sectionvideo = new SectionVideo();
-        $sectionvideo->id = Str::uuid()->toString();
-        $sectionvideo->path = $request->path;
-        $sectionvideo->item_index = $request->itemindex;
-        $sectionvideo->section_id = $request->sectionid;
-
+        $sectionvideo->item_index = $request->item_index;
+        $sectionvideo->section_id = $request->section_id;
+        $videoName = 'path';
+        $path = $this->genericController->uploadVideo($request, $videoName);
+        if ($path) {
+            $sectionvideo->path = $path;
+        }
         $sectionvideo->save();
 
         return redirect()->route('section-video.index');
@@ -44,23 +65,35 @@ class SectionVideoController extends Controller
 
     public function edit($id)
     {
+        $user = Auth::user();
+        if (!$user->can('Edit_Section_Video')) {
+            abort(403);
+        }
         $sectionvideo = SectionVideo::findOrFail($id);
-        $section = Section::all();
+        $sections = Section::pluck('title','id');
 
-        return view('pages.section-video.add', compact('section', 'sectionvideo'));
+        return view('pages.section-video.add', compact('sections', 'sectionvideo'));
     }
 
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'itemindex' => 'required|integer',
-            'sectionid' => 'required|uuid|exists:sections,id',
+        $user = Auth::user();
+        if (!$user->can('Edit_Section_Video')) {
+            abort(403);
+        }
+         $request->validate([
+            'item_index' => 'required',
+            'section_id' => 'required',
         ]);
 
         $sectionvideo = SectionVideo::findOrFail($id);
-        $sectionvideo->path = $request->path;
-        $sectionvideo->item_index = $request->itemindex;
-        $sectionvideo->section_id = $request->sectionid;
+        $sectionvideo->item_index = $request->item_index;
+        $sectionvideo->section_id = $request->section_id;
+        $videoName = 'path';
+        $path = $this->genericController->uploadVideo($request, $videoName);
+        if ($path) {
+            $sectionvideo->path = $path;
+        }
 
         $sectionvideo->save();
         return redirect()->route('section-video.index');
@@ -68,9 +101,17 @@ class SectionVideoController extends Controller
 
     public function destroy($id)
     {
-        $sectionvideo = SectionVideo::findOrFail($id);
-        $sectionvideo->delete();
-
-        return redirect()->route('section-video.index');
+        $user = Auth::user();
+        if (!$user->can('Delete_Section_Video')) {
+            abort(403);
+        }
+        $section=SectionVideo::find($id);
+        $section->delete();
+        $code = 200;
+        $msg = 'The selected section video been successfully deleted!';
+        return response()->json([
+            'code' => $code,
+            'msg'=>$msg
+        ]);
     }
 }

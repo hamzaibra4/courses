@@ -50,7 +50,8 @@
                                 <table class="table table-striped table-bordered file-export2">
                                     <thead>
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Section Name</th>
+                                        <th>Chapter Name</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
@@ -60,22 +61,16 @@
                                         <tr id="row{{ $obj->id }}">
 
                                             <td>{{ $obj->title }}</td>
+                                            <td>{{ $obj->getChapter->name }}</td>
 
                                             <td>
                                                 @can('Edit_Section')
-                                                    <a href="{{ route('section.edit', $obj->id) }}" class="icons warning">
-                                                        <i class="fa-solid fa-pen-to-square"
-                                                           data-toggle="tooltip" data-placement="top" title="Edit"></i>
+                                                    <a href="{{ route('section.edit', $obj->id) }}" class="icons warning"><i class="fa-solid fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="Edit"></i>
                                                     </a>
                                                 @endcan
 
                                                 @can('Delete_Section')
-                                                    <a href="#"
-                                                       data-id="{{ $obj->id }}"
-                                                       data-url="{{ route('section.destroy', $obj->id) }}"
-                                                       class="deleteRow icons danger">
-                                                        <i class="fa-solid fa-trash"
-                                                           data-toggle="tooltip" data-placement="top" title="Delete"></i>
+                                                    <a href="#" data-id="{{ $obj->id }}" data-url="{{ route('section.destroy', $obj->id) }}" class="deleteRow icons danger"><i class="fa-solid fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i>
                                                     </a>
                                                 @endcan
                                             </td>
@@ -86,7 +81,8 @@
 
                                     <tfoot>
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Section Name</th>
+                                        <th>Chapter Name</th>
                                         <th>Actions</th>
                                     </tr>
                                     </tfoot>

@@ -103,7 +103,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group cust-form-input col-6">
+                                                <div class="form-group cust-form-input col-12">
                                                     <label for="student_type_id">Student Type<span class="is-required">*</span></label>
                                                     @php $current = old('student_type_id', optional($students)->student_type_id); @endphp
                                                     <select class="form-control my-2 select2" name="student_type_id" id="student_type_id" required>
@@ -114,21 +114,6 @@
                                                     </select>
                                                     @error('student_type_id') <div class="error-msg">{{ $message }}</div> @enderror
                                                 </div>
-
-                                                <div class="form-group cust-form-input col-6">
-                                                    <label for="user_id">User<span class="is-required">*</span></label>
-                                                    @php $current = old('user_id', optional($students)->user_id); @endphp
-                                                    <select class="form-control my-2 select2" name="user_id" id="user_id" required>
-                                                        <option value="" {{ $current ? '' : 'selected' }}>Select User</option>
-                                                        @foreach($users as $id => $name)
-                                                            <option value="{{ $id }}" @selected($current == $id)>{{ $name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    @error('user_id') <div class="error-msg">{{ $message }}</div> @enderror
-                                                </div>
-
-
-
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <div class="form-check mt-1">

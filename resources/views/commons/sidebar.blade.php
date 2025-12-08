@@ -55,24 +55,100 @@
                     </li>
                 @endcan
 
-                @can('List_Courses_Status')
-                    <li class="nav-item {{ isActiveRoute(['courses-status.index', 'courses-status.create', 'courses-status.edit'], 'active') }}">
-                        <a href="{{ route('courses-status.index') }}">
-                            <i class="fa-solid fa-arrow-right"></i>
-                            <span class="menu-title">Courses Status</span>
+                @if(auth()->user()->can('List_Courses_Status') || auth()->user()->can('List_Course'))
+                    <li id="content" class="nav-item {{ isActiveRoute(['courses-status.*','course.*'], 'open') }}">
+                        <a href="#">
+                            <i class="fa-solid fa-folder-tree"></i>
+                            <span class="menu-title">Manage Courses</span>
+                        </a>
+                        <ul class="menu-content">
+                            @can('List_Courses_Status')
+                                <li class="nav-item {{ isActiveRoute(['courses-status.index', 'courses-status.create', 'courses-status.edit'], 'active') }}">
+                                    <a href="{{ route('courses-status.index') }}">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                        <span class="menu-title">Courses Status</span>
+                                    </a>
+                                </li>
+                            @endcan
+
+                                @can('List_enRolled_Course')
+                                    <li class="nav-item {{ isActiveRoute(['enrolled-course.index', 'enrolled-course.create', 'enrolled-course.edit'], 'active') }}">
+                                        <a href="{{ route('enrolled-course.index') }}">
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                            <span class="menu-title">En Rolled Course</span>
+                                        </a>
+                                    </li>
+                                @endcan
+                        </ul>
+                    </li>
+                @endif
+                @can('List_Course')
+                    <li class="nav-item {{ isActiveRoute(['course.index', 'course.create', 'course.edit'], 'active') }}">
+                        <a href="{{ route('course.index') }}">
+                            <i class="fa-solid fa-book-open"></i>
+                            <span class="menu-title">Course</span>
+                        </a>
+                    </li>
+                @endcan
+{{--            @foreach($configurations as $config)--}}
+{{--                @can("List_".$config->model_name)--}}
+{{--                    <li class=" nav-item {{ isActiveRoute([$config->route, $config->route.'.create',  $config->route.'.edit'], 'active') }}"><a href="{{route($config->route)}}"><i class="{{$config->icon_class}}"></i><span class="menu-title" data-i18n="nav.dash.main">{{$config->screen_name}}</span></a>--}}
+{{--                    </li>--}}
+{{--                @endcan--}}
+{{--            @endforeach--}}
+                @can('List_Chapter')
+                    <li class="nav-item {{ isActiveRoute(['chapter.index', 'chapter.create', 'chapter.edit'], 'active') }}">
+                        <a href="{{ route('chapter.index') }}">
+                            <i class="fa-solid fa-book"></i>
+                            <span class="menu-title">Chapter</span>
+                        </a>
+                    </li>
+                @endcan
+                @can('List_Material')
+                    <li class="nav-item {{ isActiveRoute(['material.index', 'material.create', 'material.edit'], 'active') }}">
+                        <a href="{{ route('material.index') }}">
+                            <i class="fa-solid fa-list"></i>
+                            <span class="menu-title">Material</span>
                         </a>
                     </li>
                 @endcan
 
 
+                @if(auth()->user()->can('List_Section') || auth()->user()->can('List_Section_Video'))
+                    <li id="content" class="nav-item {{ isActiveRoute(['section.*','section-video.*'], 'open') }}">
+                        <a href="#">
+                            <i class="fa-solid fa-folder-tree"></i>
+                            <span class="menu-title">Manage Sections</span>
+                        </a>
+                        <ul class="menu-content">
+                            @can('List_Section')
+                                <li class="nav-item {{ isActiveRoute(['section.index', 'section.create', 'section.edit'], 'active') }}">
+                                    <a href="{{ route('section.index') }}">
+                                        <i class="fa-solid fa-atlas"></i>
+                                        <span class="menu-title">Section</span>
+                                    </a>
+                                </li>
+                            @endcan
+
+                                @can('List_Section_Video')
+                                    <li class="nav-item {{ isActiveRoute(['section-video.index', 'section-video.create', 'section-video.edit'], 'active') }}">
+                                        <a href="{{ route('section-video.index') }}">
+                                            <i class="fa-solid fa-video"></i>
+                                            <span class="menu-title">Section Video</span>
+                                        </a>
+                                    </li>
+                                @endcan
+                        </ul>
+                    </li>
+                @endif
+
+{{--                <li class=" nav-item "><a href="{{route('watched-video.index')}}"><i class="fa-solid fa-eye"></i> <span class="menu-title" data-i18n="nav.dash.main">Watched Videos</span></a>--}}
+{{--                </li>--}}
+{{--                <li class=" nav-item "><a href="{{route('favorite-video.index')}}"><i class="fa-solid fa-star"></i> <span class="menu-title" data-i18n="nav.dash.main">Favorite Videos</span></a>--}}
+{{--                </li>--}}
 
 
-
-
-
-
-
-            @if(auth()->user()->can('List_Role') || auth()->user()->can('Assign_Permission'))
+                @if(auth()->user()->can('List_Role') || auth()->user()->can('Assign_Permission'))
                     <li id="content" class="nav-item {{ isActiveRoute(['roles.*','assign-permissions.*'], 'open') }}">
                         <a href="#">
                             <i class="fa-solid fa-folder-tree"></i>
@@ -99,29 +175,6 @@
                         </ul>
                     </li>
                 @endif
-
-
-            @foreach($configurations as $config)
-                @can("List_".$config->model_name)
-                    <li class=" nav-item {{ isActiveRoute([$config->route, $config->route.'.create',  $config->route.'.edit'], 'active') }}"><a href="{{route($config->route)}}"><i class="{{$config->icon_class}}"></i><span class="menu-title" data-i18n="nav.dash.main">{{$config->screen_name}}</span></a>
-                    </li>
-                @endcan
-            @endforeach
-                <li class="nav-item">
-                    <a href="{{ route('course.index') }}"><i class="fa-solid fa-book-open"></i>
-                       <span class="menu-title" data-i18n="nav.dash.main">Course</span></a></li>
-                <li class=" nav-item "><a href="{{route('chapter.index')}}"><i class="fa-solid fa-book"></i><span class="menu-title" data-i18n="nav.dash.main">Chapter</span></a>
-                </li>
-                <li class=" nav-item "><a href="{{route('section.index')}}"><i class="fa-solid fa-atlas"></i> <span class="menu-title" data-i18n="nav.dash.main">Section</span></a>
-                </li>
-                <li class=" nav-item "><a href="{{route('section-video.index')}}"><i class="fa-solid fa-video"></i> <span class="menu-title" data-i18n="nav.dash.main">Section Video</span></a>
-                </li>
-                <li class=" nav-item "><a href="{{route('material.index')}}"><i class="fa-solid fa-list"></i> <span class="menu-title" data-i18n="nav.dash.main">Material</span></a>
-                </li>
-                <li class=" nav-item "><a href="{{route('watched-video.index')}}"><i class="fa-solid fa-eye"></i> <span class="menu-title" data-i18n="nav.dash.main">Watched Videos</span></a>
-                </li>
-                <li class=" nav-item "><a href="{{route('favorite-video.index')}}"><i class="fa-solid fa-star"></i> <span class="menu-title" data-i18n="nav.dash.main">Favorite Videos</span></a>
-                </li>
 
             <li class=" nav-item"><a href="{{route('logout')}}"><i class=" la la-sign-out"></i><span class="menu-title" data-i18n="nav.dash.main">logout</span></a>
             </li>

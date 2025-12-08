@@ -6,10 +6,11 @@ use App\Traits\UUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SectionVideo extends Model
+class MaterialPdf extends Model
 {
     use HasFactory, UUID;
-    public function getSection(){
-        return $this->belongsTo(Section::class,'section_id','id');
+    public function getMaterial(){
+        return $this->belongsTo(Material::class, 'material_id', 'id');
     }
+    protected $table = 'material_pdfs';
 }

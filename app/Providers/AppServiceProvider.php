@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
-        $configurations = Configuration::select(['screen_name','route','icon_class','model_name'])->orderBy('item_index')->get();
-        View::share(['configurations'=>$configurations]);
+////        $configurations = Configuration::select(['screen_name','route','icon_class','model_name'])->orderBy('item_index')->get();
+//        View::share(['configurations'=>$configurations]);
     }
 }

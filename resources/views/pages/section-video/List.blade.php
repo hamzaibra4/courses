@@ -50,7 +50,7 @@
                                 <table class="table table-striped table-bordered file-export2">
                                     <thead>
                                     <tr>
-                                        <th>Link</th>
+                                        <th>Section</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
@@ -59,7 +59,7 @@
                                     @foreach($sectionvideo as $obj)
                                         <tr id="row{{ $obj->id }}">
 
-                                            <td>{{ $obj->path }}</td>
+                                            <td>{{ $obj->getSection->title }}</td>
 
                                             <td>
                                                 @can('Edit_Section_Video')
@@ -70,12 +70,7 @@
                                                 @endcan
 
                                                 @can('Delete_Section_Video')
-                                                    <a href="#"
-                                                       data-id="{{ $obj->id }}"
-                                                       data-url="{{ route('section-video.destroy', $obj->id) }}"
-                                                       class="deleteRow icons danger">
-                                                        <i class="fa-solid fa-trash"
-                                                           data-toggle="tooltip" data-placement="top" title="Delete"></i>
+                                                    <a href="#" data-id="{{ $obj->id }}" data-url="{{ route('section-video.destroy', $obj->id) }}" class="deleteRow icons danger"><i class="fa-solid fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i>
                                                     </a>
                                                 @endcan
                                             </td>
@@ -86,7 +81,7 @@
 
                                     <tfoot>
                                     <tr>
-                                        <th>Link</th>
+                                        <th>Section</th>
                                         <th>Actions</th>
                                     </tr>
                                     </tfoot>

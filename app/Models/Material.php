@@ -3,12 +3,16 @@
 namespace App\Models;
 
 use App\Traits\UUID;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Material extends Model
 {
-    use UUID;
-    public function getCourse(){
-        return $this->belongsTo(Course::class,'course_id','id');
+    use HasFactory, UUID;
+    public function getChapter(){
+        return $this->belongsTo(Chapter::class,'chapter_id','id');
+    }
+    public function getMaterialPdfs(){
+        return $this->hasMany(MaterialPdf::class);
     }
 }

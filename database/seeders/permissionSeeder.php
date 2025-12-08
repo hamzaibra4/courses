@@ -85,6 +85,11 @@ class permissionSeeder extends Seeder
         Permission::create(['name' => 'Delete_Favorite_Video']);
         Permission::create(['name' => 'List_Favorite_Video']);
 
+        Permission::create(['name' => 'Add_enRolled_Course']);
+        Permission::create(['name' => 'Edit_enRolled_Course']);
+        Permission::create(['name' => 'Delete_enRolled_Course']);
+        Permission::create(['name' => 'List_enRolled_Course']);
+
 
         Permission::create(['name' => 'Assign_Permission']);
         $admin = User::first();

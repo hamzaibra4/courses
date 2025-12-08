@@ -7,7 +7,9 @@
                 <div class="row breadcrumbs-top">
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb">
-                            @can('List_Section')   <li class="breadcrumb-item"><a href="{{route("section.index")}}">Home</a></li>@endcan
+                            @can('List_Section')
+                                <li class="breadcrumb-item"><a href="{{route("section.index")}}">Home</a></li>
+                            @endcan
                             <li class="breadcrumb-item active">{{ $section ? 'Edit section' : 'Add section' }}</li>
 
                         </ol>
@@ -43,71 +45,51 @@
                                                 @if($section)
                                                     @method('PUT')
                                                 @endif
-
-
                                                 <div class="form-body">
-
-                                                    {{-- Title --}}
                                                     <div class="form-group">
-                                                        <label for="title">Name:</label>
-                                                        <input id="title"
-                                                               type="text"
-                                                               class="form-control"
-                                                               name="title"
-                                                               placeholder="Enter the name"
-                                                               value="{{ old('title', $section->title ?? '') }}">
+                                                        <label for="title">Name</label>
+                                                        <input id="title" type="text" class="form-control" name="title" placeholder="Enter the Section Name" value="{{ old('title', $section->title ?? '') }}">
                                                         @error('title')
                                                         <div class="error-msg">{{ $message }}</div>
                                                         @enderror
                                                     </div>
 
-                                                    {{-- Document --}}
                                                     <div class="form-group">
-                                                        <label for="document">Text</label>
-                                                        <textarea id="document"
-                                                                  class="form-control"
-                                                                  name="document"
-                                                                  rows="5"
-                                                                  placeholder="Enter your text">{{ old('document', $section->document ?? '') }}</textarea>
+                                                        <label for="document">Description</label>
+                                                        <textarea id="document" class="form-control" name="document" placeholder="Enter your Description">{{ old('document', $section->document ?? '') }}</textarea>
                                                         @error('document')
                                                         <div class="error-msg">{{ $message }}</div>
                                                         @enderror
                                                     </div>
 
-                                                    {{-- Item Index --}}
                                                     <div class="form-group">
-                                                        <label for="itemindex">Index</label>
-                                                        <input type="number"
-                                                               class="form-control"
-                                                               name="itemindex"
-                                                               value="{{ old('itemindex', $section->item_index ?? '') }}">
-                                                        @error('itemindex')
+                                                        <label for="item_index">Index</label>
+                                                        <input id="item_index" type="number" class="form-control" name="item_index" placeholder="Enter your Index" value="{{ old('item_index', $section->item_index ?? '') }}">
+                                                        @error('item_index')
                                                         <div class="error-msg">{{ $message }}</div>
                                                         @enderror
                                                     </div>
 
-                                                    {{-- Select Chapter --}}
-                                                    <div class="form-group">
-                                                        <label for="chapterid" class="form-label">Select Chapter</label>
-                                                        <select class="form-select" name="chapterid" id="chapterid">
-                                                            <option value="">Select Chapter</option>
-
-                                                            @foreach ($chapters as $obj)
-                                                                <option value="{{ $obj->id }}"
-                                                                    {{ isset($section) && $section->chapter_id == $obj->id ? 'selected' : '' }}>
-                                                                    {{ $obj->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-
-                                                        @error('chapterid')
-                                                        <div class="error-msg">{{ $message }}</div>
-                                                        @enderror
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="chapter_id">Chapter<span class="is-required">*</span></label>
+                                                                @php $current = old('chapter_id', optional($section)->chapter_id); @endphp
+                                                                <select class="form-control my-2 select2" name="chapter_id" id="chapter_id" required>
+                                                                    <option value="" {{ $current ? '' : 'selected' }}>Select Chapter</option>
+                                                                    @foreach($chapters as $id => $name)
+                                                                        <option value="{{ $id }}" @selected($current == $id)>{{ $name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                @error('chapter_id')
+                                                                <div class="error-msg">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
                                                     </div>
+
 
                                                 </div>
-
-                                                {{-- Buttons --}}
                                                 <div class="mt-2">
                                                     @can('List_Section')
                                                         <a href="{{ route('section.index') }}" class="btn btn-warning">

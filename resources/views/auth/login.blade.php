@@ -47,7 +47,7 @@
                             <div class="card-header border-0">
                                 <div class="card-title text-center">
                                     <div class="p-1">
-                                        <img src="{{asset('cms/app-assets/images/logo.png')}}"  alt="branding logo" width="250">
+                                        <img src="{{asset('cms/app-assets/images/logo2.png')}}"  alt="branding logo" width="250">
                                     </div>
                                 </div>
                                 <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">

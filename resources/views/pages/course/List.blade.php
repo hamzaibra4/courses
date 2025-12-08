@@ -53,7 +53,11 @@
                                                     <table class="table table-striped table-bordered file-export2">
                                                         <thead>
                                                         <tr>
-                                                            <th>Name </th>
+                                                            <th>Course Name</th>
+                                                            <th>Created By </th>
+                                                            <th>Updated By </th>
+                                                            <th>Created At </th>
+                                                            <th>Updated At</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                         </thead>
@@ -61,19 +65,19 @@
                                                         @foreach(($course ?? []) as $obj)
                                                             <tr id="row{{$obj->id}}">
                                                                 <td>{{$obj->name}}</td>
+                                                                <td>{{$obj->created_by}}</td>
+                                                                <td>{{$obj->updated_by ?? "No update"}}</td>
+                                                                <td>{{ $obj->created_at->format('d-m-Y') }}</td>
+                                                                <td>{{ optional($obj->updated_at)->format('d-m-Y') ?? 'No update' }}</td>
+
+
+
                                                                 <td>
                                                                     @can('Edit_Course')
-                                                                        <a href="{{ route('course.edit', ['course' => $obj->id]) }}" class="icons warning">
-                                                                            <i class="fa-solid fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="Edit"></i>
-                                                                        </a>
+                                                                        <a href="{{ route('course.edit', ['course' => $obj->id]) }}" class="icons warning"><i class="fa-solid fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="Edit"></i></a>
                                                                     @endcan
-                                                                            @can('Delete_Course')
-                                                                                <a href="#"
-                                                                                   data-id="{{ $obj->id }}"
-                                                                                   data-url="{{ route('course.destroy', $obj) }}"
-                                                                                   class="deleteRow icons danger">
-                                                                                    <i class="fa-solid fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i>
-                                                                                </a>
+                                                                    @can('Delete_Course')
+                                                                            <a href="#" data-id='{{$obj->id}}' data-url='{{route('course.destroy',['course'=>$obj])}}' class="deleteRow icons danger"><i class="fa-solid fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i></a>
                                                                     @endcan
                                                                 </td>
                                                             </tr>
@@ -81,7 +85,11 @@
                                                         </tbody>
                                                         <tfoot>
                                                         <tr>
-                                                            <th>Name </th>
+                                                            <th>Course Name</th>
+                                                            <th>Created By </th>
+                                                            <th>Updated By </th>
+                                                            <th>Created At </th>
+                                                            <th>Updated At</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                         </tfoot>

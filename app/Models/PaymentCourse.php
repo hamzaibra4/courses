@@ -6,10 +6,9 @@ use App\Traits\UUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SectionVideo extends Model
+class PaymentCourse extends Model
 {
     use HasFactory, UUID;
-    public function getSection(){
-        return $this->belongsTo(Section::class,'section_id','id');
-    }
+    
+    protected $table = 'payment_course';
 }

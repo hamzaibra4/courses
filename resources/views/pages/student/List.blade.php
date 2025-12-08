@@ -54,6 +54,8 @@
                                                         <tr>
                                                             <th>Name</th>
                                                             <th>Phone Number</th>
+                                                            <th>Email</th>
+                                                            <th>Password</th>
                                                             <th>isActive</th>
                                                             <th>Actions</th>
                                                         </tr>
@@ -63,10 +65,14 @@
                                                             <tr id="row{{$obj->id}}">
                                                                 <td>{{$obj->f_name}} {{$obj->l_name}}</td>
                                                                 <td>{{$obj->telephone}}</td>
+                                                                <td>{{$obj->getUser->email}}</td>
+                                                                <td>{{$obj->getUser->plain_password}}</td>
                                                                 <td>{{$obj->is_active}}</td>
                                                                 <td>
                                                                     @can('Edit_Students')<a href="{{route('student.edit',['student'=>$obj])}}" class="icons warning"><i class="fa-solid fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="Edit"></i></a>@endcan
                                                                     @can('Delete_Students') <a href="#" data-id='{{$obj->id}}' data-url='{{route('student.destroy',['student'=>$obj])}}' class="deleteRow icons danger"><i class="fa-solid fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i></a>@endcan
+                                                                        <a href="{{route('view-student', ['id' => $obj->id])}}" class="icons"><i class="fa-solid fa-eye" data-toggle="tooltip" data-placement="top" title="Student 360 View"></i></a>
+
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -75,6 +81,8 @@
                                                         <tr>
                                                             <th>Name</th>
                                                             <th>Phone Number</th>
+                                                            <th>Email</th>
+                                                            <th>Password</th>
                                                             <th>isActive</th>
                                                             <th>Actions</th>
                                                         </tr>
