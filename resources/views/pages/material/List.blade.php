@@ -50,7 +50,7 @@
                                 <table class="table table-striped table-bordered file-export2">
                                     <thead>
                                     <tr>
-                                        <th>Link</th>
+                                        <th>Chapter</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
@@ -59,7 +59,7 @@
                                     @foreach($material as $obj)
                                         <tr id="row{{ $obj->id }}">
 
-                                            <td>{{ $obj->path }}</td>
+                                            <td>{{ $obj->getChapter->name }}</td>
 
                                             <td>
                                                 @can('Edit_Material')
@@ -70,12 +70,7 @@
                                                 @endcan
 
                                                 @can('Delete_Material')
-                                                    <a href="#"
-                                                       data-id="{{ $obj->id }}"
-                                                       data-url="{{ route('material.destroy', $obj->id) }}"
-                                                       class="deleteRow icons danger">
-                                                        <i class="fa-solid fa-trash"
-                                                           data-toggle="tooltip" data-placement="top" title="Delete"></i>
+                                                    <a href="#" data-id="{{ $obj->id }}" data-url="{{ route('material.destroy', $obj->id) }}" class="deleteRow icons danger"><i class="fa-solid fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i>
                                                     </a>
                                                 @endcan
                                             </td>
@@ -86,7 +81,7 @@
 
                                     <tfoot>
                                     <tr>
-                                        <th>Link</th>
+                                        <th>Chapter</th>
                                         <th>Actions</th>
                                     </tr>
                                     </tfoot>

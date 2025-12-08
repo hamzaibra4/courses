@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('materials', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->text('path')->nullable();
+            $table->uuid('chapter_id');
             $table->integer('item_index')->nullable();
-            $table->foreignUuid('course_id')->nullable()->constrained('courses')->onDelete('cascade');
+            $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
             $table->timestamps();
         });
     }

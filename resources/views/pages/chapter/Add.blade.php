@@ -7,19 +7,22 @@
                 <div class="row breadcrumbs-top">
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb">
-                            @can('List_Chapter')   <li class="breadcrumb-item"><a href="{{route("chapter.index")}}">Home</a></li>@endcan
+                            @can('List_Chapter')
+                                <li class="breadcrumb-item"><a href="{{ route('chapter.index') }}">Home</a></li>
+                            @endcan
                             <li class="breadcrumb-item active">{{ $chapter ? 'Edit chapter' : 'Add chapter' }}</li>
-
                         </ol>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="content-body">
             <section id="file-export">
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
+
                             <div class="card-header">
                                 <h4 class="card-title">Chapter</h4>
                                 <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
@@ -31,121 +34,116 @@
                                     </ul>
                                 </div>
                             </div>
+
                             <div class="card-content collapse show">
                                 <div class="card-body card-dashboard">
-                                    <div class="card-content collapse show">
-                                        <div class="card-body">
-                                            <form action="{{ $chapter ? route('chapter.update', $chapter->id) : route('chapter.store') }}" method="POST" class="floating-labels" enctype="multipart/form-data">
-                                                @if($chapter)
-                                                    @method('PUT')
-                                                @endif
-                                                @csrf
-                                                <div class="form-body">
-                                                    <div class="form-body">
-                                                        <div class="form-body">
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                        <label for="name">Name: <span></span></label>
-                                                                        <input id="name" required type="text" class="form-control" name="name" placeholder="Enter the name" value="{{ $chapter->name ?? old('name') }}"/>
-                                                                        @error('title')
-                                                                        <div class='error-msg'>{{ $message }}</div>
-                                                                        @enderror
-                                                                    </div>
-                                                                </div>
-                                                            </div>
 
+                                    <div class="card-body">
 
+                                        <form action="{{ $chapter ? route('chapter.update', $chapter->id) : route('chapter.store') }}"
+                                              method="POST" enctype="multipart/form-data">
 
+                                            @csrf
+                                            @if($chapter)
+                                                @method('PUT')
+                                            @endif
 
-                                                            <div class="form-body">
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        <div class="form-group">
-                                                                            <label for="text">Text</label>
-                                                                            <textarea id="text"
-
-                                                                                      class="form-control"
-                                                                                      name="text"
-                                                                                      rows="5"
-                                                                                      placeholder="Enter your text">{{ $chapter->text ?? old('text') }}</textarea>
-
-                                                                            @error('fulltext')
-                                                                            <div class="error-msg">{{ $message }}</div>
-                                                                            @enderror
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-
-
-                                                            <div class="form-body">
-                                                                <div class="form-group">
-                                                                    <label for="itemindex">Index</label>
-                                                                    <input type="number"  class="form-control"  name="itemindex" value="{{ old('itemindex', $chapter->item_index ?? '') }}""
-                                                                    >
-                                                                    @error('itemindex')
-                                                                    <div class='error-msg'>{{ $message }}</div>
-                                                                    @enderror
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label for="course_id" class="form-label">Select Course</label>
-                                                                    <select class="form-select" name="course_id" id="course_id">
-                                                                        <option value="">Select Course</option>
-
-                                                                        @foreach ($course as $obj)
-                                                                            <option value="{{ $obj->id }}"
-                                                                                {{ isset($chapter) && $chapter->course_id == $obj->id ? 'selected' : '' }}>
-                                                                                {{ $obj->name }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-
-                                                                <div id="preview-container" class="d-flex flex-wrap"></div>
-
-                                                        @error('image.*')
-                                                        <div class='error-msg'>{{ $message }}</div>
-                                                        @enderror
+                                            <div class="form-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="name">Chapter Name <span>*</span></label>
+                                                            <input id="name" required type="text" class="form-control"
+                                                                   name="name"
+                                                                   placeholder="Enter the Chapter Name"
+                                                                   value="{{ $chapter->name ?? old('name') }}"/>
+                                                            @error('name')
+                                                            <div class="error-msg">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
                                                     </div>
-
-
-                                                @can('List_Chapter')
-                                                        <a href="{{route('chapter.index')}}">
-                                                            <button type="button" class="btn btn-warning mr-1 button-cancel">
-                                                                <i class="ft-x"></i>&nbsp;Cancel
-                                                            </button>
-                                                        </a>
-                                                    @endcan
-                                                    @if(is_null($chapter))
-                                                        @can('Add_Chapter')
-                                                            <button type="submit" class="btn btn-primary">
-                                                                <i class="la la-check-square-o"></i>&nbsp;Save
-                                                            </button>
-                                                        @endcan
-                                                    @else
-                                                        @can('Edit_Chapter')
-                                                            <button type="submit" class="btn btn-primary">
-                                                                <i class="la la-check-square-o"></i>&nbsp;Save
-                                                            </button>
-                                                        @endcan
-                                                    @endif
                                                 </div>
-                                            </form>
-                                        </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="text">Description <span>*</span></label>
+                                                            <textarea id="text" class="form-control" name="text"
+                                                                      placeholder="Enter your description">{{ $chapter->text ?? old('text') }}</textarea>
+                                                            @error('text')
+                                                            <div class="error-msg">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="itemindex">Index <span>*</span></label>
+                                                            <input id="itemindex" type="number" class="form-control"
+                                                                   name="itemindex"
+                                                                   value="{{ old('itemindex', $chapter->item_index ?? '') }}">
+                                                            @error('itemindex')
+                                                            <div class="error-msg">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="course_id">Course <span class="is-required">*</span></label>
+                                                            @php $current = old('course_id', optional($chapter)->course_id); @endphp
+                                                            <select class="form-control my-2 select2" name="course_id" id="course_id" required>
+                                                                <option value="" {{ $current ? '' : 'selected' }}>Select Course</option>
+                                                                @foreach($courses as $id => $name)
+                                                                    <option value="{{ $id }}" @selected($current == $id)>{{ $name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            @error('course_id')
+                                                            <div class="error-msg">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-actions">
+                                                @can('List_Chapter')
+                                                    <a href="{{ route('chapter.index') }}">
+                                                        <button type="button" class="btn btn-warning mr-1 button-cancel">
+                                                            <i class="ft-x"></i> Cancel
+                                                        </button>
+                                                    </a>
+                                                @endcan
+
+                                                @if(is_null($chapter))
+                                                    @can('Add_Chapter')
+                                                        <button type="submit" class="btn btn-primary">
+                                                            <i class="la la-check-square-o"></i> Save
+                                                        </button>
+                                                    @endcan
+                                                @else
+                                                    @can('Edit_Chapter')
+                                                        <button type="submit" class="btn btn-primary">
+                                                            <i class="la la-check-square-o"></i> Save
+                                                        </button>
+                                                    @endcan
+                                                @endif
+                                            </div>
+
+                                        </form>
+
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </section>
         </div>
-    </div>
 
+    </div>
 @endsection

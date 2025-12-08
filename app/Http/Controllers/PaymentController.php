@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Payment;
+use App\Models\PaymentCourse;
 use App\Models\Student;
 use App\Models\StudentType;
 use Illuminate\Database\Eloquent\Model;
@@ -70,8 +71,13 @@ class PaymentController extends Controller
         $payment->amount=$request->amount;
         $payment->date=$request->date;
         $payment->student_id=$request->student_id;
-        $payment->course_id=$request->course_id;
         $payment->save();
+        foreach ($request->course_id as $courseId) {
+            $obj=new PaymentCourse();
+            $obj->payment_id=$payment->id;
+            $obj->course_id=$courseId;
+            $obj->save();
+        }
         return redirect()->route('payment.index');
     }
 
@@ -120,8 +126,14 @@ class PaymentController extends Controller
         $payment->amount=$request->amount;
         $payment->date=$request->date;
         $payment->student_id=$request->student_id;
-        $payment->course_id=$request->course_id;
         $payment->save();
+        PaymentCourse::where('payment_id',$payment->id)->delete();
+        foreach ($request->course_id as $courseId) {
+            $obj=new PaymentCourse();
+            $obj->payment_id=$payment->id;
+            $obj->course_id=$courseId;
+            $obj->save();
+        }
         return redirect()->route('payment.index');
     }
 

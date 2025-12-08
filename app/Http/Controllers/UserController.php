@@ -22,8 +22,10 @@ class UserController extends Controller
         if (!$user->can('List_Users')) {
             abort(403);
         }
-        $users=User::all();
-        return view('pages.user.List')->with('users',$users);
+        $typeIds = UserType::whereIn('key', ['A', 'SA'])->pluck('id');
+        $users = User::whereIn('user_type_id', $typeIds)->get();
+        return view('pages.user.List')->with('users', $users);
+
     }
 
     /**
@@ -36,7 +38,7 @@ class UserController extends Controller
             abort(403);
         }
         $users=null;
-        $types=UserType::pluck('name','id');
+        $types = UserType::whereIn('key', ['A', 'SA'])->pluck('name','id');
         return view('pages.user.Add')
             ->with('users',$users)
             ->with('types',$types);
@@ -81,7 +83,7 @@ class UserController extends Controller
             abort(403);
         }
         $users=User::find($id);
-        $types=UserType::pluck('name','id');
+        $types = UserType::whereIn('key', ['A', 'SA'])->pluck('name','id');
         return view('pages.user.Add')
             ->with('users',$users)
             ->with('types',$types);

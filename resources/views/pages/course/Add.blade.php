@@ -1,27 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
-    <style>
-        /* Improve form visuals */
-        .form-group label {
-            font-weight: 600;
-            margin-bottom: 6px;
-            font-size: 14px;
-        }
-
-        .form-control {
-            border-radius: 6px !important;
-            padding: 10px 12px !important;
-        }
-
-        .preview-img {
-            margin-top: 10px;
-            border-radius: 6px;
-            object-fit: cover;
-            border: 1px solid #ccc;
-        }
-    </style>
-
     <div class="content-wrapper">
         <div class="content-header row">
             <div class="content-header-left col-md-6 col-12 mb-2">
@@ -29,7 +7,7 @@
                 <div class="row breadcrumbs-top">
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb">
-                            @can('List_News')
+                            @can('List_Course')
                                 <li class="breadcrumb-item"><a href="{{route('course.index')}}">Home</a></li>
                             @endcan
                             <li class="breadcrumb-item active">{{ $course ? 'Edit course' : 'Add course' }}</li>
@@ -61,61 +39,35 @@
 
                                     <form action="{{ $course ? route('course.update', $course->id) : route('course.store') }}"
                                           method="POST" enctype="multipart/form-data">
-
                                         @csrf
                                         @if($course) @method('PUT') @endif
 
                                         <div class="form-body">
-
-                                            {{-- Title --}}
                                             <div class="form-group">
-                                                <label for="name">Name</label>
-                                                <input id="name" type="text" required class="form-control"
-                                                       name="name"
-                                                       value="{{ $course->name ?? old('name') }}"
-                                                       placeholder="Enter name">
+                                                <label for="name">Name<span>*</span></label>
+                                                <input id="name" type="text" required class="form-control" name="name" value="{{ $course->name ?? old('name') }}" placeholder="Enter Course Name">
                                                 @error('name') <div class="error-msg">{{ $message }}</div> @enderror
                                             </div>
-
-                                            {{-- Small Text --}}
                                             <div class="form-group">
-                                                <label for="price">Price </label>
-                                                <input id="price" type="number" class="form-control"
-                                                       name="price"
-                                                       value="{{ $course->price ?? old('price') }}"
-                                                       placeholder="amount in $">
+                                                <label for="price">Price<span>*</span></label>
+                                                <input id="price" type="number" class="form-control" name="price" value="{{ $course->price ?? old('price') }}" placeholder="Enter your Price">
                                                 @error('price') <div class="error-msg">{{ $message }}</div> @enderror
                                             </div>
 
-                                            {{-- Full Text --}}
                                             <div class="form-group">
-                                                <label for="description">Description</label>
-                                                <textarea id="description" class="form-control" name="description"
-                                                          rows="5"
-                                                          placeholder="Text">{{ $course->description ?? old('description') }}</textarea>
+                                                <label for="description">Description<span>*</span></label>
+                                                <textarea id="description" class="form-control" name="description">{{ $course->description ?? old('description') }}</textarea>
                                                 @error('description') <div class="error-msg">{{ $message }}</div> @enderror
                                             </div>
-
-                                            <div class="form-body">
-                                                <div class="form-group">
-                                                    <label for="itemindex">Index</label>
-                                                    <input type="number"  class="form-control"  name="itemindex" value="{{ old('itemindex', $course->item_index ?? '') }}""
-                                                    >
-                                                    @error('itemindex')
-                                                    <div class='error-msg'>{{ $message }}</div>
-                                                    @enderror
-                                                </div>
+                                            <div class="form-group">
+                                                <label for="itemindex">Index<span>*</span></label>
+                                                <input id="itemindex" type="number" class="form-control" name="itemindex" value="{{ $course->item_index ?? old('item_index') }}" placeholder="Enter your Index">
+                                                @error('itemindex') <div class="error-msg">{{ $message }}</div> @enderror
                                             </div>
-
-
                                             <div class="form-group">
                                                 <input type="hidden" name="feature" value="0">
 
-                                                <input type="checkbox"
-                                                       name="feature"
-                                                       value="1"
-                                                       class="form-check-input"
-                                                       id="feature"
+                                                <input type="checkbox" name="feature" value="1" class="form-check-input" id="feature"
                                                     {{ isset($course) && $course->is_featured == 1 ? 'checked' : '' }}>
 
                                                 <label for="feature" class="form-check-label">Mark as Featured</label>
@@ -124,23 +76,28 @@
                                                 <div class="error-msg">{{ $message }}</div>
                                                 @enderror
                                             </div>
-
-                                            {{-- Image Upload --}}
-                                            <div class="form-body">
-                                                <div class="form-group">
-                                                    <label for="projectinput13">Image</label>
-                                                    <input type="file" id="projectinput13" class="form-control"
-                                                           name="image"
-                                                           onchange="previewFile(this,'previewImg')">
+                                            <div class="col-md-12">
+                                                <div class="form-body">
+                                                    <div class="form-group">
+                                                        <label for="projectinput1">Image<span>*</span></label>
+                                                        <input type="file" @if(empty($course->image)) required @endif name="image" onchange="previewFile(this, 'previewImage')" id="projectinput1" class="form-control">
+                                                    </div>
                                                 </div>
-                                                <img id="previewImg" class="onadd"  width="150" height="150"/>
-                                                @error('image')
-                                                <div class='error-msg'>{{ $message }}</div>
-                                                @enderror
                                             </div>
-
-
-                                            {{-- Buttons --}}
+                                            <div class="col-md-12">
+                                                @if($course?->image)
+                                                    <div class="form-group">
+                                                        <div class="image-area remove-black margin1020">
+                                                            <img  src="{{asset($course->image)}}" data-enlargable id="previewImage" class="img" width="200px">
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="form-group">
+                                                        <div class="image-area remove-black margin1020">
+                                                            <img src="{{ old('image') }}" data-enlargable id="previewImage" class="img onadd" width="200px">
+                                                        </div>
+                                                    </div>
+                                                @endif
                                             <div class="form-actions mt-3">
                                                 @can('List_Course')
                                                     <a href="{{ route('course.index') }}">
@@ -159,16 +116,16 @@
                                                 @else
                                                     @can('Edit_Course')
                                                         <button type="submit" class="btn btn-primary">
-                                                            <i class="la la-check-square-o"></i> Update
+                                                            <i class="la la-check-square-o"></i> Save
                                                         </button>
                                                     @endcan
                                                 @endif
                                             </div>
 
-                                        </div> {{-- end form-body --}}
+                                        </div>
                                     </form>
 
-                                </div> {{-- end card-body --}}
+                                </div>
                             </div>
 
                         </div>

@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class CourseController extends Controller
@@ -11,8 +11,16 @@ class CourseController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct(GenericController $generic){
+        $this->genericController = $generic;
+        $this->middleware('auth');
+    }
     public function index()
     {
+        $user = Auth::user();
+        if (!$user->can('List_Course')) {
+            abort(403);
+        }
         $course = Course::all();
         return view('pages.course.list', compact('course'));
     }
@@ -22,6 +30,10 @@ class CourseController extends Controller
      */
     public function create()
     {
+        $user = Auth::user();
+        if (!$user->can('Add_Course')) {
+            abort(403);
+        }
         $course = null;
         return view('pages.course.add', compact('course'));
     }
@@ -31,11 +43,14 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'string|max:255',
+        $user = Auth::user();
+        if (!$user->can('Add_Course')) {
+            abort(403);
+        }
+         $request->validate([
+            'name' => 'required',
             'itemindex' => 'required|integer',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'feature' => 'required|boolean',
+            'image' => 'required',
         ]);
 
         $course = new Course();
@@ -44,10 +59,11 @@ class CourseController extends Controller
         $course->description = $request->description;
         $course->item_index = $request->itemindex;
         $course->is_featured = $request->feature;
-
-        if ($request->hasFile('image')) {
-            $fileName = $this->uploadImage($request->file('image'));
-            $course->image = $fileName;
+        $course->created_by=Auth::user()->name;
+        $imageName = 'image';
+        $path = $this->genericController->uploadImage($request, $imageName);
+        if ($path) {
+            $course->image = $path;
         }
 
         $course->save();
@@ -60,20 +76,26 @@ class CourseController extends Controller
      */
     public function edit($id)
     {
-
+        $user = Auth::user();
+        if (!$user->can('Edit_Course')) {
+            abort(403);
+        }
         $course = Course::findOrFail($id);
-        return view('pages.course.add', compact('course'));    }
+        return view('pages.course.add', compact('course'));
+    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'name' => 'string|max:255',
-            'itemindex' => 'required|integer',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'feature' => 'required|boolean',
+        $user = Auth::user();
+        if (!$user->can('Edit_Course')) {
+            abort(403);
+        }
+           $request->validate([
+            'name' => 'required',
+            'itemindex' => 'required',
         ]);
 
         $course = Course::findOrFail($id);
@@ -82,10 +104,13 @@ class CourseController extends Controller
         $course->description = $request->description;
         $course->item_index = $request->itemindex;
         $course->is_featured = $request->feature;
+        $course->updated_by=Auth::user()->name;
 
-        if ($request->hasFile('image')) {
-            $fileName = $this->uploadImage($request->file('image'));
-            $course->image = $fileName;
+
+        $imageName = 'image';
+        $path = $this->genericController->uploadImage($request, $imageName);
+        if ($path) {
+            $course->image = $path;
         }
 
         $course->save();
@@ -98,21 +123,19 @@ class CourseController extends Controller
      */
     public function destroy($id)
     {
-        $course = Course::findOrFail($id);
+        $user = Auth::user();
+        if (!$user->can('Delete_Course')) {
+            abort(403);
+        }
+        $course=Course::find($id);
         $course->delete();
-
-        return redirect()->route('course.index');
+        $code = 200;
+        $msg = 'The selected course has been successfully deleted!';
+        return response()->json([
+            'code' => $code,
+            'msg'=>$msg
+        ]);
     }
 
-    private function uploadImage($image)
-    {
-        $name = Str::slug(pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME));
-        $extension = $image->getClientOriginalExtension();
-        $fileNameToStore = $name . '_' . time() . '.' . $extension;
-
-        $image->storeAs('about-us', $fileNameToStore, 'public');
-
-        return 'storage/about-us/' . $fileNameToStore;
-    }
 
 }

@@ -1,28 +1,43 @@
 @extends('layouts.app')
 @section('content')
     <div class="content-wrapper" xmlns="http://www.w3.org/1999/html">
+
+        <!-- Header -->
         <div class="content-header row">
             <div class="content-header-left col-md-6 col-12 mb-2">
                 <h3 class="content-header-title">Materials</h3>
                 <div class="row breadcrumbs-top">
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb">
-                            @can('List_Material')   <li class="breadcrumb-item"><a href="{{route("material.index")}}">Home</a></li>@endcan
-                            <li class="breadcrumb-item active">{{ $material ? 'Edit materials' : 'Add materials' }}</li>
+                            @can('List_Material')
+                                <li class="breadcrumb-item">
+                                    <a href="{{ route('material.index') }}">Home</a>
+                                </li>
+                            @endcan
 
+                            <li class="breadcrumb-item active">
+                                {{ $material ? 'Edit materials' : 'Add materials' }}
+                            </li>
                         </ol>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- /Header -->
+
+
         <div class="content-body">
             <section id="file-export">
                 <div class="row">
                     <div class="col-12">
+
                         <div class="card">
+
                             <div class="card-header">
                                 <h4 class="card-title">Materials</h4>
-                                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                <a class="heading-elements-toggle">
+                                    <i class="la la-ellipsis-v font-medium-3"></i>
+                                </a>
                                 <div class="heading-elements">
                                     <ul class="list-inline mb-0">
                                         <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
@@ -31,99 +46,154 @@
                                     </ul>
                                 </div>
                             </div>
+
+
                             <div class="card-content collapse show">
                                 <div class="card-body card-dashboard">
-                                    <div class="card-content collapse show">
-                                        <div class="card-body">
-                                            <form action="{{ $material ? route('material.update', $material->id) : route('material.store') }}"
-                                                  method="POST"
-                                                  enctype="multipart/form-data">
 
-                                                @csrf
-                                                @if($material)
-                                                    @method('PUT')
+                                    <div class="card-body">
+
+                                        <form action="{{ $material ? route('material.update', $material->id) : route('material.store') }}"
+                                              method="POST" enctype="multipart/form-data">
+
+                                            @csrf
+                                            @if($material)
+                                                @method('PUT')
+                                            @endif
+                                            <div class="form-body">
+                                                <div class="form-group">
+                                                    <label for="item_index">Index</label>
+                                                    <input id="item_index"
+                                                           type="number"
+                                                           class="form-control"
+                                                           name="item_index"
+                                                           placeholder="Enter Item Index"
+                                                           value="{{ old('item_index', $material->item_index ?? '') }}">
+
+                                                    @error('item_index')
+                                                    <div class="error-msg">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="course_id">Chapter <span class="is-required">*</span></label>
+
+                                                            @php $current = old('chapter_id', optional($material)->chapter_id); @endphp
+
+                                                            <select class="form-control my-2 select2"
+                                                                    name="chapter_id" id="chapter_id" required>
+
+                                                                <option value="" {{ $current ? '' : 'selected' }}>
+                                                                    Select Chapter
+                                                                </option>
+
+                                                                @foreach($chapters as $id => $name)
+                                                                    <option value="{{ $id }}" @selected($current == $id)>
+                                                                        {{ $name }}
+                                                                    </option>
+                                                                @endforeach
+
+                                                            </select>
+
+                                                            @error('chapter_id')
+                                                            <div class="error-msg">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- PDF Upload -->
+                                                <!-- PDF Upload -->
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="projectinput1">PDF Document(s) <span>*</span></label>
+                                                            <input type="file"
+                                                                   id="projectinput1"
+                                                                   class="form-control"
+                                                                   name="path[]"
+                                                                   accept="application/pdf,.pdf"
+                                                                   multiple
+                                                                   @if(!$material || $material->getMaterialPdfs->count() == 0) required @endif>
+                                                            <small class="form-text text-muted">
+                                                                <i class="fa fa-info-circle"></i> You can select multiple PDF files at once
+                                                            </small>
+                                                            @error('path')
+                                                            <div class="error-msg">{{ $message }}</div>
+                                                            @enderror
+                                                            @error('path.*')
+                                                            <div class="error-msg">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- PDF Preview Buttons -->
+                                                @if($material && $material->getMaterialPdfs->count() > 0)
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label>Uploaded PDFs:</label>
+                                                                <div class="d-flex flex-wrap">
+                                                                    @foreach($material->getMaterialPdfs as $pdf)
+                                                                        <div class="mr-2 mb-2">
+                                                                            <a href="{{ asset($pdf->path) }}" target="_blank"
+                                                                               class="btn btn-primary btn-sm">
+                                                                                <i class="fa fa-file-pdf"></i> PDF {{ $loop->iteration }}
+                                                                            </a>
+                                                                        </div>
+                                                                    @endforeach
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 @endif
 
-
-                                                <div class="form-body">
-
-                                                    {{-- Title --}}
-                                                    <div class="form-group">
-                                                        <label for="path">Link</label>
-                                                        <input id="path" type="text"  class="form-control"
-                                                               name="path"
-                                                               value="{{ $material->path ?? old('path') }}"
-                                                               placeholder="Enter video link">
-                                                        @error('path') <div class="error-msg">{{ $message }}</div> @enderror
-                                                    </div>
+                                            </div> <!-- /form-body -->
 
 
-                                                    {{-- Item Index --}}
-                                                    <div class="form-group">
-                                                        <label for="itemindex">Index</label>
-                                                        <input type="number"
-                                                               class="form-control"
-                                                               name="itemindex"
-                                                               value="{{ old('itemindex', $material->item_index ?? '') }}">
-                                                        @error('itemindex')
-                                                        <div class="error-msg">{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
+                                            <!-- Action Buttons -->
+                                            <div class="mt-2">
 
-                                                    {{-- Select Chapter --}}
-                                                    <div class="form-group">
-                                                        <label for="courseid" class="form-label">Select course</label>
-                                                        <select class="form-select" name="courseid" id="courseid">
-                                                            <option value="">Select course</option>
+                                                @can('List_Material')
+                                                    <a href="{{ route('material.index') }}" class="btn btn-warning">
+                                                        <i class="ft-x"></i> Cancel
+                                                    </a>
+                                                @endcan
 
-                                                            @foreach ($course as $obj)
-                                                                <option value="{{ $obj->id }}"
-                                                                    {{ isset($material) && $material->course_id == $obj->id ? 'selected' : '' }}>
-                                                                    {{ $obj->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
 
-                                                        @error('$material')
-                                                        <div class="error-msg">{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
-
-                                                </div>
-
-                                                {{-- Buttons --}}
-                                                <div class="mt-2">
-                                                    @can('List_Material')
-                                                        <a href="{{ route('material.index') }}" class="btn btn-warning">
-                                                            <i class="ft-x"></i> Cancel
-                                                        </a>
+                                                @if(!$material)
+                                                    @can('Add_Material')
+                                                        <button type="submit" class="btn btn-primary">
+                                                            <i class="la la-check-square-o"></i> Save
+                                                        </button>
                                                     @endcan
+                                                @else
+                                                    @can('Edit_Material')
+                                                        <button type="submit" class="btn btn-primary">
+                                                            <i class="la la-check-square-o"></i> Save
+                                                        </button>
+                                                    @endcan
+                                                @endif
 
-                                                    @if(!$material)
-                                                        @can('Add_Material')
-                                                            <button type="submit" class="btn btn-primary">
-                                                                <i class="la la-check-square-o"></i> Save
-                                                            </button>
-                                                        @endcan
-                                                    @else
-                                                        @can('Edit_Material')
-                                                            <button type="submit" class="btn btn-primary">
-                                                                <i class="la la-check-square-o"></i> Save
-                                                            </button>
-                                                        @endcan
-                                                    @endif
-                                                </div>
+                                            </div>
 
-                                            </form>
-                                        </div>
-                                    </div>
+
+                                        </form>
+
+                                    </div> <!-- /card-body -->
+
                                 </div>
                             </div>
-                        </div>
+
+                        </div> <!-- /card -->
+
                     </div>
                 </div>
             </section>
         </div>
-    </div>
 
+    </div>
 @endsection

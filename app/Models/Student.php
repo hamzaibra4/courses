@@ -9,16 +9,15 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     use HasFactory, UUID;
-    public function getStudentStatus(){
+    public function getStudentType(){
         return $this->belongsTo(StudentType::class,'student_type_id','id');
     }
-
-    public function getCustomers(){
+    public function getCustoms(){
         return $this->hasMany(CustomField::class);
     }
     public function getUser()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
     public function getFullNameAttribute()
     {
@@ -26,5 +25,8 @@ class Student extends Model
     }
     public function getPayment(){
         return $this->hasMany(Payment::class);
+    }
+    public function getInRolledCourses(){
+      return $this->hasMany(inRolledCourse::class);
     }
 }
