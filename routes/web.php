@@ -21,7 +21,7 @@ use App\Http\Controllers\SectionVideoController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\WatchedVideoController;
 use App\Http\Controllers\FavoriteVideoController;
-use App\Http\Controllers\inRolledCourseController;
+use App\Http\Controllers\enrolledCourseController;
 
 
 
@@ -70,5 +70,9 @@ Route::resource('section-video',SectionVideoController::class);
 Route::resource('material',MaterialController::class);
 Route::resource('watched-video',WatchedVideoController::class);
 Route::resource('favorite-video',FavoriteVideoController::class);
-Route::resource('enrolled-course',inRolledCourseController::class);
+Route::resource('enrolled-course',enrolledCourseController::class);
 Route::get('view-student/{id}', [StudentController::class, 'viewStudent'])->name('view-student');
+
+Route::get('home-student',function(){
+   return view('layouts.front');
+})->name('home-student');

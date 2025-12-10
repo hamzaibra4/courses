@@ -23,5 +23,14 @@ class UserSeeder extends Seeder
         $role = UserType::where("key","A")->firstOrFail();
         $user->user_type_id = $role->id;
         $user->save();
+
+        $user=new User();
+        $user->name='Student';
+        $user->email="student@course.com";
+        $user->password=Hash::make('123');
+        $role = UserType::where("key","S")->firstOrFail();
+        $user->user_type_id = $role->id;
+        $user->save();
+
     }
 }

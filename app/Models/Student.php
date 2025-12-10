@@ -27,6 +27,6 @@ class Student extends Model
         return $this->hasMany(Payment::class);
     }
     public function getInRolledCourses(){
-      return $this->hasMany(inRolledCourse::class);
+      return $this->hasMany(enrolledCourse::class);
     }
 }

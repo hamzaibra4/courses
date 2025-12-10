@@ -17,6 +17,6 @@ class Course extends Model
         return $this->hasMany(Chapter::class, 'course_id','id');
     }
     public function getInRolledCourses(){
-        return $this->belongsToMany(inRolledCourse::class,'multiple_courses_in_rolles','course_id','in_rolled_course_id');
+        return $this->belongsToMany(enrolledCourse::class,'multiple_courses_in_rolles','course_id','in_rolled_course_id');
     }
 }
