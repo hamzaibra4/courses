@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\Course;
+use App\Models\CourseDetails;
+use App\Models\SeminarDetails;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -59,15 +62,22 @@ class CourseController extends Controller
         $course->description = $request->description;
         $course->item_index = $request->itemindex;
         $course->is_featured = $request->feature;
+        $course->nb_of_hours = $request->nb_of_hours;
+        $course->brief_description = $request->brief_description;
         $course->created_by=Auth::user()->name;
         $imageName = 'image';
         $path = $this->genericController->uploadImage($request, $imageName);
         if ($path) {
             $course->image = $path;
         }
-
         $course->save();
-
+        $titleDetails = $request->input('title_details', []);
+        foreach ($titleDetails as $title) {
+            $detail = new CourseDetails();
+            $detail->course_id = $course->id;
+            $detail->title = trim($title);
+            $detail->save();
+        }
         return redirect()->route('course.index');
     }
 
@@ -102,6 +112,8 @@ class CourseController extends Controller
         $course->name = $request->name;
         $course->price = $request->price;
         $course->description = $request->description;
+        $course->nb_of_hours = $request->nb_of_hours;
+        $course->brief_description = $request->brief_description;
         $course->item_index = $request->itemindex;
         $course->is_featured = $request->feature;
         $course->updated_by=Auth::user()->name;
@@ -112,8 +124,15 @@ class CourseController extends Controller
         if ($path) {
             $course->image = $path;
         }
-
         $course->save();
+        $deleted = CourseDetails::where('course_id', $course->id)->delete();
+        $titleDetails = $request->input('title_details', []);
+        foreach ($titleDetails as $title) {
+            $detail = new CourseDetails();
+            $detail->course_id = $course->id;
+            $detail->title = trim($title);
+            $detail->save();
+        }
 
         return redirect()->route('course.index');
     }

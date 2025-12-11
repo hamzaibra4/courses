@@ -129,20 +129,12 @@
                                                             <i class="ft-x"></i>&nbsp;Cancel
                                                         </a>
                                                     @endcan
+                                                        @canany(['Add_Users', 'Edit_Users'])
+                                                            <button type="submit" class="btn btn-primary">
+                                                                <i class="la la-check-square-o"></i> Save
+                                                            </button>
+                                                        @endcanany
 
-                                                    @if(is_null($users))
-                                                        @can('Add_Users')
-                                                            <button type="submit" class="btn btn-primary">
-                                                                <i class="la la-check-square-o"></i>&nbsp;Save
-                                                            </button>
-                                                        @endcan
-                                                    @else
-                                                        @can('Edit_Users')
-                                                            <button type="submit" class="btn btn-primary">
-                                                                <i class="la la-check-square-o"></i>&nbsp;Save
-                                                            </button>
-                                                        @endcan
-                                                    @endif
 
                                                 </div>
                                             </div>

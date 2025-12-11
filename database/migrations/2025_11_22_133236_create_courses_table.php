@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('price')->nullable();
             $table->longText('description')->nullable();
+            $table->string('brief_description');
+            $table->string('nb_of_hours');
             $table->string('image')->nullable();
             $table->string('item_index')->nullable();
             $table->string('created_by')->nullable();

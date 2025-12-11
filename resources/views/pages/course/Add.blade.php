@@ -43,20 +43,37 @@
                                         @if($course) @method('PUT') @endif
 
                                         <div class="form-body">
-                                            <div class="col-md-12">
+                                            <div class="row">
+                                            <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="name">Name<span>*</span></label>
                                                 <input id="name" type="text" required class="form-control" name="name" value="{{ $course->name ?? old('name') }}" placeholder="Enter Course Name">
                                                 @error('name') <div class="error-msg">{{ $message }}</div> @enderror
                                             </div>
                                             </div>
-                                                <div class="col-md-12">
+                                                <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="price">Price<span>*</span></label>
                                                 <input id="price" type="number" class="form-control" name="price" value="{{ $course->price ?? old('price') }}" placeholder="Enter your Price">
                                                 @error('price') <div class="error-msg">{{ $message }}</div> @enderror
                                             </div>
                                                 </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="itemindex">Index<span>*</span></label>
+                                                    <input id="itemindex" type="number" class="form-control" name="itemindex" value="{{ $course->item_index ?? old('item_index') }}" placeholder="Enter your Index">
+                                                    @error('itemindex') <div class="error-msg">{{ $message }}</div> @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="nb_of_hours">Course Hours<span>*</span></label>
+                                                    <input id="nb_of_hours" type="number" class="form-control" name="nb_of_hours" value="{{ $course->nb_of_hours ?? old('nb_of_hours') }}" placeholder="Enter the Course Hours">
+                                                    @error('nb_of_hours') <div class="error-msg">{{ $message }}</div> @enderror
+                                                </div>
+                                            </div>
+
+
                                             <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="description">Description<span>*</span></label>
@@ -64,12 +81,13 @@
                                                 @error('description') <div class="error-msg">{{ $message }}</div> @enderror
                                             </div>
                                             </div>
+
                                             <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="itemindex">Index<span>*</span></label>
-                                                <input id="itemindex" type="number" class="form-control" name="itemindex" value="{{ $course->item_index ?? old('item_index') }}" placeholder="Enter your Index">
-                                                @error('itemindex') <div class="error-msg">{{ $message }}</div> @enderror
-                                            </div>
+                                                <div class="form-group">
+                                                    <label for="brief_description">Brief Description<span>*</span></label>
+                                                    <textarea id="brief_description" class="form-control" name="brief_description">{{ $course->brief_description ?? old('brief_description') }}</textarea>
+                                                    @error('brief_description') <div class="error-msg">{{ $message }}</div> @enderror
+                                                </div>
                                             </div>
                                             <div class="col-md-12">
                                             <div class="form-group ml-2">
@@ -107,6 +125,23 @@
                                                         </div>
                                                     </div>
                                                 @endif
+
+                                                    <div class="col-md-12">
+                                                        <label>What we learn
+                                                            <a style="padding:20px" onclick="addNewItem()">
+                                                                <i class="fa fa-plus icon-plus iconStyle"></i>
+                                                            </a>
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="col-md-12 pr-0" id="append-here">
+                                                        <input type="hidden" id="description-counter" name="counter" value="0">
+                                                        @if($course && $course->getDetails && $course->getDetails->count() > 0)
+                                                            <input type="hidden" id="existing-data" value="{{ json_encode($course->getDetails->map(function($detail) { return ['title' => $detail->title]; })->toArray()) }}">
+                                                        @else
+                                                            <input type="hidden" id="existing-data" value="">
+                                                        @endif
+                                                    </div>
                                             <div class="form-actions mt-3">
                                                 @can('List_Course')
                                                     <a href="{{ route('course.index') }}">
@@ -116,22 +151,15 @@
                                                     </a>
                                                 @endcan
 
-                                                @if(!$course)
-                                                    @can('Add_Course')
+                                                    @canany(['Add_Course', 'Edit_Course'])
                                                         <button type="submit" class="btn btn-primary">
                                                             <i class="la la-check-square-o"></i> Save
                                                         </button>
-                                                    @endcan
-                                                @else
-                                                    @can('Edit_Course')
-                                                        <button type="submit" class="btn btn-primary">
-                                                            <i class="la la-check-square-o"></i> Save
-                                                        </button>
-                                                    @endcan
-                                                @endif
+                                                    @endcanany
                                             </div>
 
                                         </div>
+                                            </div>
                                     </form>
 
                                 </div>
@@ -145,4 +173,7 @@
         </div>
     </div>
 
+@endsection
+@section('customjs')
+    <script src="{{asset('cms/custom/course.js')}}" type="text/javascript"></script>
 @endsection

@@ -162,21 +162,11 @@
                                                         <i class="ft-x"></i> Cancel
                                                     </a>
                                                 @endcan
-
-
-                                                @if(!$material)
-                                                    @can('Add_Material')
+                                                    @canany(['Add_Material', 'Edit_Material'])
                                                         <button type="submit" class="btn btn-primary">
                                                             <i class="la la-check-square-o"></i> Save
                                                         </button>
-                                                    @endcan
-                                                @else
-                                                    @can('Edit_Material')
-                                                        <button type="submit" class="btn btn-primary">
-                                                            <i class="la la-check-square-o"></i> Save
-                                                        </button>
-                                                    @endcan
-                                                @endif
+                                                    @endcanany
 
                                             </div>
 

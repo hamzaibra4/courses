@@ -115,20 +115,11 @@
                                                             <i class="ft-x"></i>&nbsp;Cancel
                                                         </a>
                                                     @endcan
-
-                                                    @if(is_null($rolledCourse))
-                                                        @can('List_enRolled_Course')
+                                                        @canany(['Add_enRolled_Course', 'Edit_enRolled_Course'])
                                                             <button type="submit" class="btn btn-primary">
-                                                                <i class="la la-check-square-o"></i>&nbsp;Save
+                                                                <i class="la la-check-square-o"></i> Save
                                                             </button>
-                                                        @endcan
-                                                    @else
-                                                        @can('Edit_enRolled_Course')
-                                                            <button type="submit" class="btn btn-primary">
-                                                                <i class="la la-check-square-o"></i>&nbsp;Save
-                                                            </button>
-                                                        @endcan
-                                                    @endif
+                                                        @endcanany
 
                                                 </div>
                                             </div>
