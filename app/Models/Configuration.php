@@ -9,5 +9,4 @@ use Illuminate\Database\Eloquent\Model;
 class Configuration extends Model
 {
     use HasFactory, UUID;
-    protected $table = 'configurations';
 }

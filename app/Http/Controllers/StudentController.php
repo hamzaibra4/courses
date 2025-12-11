@@ -70,11 +70,11 @@ class StudentController extends Controller
         $name = $request->f_name . " " . $request->l_name;
         $username = $request->f_name . "_" . $request->l_name;
         $mailExt = $studentType->email_extension;
-        $baseEmail = $username . $mailExt;
+        $baseEmail = $username . '@' .$mailExt;
         $email = $baseEmail;
         $counter = 1;
         while (User::where('email', $email)->exists()) {
-            $email = $username . $counter . $mailExt;
+            $email = $username . $counter . '@' . $mailExt;
             $counter++;
         }
         $user = new User();

@@ -6,7 +6,7 @@ use App\Traits\UUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class enrolledCourse extends Model
+class EnrolledCourse extends Model
 {
     use HasFactory, UUID;
 
@@ -17,6 +17,6 @@ class enrolledCourse extends Model
         return $this->belongsTo(RelatedCoursesStatus::class,'status_id','id');
     }
     public function getCourses(){
-        return $this->belongsToMany(Course::class,'multiple_courses_in_rolles','in_rolled_course_id','course_id');
+        return $this->belongsToMany(Course::class,'multiple_courses_enrolled','enrolled_course_id','course_id');
     }
 }

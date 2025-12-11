@@ -95,7 +95,7 @@
                                                     @php
                                                         $current = old('course_id', $rolledCourse ? $rolledCourse->getCourses->pluck('id')->toArray() : []);
                                                     @endphp
-                                                    <selec  multiple class="form-control my-2 select2" name="course_id[]" id="course_id" required>
+                                                    <select  multiple class="form-control my-2 select2" name="course_id[]" id="course_id" required>
                                                         @foreach($courses as $id => $name)
                                                             <option value="{{ $id }}" @selected(in_array($id, $current))>{{ $name }}</option>
                                                         @endforeach
@@ -143,6 +143,8 @@
                 </div>
             </section>
         </div>
+
+
 
     </div>
 @endsection

@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
-use App\Models\enrolledCourse;
-use App\Models\MultipleCoursesInRolle;
+use App\Models\EnrolledCourse;
+use App\Models\MultipleCoursesEnrolled;
 use App\Models\RelatedCoursesStatus;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class enrolledCourseController extends Controller
+class EnrolledCourseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +26,7 @@ class enrolledCourseController extends Controller
         if (!$user->can('List_enRolled_Course')) {
             abort(403);
         }
-        $rolledCourse=enrolledCourse::all();
+        $rolledCourse=EnrolledCourse::all();
         return view('pages.enrolled-courses.List')->with('rolledCourse',$rolledCourse);
     }
 
@@ -66,14 +66,14 @@ class enrolledCourseController extends Controller
            'student_id'=>'required',
            'course_id'=>'required',
         ]);
-        $obj=new enrolledCourse();
+        $obj=new EnrolledCourse();
         $obj->amount=$request->amount;
         $obj->status_id=$request->status_id;
         $obj->student_id=$request->student_id;
         $obj->save();
         foreach ($request->course_id as $courseId) {
-            $obj2=new MultipleCoursesInRolle();
-            $obj2->in_rolled_course_id=$obj->id;
+            $obj2=new MultipleCoursesEnrolled();
+            $obj2->enrolled_course_id=$obj->id;
             $obj2->course_id=$courseId;
             $obj2->save();
         }
@@ -97,7 +97,7 @@ class enrolledCourseController extends Controller
         if (!$user->can('Edit_enRolled_Course')) {
             abort(403);
         }
-        $rolledCourse=enrolledCourse::find($id);
+        $rolledCourse=EnrolledCourse::find($id);
         $status=RelatedCoursesStatus::pluck('name','id');
         $courses=Course::pluck('name','id');
         $students = Student::all()->pluck('full_name', 'id');
@@ -123,15 +123,15 @@ class enrolledCourseController extends Controller
             'student_id'=>'required',
             'course_id'=>'required',
         ]);
-        $obj=enrolledCourse::find($id);
+        $obj=EnrolledCourse::find($id);
         $obj->amount=$request->amount;
         $obj->status_id=$request->status_id;
         $obj->student_id=$request->student_id;
         $obj->save();
-        MultipleCoursesInRolle::where('in_rolled_course_id',$obj->id)->delete();
+        MultipleCoursesEnrolled::where('enrolled_course_id',$obj->id)->delete();
         foreach ($request->course_id as $courseId) {
-            $obj2=new MultipleCoursesInRolle();
-            $obj2->in_rolled_course_id=$obj->id;
+            $obj2=new MultipleCoursesEnrolled();
+            $obj2->enrolled_course_id=$obj->id;
             $obj2->course_id=$courseId;
             $obj2->save();
         }
@@ -148,7 +148,7 @@ class enrolledCourseController extends Controller
             if (!$user->can('Delete_enRolled_Course')) {
                 abort(403);
             }
-            $obj = enrolledCourse::find($id);
+            $obj = EnrolledCourse::find($id);
             $obj->delete();
             $code = 200;
             $msg = 'The selected enrolled course has been successfully deleted!';

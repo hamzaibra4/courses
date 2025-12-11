@@ -12,11 +12,11 @@ class Course extends Model
     public function getPayment(){
         return $this->belongsToMany(Payment::class, 'payment_course', 'course_id', 'payment_id');
     }
-    public function getChapter()
+    public function getChapters()
     {
         return $this->hasMany(Chapter::class, 'course_id','id');
     }
     public function getInRolledCourses(){
-        return $this->belongsToMany(enrolledCourse::class,'multiple_courses_in_rolles','course_id','in_rolled_course_id');
+        return $this->belongsToMany(EnrolledCourse::class,'multiple_courses_enrolled','course_id','enrolled_course_id');
     }
 }

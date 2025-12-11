@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('in_rolled_courses', function (Blueprint $table) {
+        Schema::create('enrolled_courses', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('student_id');
             $table->uuid('status_id');
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('in_rolled_courses');
+        Schema::dropIfExists('enrolled_courses');
     }
 };

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('chapters', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->text('name')->nullable();
-            $table->string('text')->nullable();
+            $table->longText('text')->nullable();
             $table->integer('item_index')->nullable();
             $table->foreignUuid('course_id')->nullable()->constrained('courses')->onDelete('cascade');
             $table->timestamps();

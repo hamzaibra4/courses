@@ -9,6 +9,4 @@ use Illuminate\Database\Eloquent\Model;
 class PaymentCourse extends Model
 {
     use HasFactory, UUID;
-    
-    protected $table = 'payment_course';
 }

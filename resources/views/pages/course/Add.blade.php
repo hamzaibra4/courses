@@ -43,28 +43,36 @@
                                         @if($course) @method('PUT') @endif
 
                                         <div class="form-body">
+                                            <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="name">Name<span>*</span></label>
                                                 <input id="name" type="text" required class="form-control" name="name" value="{{ $course->name ?? old('name') }}" placeholder="Enter Course Name">
                                                 @error('name') <div class="error-msg">{{ $message }}</div> @enderror
                                             </div>
+                                            </div>
+                                                <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="price">Price<span>*</span></label>
                                                 <input id="price" type="number" class="form-control" name="price" value="{{ $course->price ?? old('price') }}" placeholder="Enter your Price">
                                                 @error('price') <div class="error-msg">{{ $message }}</div> @enderror
                                             </div>
-
+                                                </div>
+                                            <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="description">Description<span>*</span></label>
                                                 <textarea id="description" class="form-control" name="description">{{ $course->description ?? old('description') }}</textarea>
                                                 @error('description') <div class="error-msg">{{ $message }}</div> @enderror
                                             </div>
+                                            </div>
+                                            <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="itemindex">Index<span>*</span></label>
                                                 <input id="itemindex" type="number" class="form-control" name="itemindex" value="{{ $course->item_index ?? old('item_index') }}" placeholder="Enter your Index">
                                                 @error('itemindex') <div class="error-msg">{{ $message }}</div> @enderror
                                             </div>
-                                            <div class="form-group">
+                                            </div>
+                                            <div class="col-md-12">
+                                            <div class="form-group ml-2">
                                                 <input type="hidden" name="feature" value="0">
 
                                                 <input type="checkbox" name="feature" value="1" class="form-check-input" id="feature"
@@ -75,6 +83,7 @@
                                                 @error('feature')
                                                 <div class="error-msg">{{ $message }}</div>
                                                 @enderror
+                                            </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-body">

@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\ConfigurationController;
+use App\Http\Controllers\EnrolledCourseController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Models\Configuration;
@@ -21,8 +22,7 @@ use App\Http\Controllers\SectionVideoController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\WatchedVideoController;
 use App\Http\Controllers\FavoriteVideoController;
-use App\Http\Controllers\enrolledCourseController;
-
+use App\Http\Controllers\FrontController;
 
 
 Route::get('/', function () {
@@ -70,9 +70,15 @@ Route::resource('section-video',SectionVideoController::class);
 Route::resource('material',MaterialController::class);
 Route::resource('watched-video',WatchedVideoController::class);
 Route::resource('favorite-video',FavoriteVideoController::class);
-Route::resource('enrolled-course',enrolledCourseController::class);
+Route::resource('enrolled-course',EnrolledCourseController::class);
 Route::get('view-student/{id}', [StudentController::class, 'viewStudent'])->name('view-student');
 
-Route::get('home-student',function(){
-   return view('layouts.front');
-})->name('home-student');
+Route::get('home-student', [FrontController::class, 'myCourses'])->name('home-student');
+Route::get('my-account', [FrontController::class, 'editAccount'])->name('my-account');
+Route::get('change-password', [FrontController::class, 'updatePassword'])->name('change-password');
+
+
+
+
+
+

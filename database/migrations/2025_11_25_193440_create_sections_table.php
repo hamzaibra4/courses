@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('sections', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->text('title')->nullable();
-            $table->string('document')->nullable(); // PDF path
+            $table->longText('description')->nullable();
+            $table->string('document')->nullable();
             $table->integer('item_index')->nullable();
             $table->foreignUuid('chapter_id')->nullable()->constrained('chapters')->onDelete('cascade');
             $table->timestamps();

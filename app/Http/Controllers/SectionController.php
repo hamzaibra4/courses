@@ -50,7 +50,7 @@ class SectionController extends Controller
 
         $section = new Section();
         $section->title = $request->title;
-        $section->document = $request->document;
+        $section->description = $request->description;
         $section->item_index = $request->item_index;
         $section->chapter_id = $request->chapter_id;
         $section->save();
@@ -82,7 +82,7 @@ class SectionController extends Controller
 
         $section = Section::findOrFail($id);
         $section->title = $request->title;
-        $section->document = $request->document;
+        $section->description = $request->description;
         $section->item_index = $request->item_index;
         $section->chapter_id = $request->chapter_id;
         $section->save();

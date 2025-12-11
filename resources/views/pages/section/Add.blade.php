@@ -56,8 +56,8 @@
 
                                                     <div class="form-group">
                                                         <label for="document">Description</label>
-                                                        <textarea id="document" class="form-control" name="document" placeholder="Enter your Description">{{ old('document', $section->document ?? '') }}</textarea>
-                                                        @error('document')
+                                                        <textarea id="description" class="form-control" name="description" placeholder="Enter your Description">{{ old('document', $section->document ?? '') }}</textarea>
+                                                        @error('description')
                                                         <div class="error-msg">{{ $message }}</div>
                                                         @enderror
                                                     </div>
@@ -97,19 +97,12 @@
                                                         </a>
                                                     @endcan
 
-                                                    @if(!$section)
-                                                        @can('Add_Section')
+                                                        @canany(['Add_Section', 'Edit_Section'])
                                                             <button type="submit" class="btn btn-primary">
                                                                 <i class="la la-check-square-o"></i> Save
                                                             </button>
-                                                        @endcan
-                                                    @else
-                                                        @can('Edit_Section')
-                                                            <button type="submit" class="btn btn-primary">
-                                                                <i class="la la-check-square-o"></i> Save
-                                                            </button>
-                                                        @endcan
-                                                    @endif
+                                                        @endcanany
+
                                                 </div>
 
                                             </form>
