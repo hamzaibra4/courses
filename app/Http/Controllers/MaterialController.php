@@ -56,13 +56,13 @@ class MaterialController extends Controller
         $material->chapter_id = $request->chapter_id;
         $material->save();
         $pdfName = 'path';
-        $paths = $this->genericController->uploadPdfs($request, $pdfName);
-
-        foreach ($paths as $index => $path) {
-            $obj=new MaterialPdf();
-            $obj->material_id=$material->id;
-            $obj->path=$path; // Changed from $paths to $path
-            $obj->order=$index;
+        $pdfs  = $this->genericController->uploadPdfsWithNames($request, $pdfName);
+        foreach ($pdfs as $index => $pdf) {
+            $obj = new MaterialPdf();
+            $obj->material_id = $material->id;
+            $obj->name = $pdf['name'];
+            $obj->path = $pdf['path'];
+            $obj->order = $index;
             $obj->save();
         }
 
@@ -97,15 +97,16 @@ class MaterialController extends Controller
         $material->save();
         MaterialPdf::where('material_id',$material->id)->delete();
         $pdfName = 'path';
-        $paths = $this->genericController->uploadPdfs($request, $pdfName);
-
-        foreach ($paths as $index => $path) {
-            $obj=new MaterialPdf();
-            $obj->material_id=$material->id;
-            $obj->path=$path;
-            $obj->order=$index;
+        $pdfs  = $this->genericController->uploadPdfsWithNames($request, $pdfName);
+        foreach ($pdfs as $index => $pdf) {
+            $obj = new MaterialPdf();
+            $obj->material_id = $material->id;
+            $obj->name = $pdf['name'];   // make sure column exists
+            $obj->path = $pdf['path'];
+            $obj->order = $index;
             $obj->save();
         }
+
         return redirect()->route('material.index');
     }
 

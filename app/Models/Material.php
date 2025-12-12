@@ -13,6 +13,6 @@ class Material extends Model
         return $this->belongsTo(Chapter::class,'chapter_id','id');
     }
     public function getMaterialPdfs(){
-        return $this->hasMany(MaterialPdf::class);
+        return $this->hasMany(MaterialPdf::class)->orderBy('order');
     }
 }

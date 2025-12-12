@@ -74,8 +74,11 @@ Route::resource('enrolled-course',EnrolledCourseController::class);
 Route::get('view-student/{id}', [StudentController::class, 'viewStudent'])->name('view-student');
 
 Route::get('home-student', [FrontController::class, 'myCourses'])->name('home-student');
+Route::get('view-course/{id}', [FrontController::class, 'viewCourse'])->name('view-course');
 Route::get('my-account', [FrontController::class, 'editAccount'])->name('my-account');
 Route::get('change-password', [FrontController::class, 'updatePassword'])->name('change-password');
+Route::get('view-lesson/{id}', [FrontController::class, 'viewLesson'])->name('view-lesson');
+
 
 
 

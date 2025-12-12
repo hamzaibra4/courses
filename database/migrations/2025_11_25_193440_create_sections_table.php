@@ -17,7 +17,9 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->string('document')->nullable();
             $table->integer('item_index')->nullable();
+            $table->string('nb_of_hours')->nullable();
             $table->foreignUuid('chapter_id')->nullable()->constrained('chapters')->onDelete('cascade');
+            $table->string('video_path')->nullable();
             $table->timestamps();
         });
     }

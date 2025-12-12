@@ -60,26 +60,26 @@
                                     <div class="flex">
                                         <a class="card-title"
                                            href="student-course.html">{{$course->name}}</a>
-                                        <small class="text-50 font-weight-bold mb-4pt">Ahmad Ibrahim</small>
+{{--                                        <small class="text-50 font-weight-bold mb-4pt">Ahmad Ibrahim</small>--}}
                                     </div>
 
                                 </div>
-                                <div class="d-flex">
-                                    <div class="rating flex">
-                                        <span class="rating__item"><span class="material-icons">star</span></span>
-                                        <span class="rating__item"><span class="material-icons">star</span></span>
-                                        <span class="rating__item"><span class="material-icons">star</span></span>
-                                        <span class="rating__item"><span class="material-icons">star</span></span>
-                                        <span class="rating__item"><span class="material-icons">star_border</span></span>
-                                    </div>
-                                    <!-- <small class="text-50">6 hours</small> -->
-                                </div>
+{{--                                <div class="d-flex">--}}
+{{--                                    <div class="rating flex">--}}
+{{--                                        <span class="rating__item"><span class="material-icons">star</span></span>--}}
+{{--                                        <span class="rating__item"><span class="material-icons">star</span></span>--}}
+{{--                                        <span class="rating__item"><span class="material-icons">star</span></span>--}}
+{{--                                        <span class="rating__item"><span class="material-icons">star</span></span>--}}
+{{--                                        <span class="rating__item"><span class="material-icons">star_border</span></span>--}}
+{{--                                    </div>--}}
+{{--                                    <!-- <small class="text-50">6 hours</small> -->--}}
+{{--                                </div>--}}
                             </div>
                             <div class="card-footer">
                                 <div class="row justify-content-between">
                                     <div class="col-auto d-flex align-items-center">
                                         <span class="material-icons icon-16pt text-50 mr-4pt">access_time</span>
-                                        <p class="flex text-50 lh-1 mb-0"><small>6 hours</small></p>
+                                        <p class="flex text-50 lh-1 mb-0"><small>{{$course->nb_of_hours}}</small></p>
                                     </div>
                                     <div class="col-auto d-flex align-items-center">
                                         <span class="material-icons icon-16pt text-50 mr-4pt">play_circle_outline</span>
@@ -92,56 +92,40 @@
                             <div class="media">
                                 <div class="media-body">
                                     <div class="card-title mb-0">{{$course->name}}</div>
-                                    <p class="lh-1 mb-0">
-                                        <span class="text-50 small">with</span>
-                                        <span class="text-50 small font-weight-bold">Ahmad Ibrahim</span>
-                                    </p>
+{{--                                    <p class="lh-1 mb-0">--}}
+{{--                                        <span class="text-50 small">with</span>--}}
+{{--                                        <span class="text-50 small font-weight-bold">Ahmad Ibrahim</span>--}}
+{{--                                    </p>--}}
                                 </div>
                             </div>
 
-                            <p class="my-16pt text-70">Learn the fundamentals of working with Angular and how to create basic applications.</p>
+                            <p class="my-16pt text-70">{{$course->brief_description}}</p>
 
                             <div class="mb-16pt">
-                                <div class="d-flex align-items-center">
-                                    <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
-                                    <p class="flex text-50 lh-1 mb-0"><small>Fundamentals of working with Angular</small></p>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
-                                    <p class="flex text-50 lh-1 mb-0"><small>Create complete Angular applications</small></p>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
-                                    <p class="flex text-50 lh-1 mb-0"><small>Working with the Angular CLI</small></p>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
-                                    <p class="flex text-50 lh-1 mb-0"><small>Understanding Dependency Injection</small></p>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
-                                    <p class="flex text-50 lh-1 mb-0"><small>Testing with Angular</small></p>
-                                </div>
+                                @foreach($course->getDetails as $details)
+                                    <div class="d-flex align-items-center">
+                                        <span class="material-icons icon-16pt text-50 mr-8pt">check</span>
+                                        <p class="flex text-50 lh-1 mb-0"><small>{{$details->title}}</small></p>
+                                    </div>
+                                @endforeach
+
+
                             </div>
 
                             <div class="row align-items-center">
                                 <div class="col-auto">
                                     <div class="d-flex align-items-center mb-4pt">
                                         <span class="material-icons icon-16pt text-50 mr-4pt">access_time</span>
-                                        <p class="flex text-50 lh-1 mb-0"><small>6 hours</small></p>
+                                        <p class="flex text-50 lh-1 mb-0"><small>{{$course->nb_of_hours}}</small></p>
                                     </div>
                                     <div class="d-flex align-items-center mb-4pt">
                                         <span class="material-icons icon-16pt text-50 mr-4pt">play_circle_outline</span>
-                                        <p class="flex text-50 lh-1 mb-0"><small>12 lessons</small></p>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <span class="material-icons icon-16pt text-50 mr-4pt">assessment</span>
-                                        <p class="flex text-50 lh-1 mb-0"><small>Beginner</small></p>
+                                        <p class="flex text-50 lh-1 mb-0"><small>{{count($course->getChapters)}} lessons</small></p>
                                     </div>
                                 </div>
                                 <div class="col text-right">
-                                    <a href="student-course.html"
-                                       class="btn btn-primary">Watch trailer</a>
+                                    <a href="{{route('view-course',['id'=>$course->id])}}"
+                                       class="btn btn-primary">View Course</a>
                                 </div>
                             </div>
 

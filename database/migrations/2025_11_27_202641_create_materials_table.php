@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('materials', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('chapter_id');
+            $table->uuid('chapter_id')->nullable();
+            $table->uuid('section_id')->nullable();
             $table->integer('item_index')->nullable();
+            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
             $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
             $table->timestamps();
         });

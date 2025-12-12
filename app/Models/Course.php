@@ -14,7 +14,7 @@ class Course extends Model
     }
     public function getChapters()
     {
-        return $this->hasMany(Chapter::class, 'course_id','id');
+        return $this->hasMany(Chapter::class, 'course_id','id')->orderBy('item_index');
     }
     public function getInRolledCourses(){
         return $this->belongsToMany(EnrolledCourse::class,'multiple_courses_enrolled','course_id','enrolled_course_id');

@@ -118,4 +118,35 @@ class GenericController extends Controller
     }
 
 
+    public function uploadPdfsWithNames($request, $pdfName)
+    {
+        $pdfs = [];
+
+        if ($request->hasFile($pdfName)) {
+            $files = $request->file($pdfName);
+
+            foreach ($files as $file) {
+                $extension = strtolower($file->getClientOriginalExtension());
+                if ($extension !== 'pdf') {
+                    continue;
+                }
+
+                $originalName = $file->getClientOriginalName();
+                $cleanName = str_replace([' ', '(', ')'], '', $originalName);
+
+                $nameWithoutExt = pathinfo($cleanName, PATHINFO_FILENAME);
+                $fileNameToStore = $nameWithoutExt . '_' . time() . '_' . rand(1000, 9999) . '.' . $extension;
+
+                $file->storeAs('public/pdfs', $fileNameToStore, 'public');
+
+                $pdfs[] = [
+                    'name' => $nameWithoutExt,
+                    'path' => 'storage/public/pdfs/' . $fileNameToStore,
+                ];
+            }
+        }
+
+        return $pdfs;
+    }
+
 }

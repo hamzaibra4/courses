@@ -17,4 +17,10 @@ class Section extends Model
     public function getChapter(){
         return $this->belongsTo(Chapter::class,'chapter_id','id');
     }
+
+    public function getMaterials()
+    {
+        return $this->hasMany(Material::class,'section_id','id')->orderBy('item_index');
+    }
+
 }

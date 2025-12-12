@@ -54,6 +54,8 @@ class CourseController extends Controller
             'name' => 'required',
             'itemindex' => 'required|integer',
             'image' => 'required',
+             'nb_of_hours'=>'required',
+             'brief_description'=>'required',
         ]);
 
         $course = new Course();
@@ -106,6 +108,8 @@ class CourseController extends Controller
            $request->validate([
             'name' => 'required',
             'itemindex' => 'required',
+               'nb_of_hours'=>'required',
+               'brief_description'=>'required',
         ]);
 
         $course = Course::findOrFail($id);

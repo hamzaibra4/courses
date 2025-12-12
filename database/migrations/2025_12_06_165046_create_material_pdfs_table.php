@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('material_pdfs', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('material_id');
+            $table->string('name')->nullable();
             $table->string('path');
             $table->integer('order')->default(0);
             $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
