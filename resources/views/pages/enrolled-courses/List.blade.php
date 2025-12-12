@@ -54,6 +54,7 @@
                                                         <thead>
                                                         <tr>
                                                             <th>Student</th>
+                                                            <th>Phone Number</th>
                                                             <th>nb of Courses</th>
                                                             <th>Status</th>
                                                             <th>Actions</th>
@@ -63,6 +64,7 @@
                                                         @foreach(($rolledCourse) as $obj)
                                                             <tr id="row{{$obj->id}}">
                                                                 <td>{{$obj->getStudent->f_name}} {{$obj->getStudent->l_name}}</td>
+                                                                <td>{{$obj->getStudent->telephone}}</td>
                                                                 <td>{{count($obj->getCourses)}}</td>
                                                                 <td>{{$obj->getStatus->name}}</td>
                                                                 <td>
@@ -79,6 +81,7 @@
                                                         <tfoot>
                                                         <tr>
                                                             <th>Student</th>
+                                                            <th>Phone Number</th>
                                                             <th>nb of Courses</th>
                                                             <th>Status</th>
                                                             <th>Actions</th>

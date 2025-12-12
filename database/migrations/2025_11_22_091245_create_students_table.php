@@ -17,7 +17,7 @@ return new class extends Migration
             $table->uuid('user_id');
             $table->string('f_name');
             $table->string('l_name');
-            $table->string('telephone');
+            $table->string('telephone')->unique();
             $table->string('dob');
             $table->boolean('is_active');
             $table->foreign('student_type_id')->references('id')->on('student_types')->onDelete('cascade');

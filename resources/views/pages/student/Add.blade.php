@@ -88,7 +88,7 @@
                                                                name="telephone" placeholder="Enter your Phone Number"
                                                                value="{{ old('telephone', $students->telephone ?? '') }}">
 
-                                                        @error('l_name')
+                                                        @error('telephone')
                                                         <div class="error-msg">{{ $message }}</div>
                                                         @enderror
                                                     </div>
@@ -147,20 +147,11 @@
                                                             <i class="ft-x"></i>&nbsp;Cancel
                                                         </a>
                                                     @endcan
-
-                                                    @if(is_null($students))
-                                                        @can('Add_Students')
+                                                        @canany(['Add_Students', 'Edit_Students'])
                                                             <button type="submit" class="btn btn-primary">
-                                                                <i class="la la-check-square-o"></i>&nbsp;Save
+                                                                <i class="la la-check-square-o"></i> Save
                                                             </button>
-                                                        @endcan
-                                                    @else
-                                                        @can('Edit_Students')
-                                                            <button type="submit" class="btn btn-primary">
-                                                                <i class="la la-check-square-o"></i>&nbsp;Save
-                                                            </button>
-                                                        @endcan
-                                                    @endif
+                                                        @endcanany
 
                                                 </div>
                                             </div>

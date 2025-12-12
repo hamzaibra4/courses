@@ -80,20 +80,11 @@
                                                             <i class="ft-x"></i>&nbsp;Cancel
                                                         </a>
                                                     @endcan
-
-                                                    @if(is_null($status))
-                                                        @can('List_Courses_Status')
+                                                        @canany(['Add_Courses_Status', 'Edit_Courses_Status'])
                                                             <button type="submit" class="btn btn-primary">
-                                                                <i class="la la-check-square-o"></i>&nbsp;Save
+                                                                <i class="la la-check-square-o"></i> Save
                                                             </button>
-                                                        @endcan
-                                                    @else
-                                                        @can('Edit_Courses_Status')
-                                                            <button type="submit" class="btn btn-primary">
-                                                                <i class="la la-check-square-o"></i>&nbsp;Save
-                                                            </button>
-                                                        @endcan
-                                                    @endif
+                                                        @endcanany
 
                                                 </div>
                                             </div>

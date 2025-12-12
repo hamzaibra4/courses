@@ -105,19 +105,11 @@
                                                         </a>
                                                     @endcan
 
-                                                    @if(is_null($obj))
-                                                        @can('List_Custom_Field')
+                                                        @canany(['Add_Custom_Field', 'Edit_Custom_Field'])
                                                             <button type="submit" class="btn btn-primary">
-                                                                <i class="la la-check-square-o"></i>&nbsp;Save
+                                                                <i class="la la-check-square-o"></i> Save
                                                             </button>
-                                                        @endcan
-                                                    @else
-                                                        @can('Edit_Custom_Field')
-                                                            <button type="submit" class="btn btn-primary">
-                                                                <i class="la la-check-square-o"></i>&nbsp;Save
-                                                            </button>
-                                                        @endcan
-                                                    @endif
+                                                        @endcanany
 
                                                 </div>
                                             </div>

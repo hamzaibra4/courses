@@ -95,20 +95,11 @@
                                                             <i class="ft-x"></i> Cancel
                                                         </a>
                                                     @endcan
-
-                                                    @if(!$watchedvideo)
-                                                        @can('Add_Watched_Video')
+                                                        @canany(['Add_Watched_Video', 'Edit_Watched_Video'])
                                                             <button type="submit" class="btn btn-primary">
                                                                 <i class="la la-check-square-o"></i> Save
                                                             </button>
-                                                        @endcan
-                                                    @else
-                                                        @can('Edit_Watched_Video')
-                                                            <button type="submit" class="btn btn-primary">
-                                                                <i class="la la-check-square-o"></i> Save
-                                                            </button>
-                                                        @endcan
-                                                    @endif
+                                                        @endcanany
                                                 </div>
 
                                             </form>

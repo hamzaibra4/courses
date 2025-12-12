@@ -117,20 +117,11 @@
                                                         </button>
                                                     </a>
                                                 @endcan
-
-                                                @if(is_null($chapter))
-                                                    @can('Add_Chapter')
+                                                    @canany(['Add_Chapter', 'Edit_Chapter'])
                                                         <button type="submit" class="btn btn-primary">
                                                             <i class="la la-check-square-o"></i> Save
                                                         </button>
-                                                    @endcan
-                                                @else
-                                                    @can('Edit_Chapter')
-                                                        <button type="submit" class="btn btn-primary">
-                                                            <i class="la la-check-square-o"></i> Save
-                                                        </button>
-                                                    @endcan
-                                                @endif
+                                                    @endcanany
                                             </div>
 
                                         </form>

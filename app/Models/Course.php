@@ -19,4 +19,7 @@ class Course extends Model
     public function getInRolledCourses(){
         return $this->belongsToMany(EnrolledCourse::class,'multiple_courses_enrolled','course_id','enrolled_course_id');
     }
+    public function getDetails(){
+        return $this->hasMany(CourseDetails::class);
+    }
 }

@@ -62,7 +62,7 @@ class StudentController extends Controller
         $request->validate([
            'f_name'=>'required',
            'l_name'=>'required',
-           'telephone'=>'required',
+            'telephone'=>'required|unique:students,telephone',
            'dob'=>'required',
            'student_type_id'=>'required',
         ]);
@@ -144,7 +144,7 @@ class StudentController extends Controller
         $request->validate([
             'f_name'=>'required',
             'l_name'=>'required',
-            'telephone'=>'required',
+            'telephone'=>'required|unique:students,telephone,'.$id,
             'dob'=>'required',
             'student_type_id'=>'required',
         ]);

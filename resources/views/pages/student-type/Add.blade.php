@@ -95,20 +95,11 @@
                                                             <i class="ft-x"></i>&nbsp;Cancel
                                                         </a>
                                                     @endcan
-
-                                                    @if(is_null($types))
-                                                        @can('Add_Students_Type')
+                                                        @canany(['Add_Students_Type', 'Edit_Students_Type'])
                                                             <button type="submit" class="btn btn-primary">
-                                                                <i class="la la-check-square-o"></i>&nbsp;Save
+                                                                <i class="la la-check-square-o"></i> Save
                                                             </button>
-                                                        @endcan
-                                                    @else
-                                                        @can('Edit_Students_Type')
-                                                            <button type="submit" class="btn btn-primary">
-                                                                <i class="la la-check-square-o"></i>&nbsp;Save
-                                                            </button>
-                                                        @endcan
-                                                    @endif
+                                                        @endcanany
 
                                                 </div>
                                             </div>

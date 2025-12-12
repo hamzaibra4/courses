@@ -136,21 +136,11 @@
                                                         <i class="ft-x"></i> Cancel
                                                     </a>
                                                 @endcan
-
-
-                                                @if(!$sectionvideo)
-                                                    @can('Add_Section_Video')
+                                                    @canany(['Add_Section_Video', 'Edit_Section_Video'])
                                                         <button type="submit" class="btn btn-primary">
                                                             <i class="la la-check-square-o"></i> Save
                                                         </button>
-                                                    @endcan
-                                                @else
-                                                    @can('Edit_Section_Video')
-                                                        <button type="submit" class="btn btn-primary">
-                                                            <i class="la la-check-square-o"></i> Save
-                                                        </button>
-                                                    @endcan
-                                                @endif
+                                                    @endcanany
 
                                             </div>
 

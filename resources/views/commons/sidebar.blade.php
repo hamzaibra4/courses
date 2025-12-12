@@ -75,7 +75,7 @@
                                     <li class="nav-item {{ isActiveRoute(['enrolled-course.index', 'enrolled-course.create', 'enrolled-course.edit'], 'active') }}">
                                         <a href="{{ route('enrolled-course.index') }}">
                                             <i class="fa-solid fa-arrow-right"></i>
-                                            <span class="menu-title">En Rolled Course</span>
+                                            <span class="menu-title">EnRolled Course</span>
                                         </a>
                                     </li>
                                 @endcan
