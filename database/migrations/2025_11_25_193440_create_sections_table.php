@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('item_index')->nullable();
             $table->string('nb_of_hours')->nullable();
             $table->foreignUuid('chapter_id')->nullable()->constrained('chapters')->onDelete('cascade');
+//            $table->foreignUuid('material_id')->nullable()->constrained('materials')->onDelete('cascade');
             $table->string('video_path')->nullable();
             $table->timestamps();
         });

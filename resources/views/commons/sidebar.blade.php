@@ -112,35 +112,43 @@
                         </a>
                     </li>
                 @endcan
-
-
-                @if(auth()->user()->can('List_Section') || auth()->user()->can('List_Section_Video'))
-                    <li id="content" class="nav-item {{ isActiveRoute(['section.*','section-video.*'], 'open') }}">
-                        <a href="#">
-                            <i class="fa-solid fa-folder-tree"></i>
-                            <span class="menu-title">Manage Sections</span>
+                @can('List_Section')
+                    <li class="nav-item {{ isActiveRoute(['section.index', 'section.create', 'section.edit'], 'active') }}">
+                        <a href="{{ route('section.index') }}">
+                            <i class="fa-solid fa-atlas"></i>
+                            <span class="menu-title">Section</span>
                         </a>
-                        <ul class="menu-content">
-                            @can('List_Section')
-                                <li class="nav-item {{ isActiveRoute(['section.index', 'section.create', 'section.edit'], 'active') }}">
-                                    <a href="{{ route('section.index') }}">
-                                        <i class="fa-solid fa-atlas"></i>
-                                        <span class="menu-title">Section</span>
-                                    </a>
-                                </li>
-                            @endcan
-
-                                @can('List_Section_Video')
-                                    <li class="nav-item {{ isActiveRoute(['section-video.index', 'section-video.create', 'section-video.edit'], 'active') }}">
-                                        <a href="{{ route('section-video.index') }}">
-                                            <i class="fa-solid fa-video"></i>
-                                            <span class="menu-title">Section Video</span>
-                                        </a>
-                                    </li>
-                                @endcan
-                        </ul>
                     </li>
-                @endif
+                @endcan
+
+
+{{--                @if(auth()->user()->can('List_Section') || auth()->user()->can('List_Section_Video'))--}}
+{{--                    <li id="content" class="nav-item {{ isActiveRoute(['section.*','section-video.*'], 'open') }}">--}}
+{{--                        <a href="#">--}}
+{{--                            <i class="fa-solid fa-folder-tree"></i>--}}
+{{--                            <span class="menu-title">Manage Sections</span>--}}
+{{--                        </a>--}}
+{{--                        <ul class="menu-content">--}}
+{{--                            @can('List_Section')--}}
+{{--                                <li class="nav-item {{ isActiveRoute(['section.index', 'section.create', 'section.edit'], 'active') }}">--}}
+{{--                                    <a href="{{ route('section.index') }}">--}}
+{{--                                        <i class="fa-solid fa-atlas"></i>--}}
+{{--                                        <span class="menu-title">Section</span>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+{{--                            @endcan--}}
+
+{{--                                @can('List_Section_Video')--}}
+{{--                                    <li class="nav-item {{ isActiveRoute(['section-video.index', 'section-video.create', 'section-video.edit'], 'active') }}">--}}
+{{--                                        <a href="{{ route('section-video.index') }}">--}}
+{{--                                            <i class="fa-solid fa-video"></i>--}}
+{{--                                            <span class="menu-title">Section Video</span>--}}
+{{--                                        </a>--}}
+{{--                                    </li>--}}
+{{--                                @endcan--}}
+{{--                        </ul>--}}
+{{--                    </li>--}}
+{{--                @endif--}}
 
 {{--                <li class=" nav-item "><a href="{{route('watched-video.index')}}"><i class="fa-solid fa-eye"></i> <span class="menu-title" data-i18n="nav.dash.main">Watched Videos</span></a>--}}
 {{--                </li>--}}
