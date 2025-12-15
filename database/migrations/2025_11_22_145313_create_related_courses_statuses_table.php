@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('related_courses_statuses', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
+            $table->string('key');
             $table->timestamps();
         });
     }

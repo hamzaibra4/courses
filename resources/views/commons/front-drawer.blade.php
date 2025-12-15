@@ -1,7 +1,7 @@
 <div class="mdk-drawer js-mdk-drawer"
      id="default-drawer">
     <div class="mdk-drawer__content">
-        <div class="sidebar sidebar-dark-pickled-bluewood sidebar-left"
+        <div class="sidebar sidebar-white-pickled-bluewood sidebar-left"
              data-perfect-scrollbar>
 
             <!-- Sidebar Content -->

@@ -77,12 +77,10 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="course_id">Chapter <span class="is-required">*</span></label>
-
+                                                            <label for="course_id">Chapter </label>
                                                             @php $current = old('chapter_id', optional($material)->chapter_id); @endphp
-
                                                             <select class="form-control my-2 select2"
-                                                                    name="chapter_id" id="chapter_id" required>
+                                                                    name="chapter_id" id="chapter_id" >
 
                                                                 <option value="" {{ $current ? '' : 'selected' }}>
                                                                     Select Chapter
@@ -93,10 +91,33 @@
                                                                         {{ $name }}
                                                                     </option>
                                                                 @endforeach
-
                                                             </select>
 
                                                             @error('chapter_id')
+                                                            <div class="error-msg">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="course_id">Section </label>
+                                                            @php $current = old('section_id', optional($material)->section_id); @endphp
+                                                            <select class="form-control my-2 select2"
+                                                                    name="section_id" id="section_id" >
+
+                                                                <option value="" {{ $current ? '' : 'selected' }}>
+                                                                    Select Section
+                                                                </option>
+
+                                                                @foreach($sections as $id => $name)
+                                                                    <option value="{{ $id }}" @selected($current == $id)>
+                                                                        {{ $name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+
+                                                            @error('section_id')
                                                             <div class="error-msg">{{ $message }}</div>
                                                             @enderror
                                                         </div>

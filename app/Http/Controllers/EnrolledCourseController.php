@@ -10,6 +10,7 @@ use App\Models\Student;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class EnrolledCourseController extends Controller
 {
@@ -41,7 +42,7 @@ class EnrolledCourseController extends Controller
         }
         $rolledCourse=null;
         $status=RelatedCoursesStatus::pluck('name','id');
-        $courses=Course::pluck('name','id');
+        $courses=Course::select('name','id','price')->get();
         $students = Student::all()->pluck('full_name', 'id');
 
         return view('pages.enrolled-courses.Add')
@@ -61,16 +62,45 @@ class EnrolledCourseController extends Controller
             abort(403);
         }
         $request->validate([
-           'amount'=>'required',
-           'status_id'=>'required',
+            'amount'     => 'required|numeric|min:0',
            'student_id'=>'required',
            'course_id'=>'required',
+            'r_amount'   => 'nullable|numeric|lte:amount',
         ]);
+
+
+        $pendingStatus = RelatedCoursesStatus::where('key','PE')->firstOrFail();
+        $partiallyStatus = RelatedCoursesStatus::where('key','PP')->firstOrFail();
+        $paidStatus = RelatedCoursesStatus::where('key','PA')->firstOrFail();
+
         $obj=new EnrolledCourse();
-        $obj->amount=$request->amount;
-        $obj->status_id=$request->status_id;
+        $counter = DB::table('enrolled_courses')->max('counter') + 1;
+        $obj->enrollment_number = "ENR-" . $counter;
         $obj->student_id=$request->student_id;
+        $obj->counter = $counter;
+        $obj->total_amount    = (float) $request->amount;
+        $obj->received_amount = (float) ($request->r_amount ?? 0);
+        $obj->remaining_amount = max(
+            0,
+            $obj->total_amount - $obj->received_amount
+        );
+
+        if($obj->received_amount > 0){
+            $obj->status_id=$partiallyStatus->id;
+        }else{
+            $obj->status_id=$pendingStatus->id;
+        }
+
+        if($request->paid){
+            $obj->status_id=$paidStatus->id;
+            $obj->received_amount =  $obj->total_amount ;
+            $obj->remaining_amount=0;
+        }
+
         $obj->save();
+
+
+
         foreach ($request->course_id as $courseId) {
             $obj2=new MultipleCoursesEnrolled();
             $obj2->enrolled_course_id=$obj->id;
@@ -99,7 +129,7 @@ class EnrolledCourseController extends Controller
         }
         $rolledCourse=EnrolledCourse::find($id);
         $status=RelatedCoursesStatus::pluck('name','id');
-        $courses=Course::pluck('name','id');
+        $courses=Course::select('name','id','price')->get();
         $students = Student::all()->pluck('full_name', 'id');
         return view('pages.enrolled-courses.Add')
             ->with('rolledCourse',$rolledCourse)
@@ -118,15 +148,37 @@ class EnrolledCourseController extends Controller
             abort(403);
         }
         $request->validate([
-            'amount'=>'required',
-            'status_id'=>'required',
-            'student_id'=>'required',
-            'course_id'=>'required',
+            'amount'     => 'required|numeric|min:0',
+            'student_id' => 'required',
+            'course_id'  => 'required',
+            'r_amount'   => 'nullable|numeric|min:0|lte:amount',
         ]);
-        $obj=EnrolledCourse::find($id);
-        $obj->amount=$request->amount;
-        $obj->status_id=$request->status_id;
+
+        $pendingStatus   = RelatedCoursesStatus::where('key', 'PE')->firstOrFail();
+        $partiallyStatus = RelatedCoursesStatus::where('key', 'PP')->firstOrFail();
+        $paidStatus      = RelatedCoursesStatus::where('key', 'PA')->firstOrFail();
+
+        $obj=EnrolledCourse::findOrFail($id);
         $obj->student_id=$request->student_id;
+        $obj->total_amount = (float) $request->amount;
+        $obj->received_amount = (float) ($request->r_amount ?? 0);
+        $obj->remaining_amount = max(
+            0,
+            $obj->total_amount - $obj->received_amount
+        );
+
+        if ($request->paid) {
+            $obj->status_id = $paidStatus->id;
+            $obj->received_amount = $obj->total_amount;
+            $obj->remaining_amount = 0;
+        }
+        elseif ($obj->received_amount > 0) {
+            $obj->status_id = $partiallyStatus->id;
+        }
+        else {
+            $obj->status_id = $pendingStatus->id;
+        }
+
         $obj->save();
         MultipleCoursesEnrolled::where('enrolled_course_id',$obj->id)->delete();
         foreach ($request->course_id as $courseId) {

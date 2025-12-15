@@ -51,6 +51,7 @@
                                     <thead>
                                     <tr>
                                         <th>Chapter</th>
+                                        <th>Section</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
@@ -59,7 +60,8 @@
                                     @foreach($material as $obj)
                                         <tr id="row{{ $obj->id }}">
 
-                                            <td>{{ $obj->getChapter->name }}</td>
+                                            <td>{{ $obj->getChapter?->name ?? "NA"}}</td>
+                                            <td>{{ $obj->getSection?->title ?? "NA"}}</td>
 
                                             <td>
                                                 @can('Edit_Material')
@@ -82,6 +84,7 @@
                                     <tfoot>
                                     <tr>
                                         <th>Chapter</th>
+                                        <th>Section</th>
                                         <th>Actions</th>
                                     </tr>
                                     </tfoot>

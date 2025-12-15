@@ -6,6 +6,7 @@ use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Material;
 use App\Models\MaterialPdf;
+use App\Models\Section;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +39,8 @@ class MaterialController extends Controller
         }
         $material = null;
         $chapters = Chapter::pluck('name','id');
-        return view('pages.material.add', compact('material', 'chapters'));
+        $sections = Section::pluck('title','id');
+        return view('pages.material.add', compact('material', 'chapters','sections'));
     }
 
     public function store(Request $request)
@@ -49,13 +51,21 @@ class MaterialController extends Controller
         }
         $request->validate([
             'item_index' => 'required',
-            'chapter_id' => 'required',
             'path' => 'required|array|min:1',
             'path.*' => 'required|mimes:pdf|max:10240',
         ]);
         $material = new Material();
         $material->item_index = $request->item_index;
-        $material->chapter_id = $request->chapter_id;
+        if($request->chapter_id){
+            $material->chapter_id = $request->chapter_id;
+
+        }
+
+        if($request->section_id){
+            $material->section_id = $request->section_id;
+
+        }
+
         $material->save();
         $pdfName = 'path';
         $pdfs  = $this->genericController->uploadPdfsWithNames($request, $pdfName);
@@ -79,7 +89,8 @@ class MaterialController extends Controller
         }
         $material = Material::findOrFail($id);
         $chapters = Chapter::pluck('name','id');
-        return view('pages.material.add', compact('material', 'chapters'));
+        $sections = Section::pluck('title','id');
+        return view('pages.material.add', compact('material', 'chapters','sections'));
     }
 
     public function update(Request $request, $id)
@@ -92,8 +103,7 @@ class MaterialController extends Controller
         $material = Material::findOrFail($id);
         $existingPdfCount = MaterialPdf::where('material_id', $material->id)->count();
         $validationRules = [
-            'item_index' => 'required',
-            'chapter_id' => 'required',
+            'item_index' => 'required'
         ];
         if ($existingPdfCount == 0) {
             $validationRules['path'] = 'required|array|min:1';
@@ -108,7 +118,15 @@ class MaterialController extends Controller
         $request->validate($validationRules);
 
         $material->item_index = $request->item_index;
-        $material->chapter_id = $request->chapter_id;
+        if($request->chapter_id){
+            $material->chapter_id = $request->chapter_id;
+
+        }
+
+        if($request->section_id){
+            $material->section_id = $request->section_id;
+
+        }
         $material->save();
         if ($request->hasFile('path')) {
             $pdfName = 'path';

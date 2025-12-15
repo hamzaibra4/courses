@@ -14,6 +14,6 @@ class Payment extends Model
         return $this->belongsTo(Student::class,'student_id','id');
     }
     public function getCourses(){
-        return $this->belongsToMany(Course::class, 'payment_course', 'payment_id', 'course_id');
+        return $this->belongsToMany(Course::class, 'payment_courses', 'payment_id', 'course_id');
     }
 }

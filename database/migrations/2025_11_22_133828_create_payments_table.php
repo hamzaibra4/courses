@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('student_id');
             $table->string('date');
-            $table->string('amount');
+            $table->double('amount');
             $table->string('trx_number');
             $table->integer('counter')->nullable();
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');

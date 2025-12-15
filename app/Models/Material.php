@@ -15,4 +15,9 @@ class Material extends Model
     public function getMaterialPdfs(){
         return $this->hasMany(MaterialPdf::class)->orderBy('order');
     }
+
+    public function getSection(){
+        return $this->belongsTo(Section::class,'section_id','id');
+    }
+
 }

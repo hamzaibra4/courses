@@ -21,31 +21,31 @@
             </nav>
         </div>
     </div>
-    <div class="bg-primary pb-lg-64pt py-32pt">
+    <div class="pb-lg-64pt py-32pt">
         <div class="container page__container">
-            <nav class="course-nav">
-                <a data-toggle="tooltip"
-                   data-placement="bottom"
-                   data-title="Getting Started with Angular: Introduction"
-                   href="#"><span class="material-icons">check_circle</span></a>
-                <a data-toggle="tooltip"
-                   data-placement="bottom"
-                   data-title="Getting Started with Angular: Introduction to TypeScript"
-                   href="#"><span class="material-icons text-primary">account_circle</span></a>
-                <a data-toggle="tooltip"
-                   data-placement="bottom"
-                   data-title="Getting Started with Angular: Comparing Angular to AngularJS"
-                   href="#"><span class="material-icons">play_circle_outline</span></a>
-                <a data-toggle="tooltip"
-                   data-placement="bottom"
-                   data-title="Quiz: Getting Started with Angular"
-                   href="student-take-quiz.html"><span class="material-icons">hourglass_empty</span></a>
-            </nav>
+{{--            <nav class="course-nav">--}}
+{{--                <a data-toggle="tooltip"--}}
+{{--                   data-placement="bottom"--}}
+{{--                   data-title="Getting Started with Angular: Introduction"--}}
+{{--                   href="#"><span class="material-icons">check_circle</span></a>--}}
+{{--                <a data-toggle="tooltip"--}}
+{{--                   data-placement="bottom"--}}
+{{--                   data-title="Getting Started with Angular: Introduction to TypeScript"--}}
+{{--                   href="#"><span class="material-icons text-primary">account_circle</span></a>--}}
+{{--                <a data-toggle="tooltip"--}}
+{{--                   data-placement="bottom"--}}
+{{--                   data-title="Getting Started with Angular: Comparing Angular to AngularJS"--}}
+{{--                   href="#"><span class="material-icons">play_circle_outline</span></a>--}}
+{{--                <a data-toggle="tooltip"--}}
+{{--                   data-placement="bottom"--}}
+{{--                   data-title="Quiz: Getting Started with Angular"--}}
+{{--                   href="student-take-quiz.html"><span class="material-icons">hourglass_empty</span></a>--}}
+{{--            </nav>--}}
             <div class="js-player bg-primary embed-responsive embed-responsive-16by9 mb-32pt">
                 <div class="player embed-responsive-item">
                     <div class="player__content">
                         <div class="player__image"
-                             style="--player-image: url(public/images/illustration/player.svg)"></div>
+                             style="--player-image: url('public/images/illustration/player.svg')"></div>
                         <a href="#"
                            class="player__play bg-primary">
                             <span class="material-icons">play_arrow</span>
@@ -53,15 +53,15 @@
                     </div>
                     <div class="player__embed d-none">
                         <iframe class="embed-responsive-item"
-                                src="https://player.vimeo.com/video/97243285?title=0&amp;byline=0&amp;portrait=0"
+                                src="{{asset('storage/public/videos/NewAdventureExploreTheWorldVideo_1765790913.mp4')}}"
                                 allowfullscreen=""></iframe>
                     </div>
                 </div>
             </div>
 
             <div class="d-flex flex-wrap align-items-end mb-16pt">
-                <h1 class="text-white flex m-0">{{$lesson->title}}</h1>
-                <p class="h1 text-white-50 font-weight-light m-0">{{$lesson->nb_of_hours}}</p>
+                <h1 class="flex m-0">{{$lesson->title}}</h1>
+                <p class="h1  font-weight-light m-0">{{$lesson->nb_of_hours}}</p>
             </div>
 
 

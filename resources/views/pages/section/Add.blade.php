@@ -187,7 +187,7 @@
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <div class="image-area remove-black margin1020">
-                                                            <video controls id="previewVideo" class="img" width="200" height="auto">
+                                                            <video controls id="previewVideo" class="img onadd" width="200" height="auto">
                                                                 @if($section?->video_path)
                                                                     <source src="{{ asset($section->video_path) }}" type="video/mp4">
                                                                 @else

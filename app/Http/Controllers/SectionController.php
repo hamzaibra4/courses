@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chapter;
-use App\Models\Material;
 use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,7 +56,6 @@ class SectionController extends Controller
         $section->item_index = $request->item_index;
         $section->nb_of_hours = $request->nb_of_hours;
         $section->chapter_id = $request->chapter_id;
-        $section->material_id = $request->material_id;
         $videoName = 'path';
         $path = $this->genericController->uploadVideo($request, $videoName);
         if ($path) {
@@ -75,7 +73,6 @@ class SectionController extends Controller
         }
         $section = Section::findOrFail($id);
         $chapters = Chapter::pluck('name','id');
-//        $materials = Material::pluck('name','id');
         return view('pages.section.add', compact('section', 'chapters'));
     }
 
@@ -97,7 +94,6 @@ class SectionController extends Controller
         $section->item_index = $request->item_index;
         $section->nb_of_hours = $request->nb_of_hours;
         $section->chapter_id = $request->chapter_id;
-        $section->material_id = $request->material_id;
         $videoName = 'path';
         $path = $this->genericController->uploadVideo($request, $videoName);
         if ($path) {

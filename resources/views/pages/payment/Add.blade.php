@@ -55,27 +55,7 @@
                                         @endif
                                         <div class="form-body">
                                             <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="amount">Amount<span>*</span></label>
-                                                        <input id="amount" required type="number" class="form-control"
-                                                               name="amount" placeholder="Enter Amount"
-                                                               value="{{ old('amount', $payments->amount ?? '') }}">
 
-                                                        @error('amount')
-                                                        <div class="error-msg">{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="date">Date<span>*</span></label>
-                                                        <input id="date" type="text" class="form-control dobpickdate_year" name="date" required  value="{{ old('date', $payments->date ?? '') }}">
-                                                        @error('date')
-                                                        <div class='error-msg'>{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
-                                                </div>
                                                 <div class="form-group cust-form-input col-12">
                                                     <label for="student_id">Student<span class="is-required">*</span></label>
                                                     @php $current = old('student_id', optional($payments)->student_id); @endphp
@@ -88,6 +68,7 @@
                                                     @error('student_id') <div class="error-msg">{{ $message }}</div> @enderror
                                                 </div>
 
+
                                                 <div class="form-group cust-form-input col-12">
                                                     <label for="course_id">Course(s)<span class="is-required">*</span></label>
                                                     @php
@@ -99,6 +80,19 @@
                                                         @endforeach
                                                     </select>
                                                     @error('course_id') <div class="error-msg">{{ $message }}</div> @enderror
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="amount">Amount<span>*</span></label>
+                                                        <input id="amount" required type="number" class="form-control"
+                                                               name="amount" placeholder="Enter Amount"
+                                                               value="{{ old('amount', $payments->amount ?? '') }}">
+
+                                                        @error('amount')
+                                                        <div class="error-msg">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
                                                 </div>
 
                                             </div>

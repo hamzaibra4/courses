@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('enrolled_courses', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('enrollment_number');
             $table->uuid('student_id');
-            $table->uuid('status_id');
-            $table->string('amount');
+            $table->uuid('status_id')->nullable();
+            $table->double('total_amount')->default(0);
+            $table->double('received_amount')->default(0);
+            $table->double('remaining_amount')->default(0);
+            $table->integer('counter')->nullable();
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
             $table->foreign('status_id')->references('id')->on('related_courses_statuses')->onDelete('cascade');
             $table->timestamps();

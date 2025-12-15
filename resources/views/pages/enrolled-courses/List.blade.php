@@ -2,13 +2,13 @@
 @section('content')
     <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2">
-            <h3 class="content-header-title">En Rolled Courses</h3>
+            <h3 class="content-header-title">Student Enrollments</h3>
             <div class="row breadcrumbs-top">
                 <div class="breadcrumb-wrapper col-12">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{route('enrolled-course.index')}}">Home</a>
                         </li>
-                        <li class="breadcrumb-item active"><a href="#">En Rolled Courses</a>
+                        <li class="breadcrumb-item active"><a href="#">Student Enrollments</a>
                         </li>
                     </ol>
                 </div>
@@ -38,7 +38,7 @@
                                     <div class="col-12">
                                         <div class="card itemcard">
                                             <div class="card-header">
-                                                <h4 class="card-title">In Rolled Courses</h4>
+                                                <h4 class="card-title">Student Enrollments</h4>
                                                 <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                                 <div class="heading-elements">
                                                     <ul class="list-inline mb-0">
@@ -53,8 +53,9 @@
                                                     <table class="table table-striped table-bordered file-export2">
                                                         <thead>
                                                         <tr>
+                                                            <th>Enrollment No</th>
+                                                            <th>Enrollment Date</th>
                                                             <th>Student</th>
-                                                            <th>Phone Number</th>
                                                             <th>nb of Courses</th>
                                                             <th>Status</th>
                                                             <th>Actions</th>
@@ -63,8 +64,9 @@
                                                         <tbody>
                                                         @foreach(($rolledCourse) as $obj)
                                                             <tr id="row{{$obj->id}}">
+                                                                <td>{{$obj->enrollment_number}}</td>
+                                                                <td>{{$obj->created_at}}</td>
                                                                 <td>{{$obj->getStudent->f_name}} {{$obj->getStudent->l_name}}</td>
-                                                                <td>{{$obj->getStudent->telephone}}</td>
                                                                 <td>{{count($obj->getCourses)}}</td>
                                                                 <td>{{$obj->getStatus->name}}</td>
                                                                 <td>
@@ -80,6 +82,7 @@
                                                         </tbody>
                                                         <tfoot>
                                                         <tr>
+                                                            <th>Enrollment No</th>
                                                             <th>Student</th>
                                                             <th>Phone Number</th>
                                                             <th>nb of Courses</th>

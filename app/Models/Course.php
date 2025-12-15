@@ -10,7 +10,7 @@ class Course extends Model
 {
     use HasFactory, UUID;
     public function getPayment(){
-        return $this->belongsToMany(Payment::class, 'payment_course', 'course_id', 'payment_id');
+        return $this->belongsToMany(Payment::class, 'payment_courses', 'course_id', 'payment_id');
     }
     public function getChapters()
     {

@@ -55,33 +55,15 @@
                     </li>
                 @endcan
 
-                @if(auth()->user()->can('List_Courses_Status') || auth()->user()->can('List_Course'))
-                    <li id="content" class="nav-item {{ isActiveRoute(['courses-status.*','course.*'], 'open') }}">
-                        <a href="#">
-                            <i class="fa-solid fa-folder-tree"></i>
-                            <span class="menu-title">Manage Courses</span>
+                @can('List_enRolled_Course')
+                    <li class="nav-item {{ isActiveRoute(['enrolled-course.index', 'enrolled-course.create', 'enrolled-course.edit'], 'active') }}">
+                        <a href="{{ route('enrolled-course.index') }}">
+                            <i class="fa-solid fa-arrow-right"></i>
+                            <span class="menu-title">Student Enrollments</span>
                         </a>
-                        <ul class="menu-content">
-                            @can('List_Courses_Status')
-                                <li class="nav-item {{ isActiveRoute(['courses-status.index', 'courses-status.create', 'courses-status.edit'], 'active') }}">
-                                    <a href="{{ route('courses-status.index') }}">
-                                        <i class="fa-solid fa-arrow-right"></i>
-                                        <span class="menu-title">Courses Status</span>
-                                    </a>
-                                </li>
-                            @endcan
-
-                                @can('List_enRolled_Course')
-                                    <li class="nav-item {{ isActiveRoute(['enrolled-course.index', 'enrolled-course.create', 'enrolled-course.edit'], 'active') }}">
-                                        <a href="{{ route('enrolled-course.index') }}">
-                                            <i class="fa-solid fa-arrow-right"></i>
-                                            <span class="menu-title">EnRolled Course</span>
-                                        </a>
-                                    </li>
-                                @endcan
-                        </ul>
                     </li>
-                @endif
+                @endcan
+
                 @can('List_Course')
                     <li class="nav-item {{ isActiveRoute(['course.index', 'course.create', 'course.edit'], 'active') }}">
                         <a href="{{ route('course.index') }}">
@@ -90,12 +72,7 @@
                         </a>
                     </li>
                 @endcan
-{{--            @foreach($configurations as $config)--}}
-{{--                @can("List_".$config->model_name)--}}
-{{--                    <li class=" nav-item {{ isActiveRoute([$config->route, $config->route.'.create',  $config->route.'.edit'], 'active') }}"><a href="{{route($config->route)}}"><i class="{{$config->icon_class}}"></i><span class="menu-title" data-i18n="nav.dash.main">{{$config->screen_name}}</span></a>--}}
-{{--                    </li>--}}
-{{--                @endcan--}}
-{{--            @endforeach--}}
+
                 @can('List_Chapter')
                     <li class="nav-item {{ isActiveRoute(['chapter.index', 'chapter.create', 'chapter.edit'], 'active') }}">
                         <a href="{{ route('chapter.index') }}">
