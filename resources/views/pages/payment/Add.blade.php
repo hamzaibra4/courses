@@ -68,6 +68,14 @@
                                                     @error('student_id') <div class="error-msg">{{ $message }}</div> @enderror
                                                 </div>
 
+                                                <div class="form-group cust-form-input col-12">
+                                                    <label for="enrollment_number">Enrollment Number<span class="is-required">*</span></label>
+                                                    <select class="form-control my-2 select2" name="enrollment_number" id="enrollment_number" required>
+                                                        <option value="">Select Enrollment Number</option>
+                                                    </select>
+                                                    @error('enrollment_number') <div class="error-msg">{{ $message }}</div> @enderror
+                                                </div>
+
 
                                                 <div class="form-group cust-form-input col-12">
                                                     <label for="course_id">Course(s)<span class="is-required">*</span></label>
@@ -131,4 +139,8 @@
         </div>
 
     </div>
+@endsection
+
+@section('customjs')
+    <script src="{{ asset('cms/custom/payment.js') }}" type="text/javascript"></script>
 @endsection
