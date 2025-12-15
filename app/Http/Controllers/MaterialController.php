@@ -9,6 +9,8 @@ use App\Models\MaterialPdf;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 
@@ -86,25 +88,45 @@ class MaterialController extends Controller
         if (!$user->can('Edit_Material')) {
             abort(403);
         }
-        $request->validate([
-            'item_index' => 'required',
-            'chapter_id' => 'required',
-        ]);
 
         $material = Material::findOrFail($id);
+        $existingPdfCount = MaterialPdf::where('material_id', $material->id)->count();
+        $validationRules = [
+            'item_index' => 'required',
+            'chapter_id' => 'required',
+        ];
+        if ($existingPdfCount == 0) {
+            $validationRules['path'] = 'required|array|min:1';
+            $validationRules['path.*'] = 'required|mimes:pdf|max:10240';
+        } else {
+
+            if ($request->hasFile('path')) {
+                $validationRules['path.*'] = 'mimes:pdf|max:10240';
+            }
+        }
+
+        $request->validate($validationRules);
+
         $material->item_index = $request->item_index;
         $material->chapter_id = $request->chapter_id;
         $material->save();
-        MaterialPdf::where('material_id',$material->id)->delete();
-        $pdfName = 'path';
-        $pdfs  = $this->genericController->uploadPdfsWithNames($request, $pdfName);
-        foreach ($pdfs as $index => $pdf) {
-            $obj = new MaterialPdf();
-            $obj->material_id = $material->id;
-            $obj->name = $pdf['name'];   // make sure column exists
-            $obj->path = $pdf['path'];
-            $obj->order = $index;
-            $obj->save();
+        if ($request->hasFile('path')) {
+            $pdfName = 'path';
+            $pdfs = $this->genericController->uploadPdfsWithNames($request, $pdfName);
+
+            if (!empty($pdfs)) {
+                $maxOrder = MaterialPdf::where('material_id', $material->id)->max('order');
+                $startOrder = ($maxOrder !== null) ? $maxOrder + 1 : 0;
+
+                foreach ($pdfs as $index => $pdf) {
+                    $obj = new MaterialPdf();
+                    $obj->material_id = $material->id;
+                    $obj->name = $pdf['name'];
+                    $obj->path = $pdf['path'];
+                    $obj->order = $startOrder + $index;
+                    $obj->save();
+                }
+            }
         }
 
         return redirect()->route('material.index');
@@ -123,6 +145,40 @@ class MaterialController extends Controller
         return response()->json([
             'code' => $code,
             'msg'=>$msg
+        ]);
+    }
+
+    public function deletePdf($id)
+    {
+        $user = Auth::user();
+        if (!$user->can('Edit_Material')) {
+            abort(403);
+        }
+
+        $pdf = MaterialPdf::findOrFail($id);
+        if ($pdf->path) {
+            $relativePath = str_replace('storage/public/', 'public/', $pdf->path);
+            if (Storage::disk('public')->exists($relativePath)) {
+                Storage::disk('public')->delete($relativePath);
+            } else {
+                $storagePath = storage_path('app/' . str_replace('storage/', '', $pdf->path));
+                if (File::exists($storagePath)) {
+                    File::delete($storagePath);
+                } else {
+                    $publicPath = public_path($pdf->path);
+                    if (File::exists($publicPath)) {
+                        File::delete($publicPath);
+                    }
+                }
+            }
+        }
+        $pdf->delete();
+
+        $code = 200;
+        $msg = 'The PDF has been successfully deleted!';
+        return response()->json([
+            'code' => $code,
+            'msg' => $msg
         ]);
     }
 }

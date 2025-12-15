@@ -105,21 +105,17 @@
 
 
                                                 <!-- PDF Upload -->
-                                                <!-- PDF Upload -->
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="projectinput1">PDF Document(s) <span>*</span></label>
+                                                            <label for="projectinput1">PDF Document(s)
+                                                            </label>
                                                             <input type="file"
                                                                    id="projectinput1"
                                                                    class="form-control"
                                                                    name="path[]"
                                                                    accept="application/pdf,.pdf"
-                                                                   multiple
-                                                                   @if(!$material || $material->getMaterialPdfs->count() == 0) required @endif>
-                                                            <small class="form-text text-muted">
-                                                                <i class="fa fa-info-circle"></i> You can select multiple PDF files at once
-                                                            </small>
+                                                                   multiple>
                                                             @error('path')
                                                             <div class="error-msg">{{ $message }}</div>
                                                             @enderror
@@ -136,13 +132,20 @@
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label>Uploaded PDFs:</label>
-                                                                <div class="d-flex flex-wrap">
+                                                                <div class="d-flex flex-wrap" id="pdf-list">
                                                                     @foreach($material->getMaterialPdfs as $pdf)
-                                                                        <div class="mr-2 mb-2">
+                                                                        <div class="mr-2 mb-2 pdf-item d-inline-flex align-items-center" data-pdf-id="{{ $pdf->id }}">
                                                                             <a href="{{ asset($pdf->path) }}" target="_blank"
-                                                                               class="btn btn-primary btn-sm">
+                                                                               class="btn btn-primary btn-sm mr-1">
                                                                                 <i class="fa fa-file-pdf"></i> PDF {{ $loop->iteration }}
                                                                             </a>
+                                                                            <button type="button"
+                                                                                    class="btn btn-danger btn-sm delete-pdf-btn"
+                                                                                    data-pdf-id="{{ $pdf->id }}"
+                                                                                    data-delete-url="{{ route('material-pdf.delete', $pdf->id) }}"
+                                                                                    title="Delete PDF">
+                                                                                <i class="fa fa-trash"></i>
+                                                                            </button>
                                                                         </div>
                                                                     @endforeach
                                                                 </div>
@@ -186,4 +189,8 @@
         </div>
 
     </div>
+@endsection
+
+@section('customjs')
+<script src="{{asset('cms/custom/material.js')}}" type="text/javascript"></script>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chapter;
+use App\Models\Material;
 use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,9 +11,10 @@ use Illuminate\Support\Str;
 
 class SectionController extends Controller
 {
+    private $genericController;
     public function __construct(GenericController $generic){
-        $this->genericController = $generic;
         $this->middleware('auth');
+        $this->genericController = $generic;
     }
     public function index()
     {
@@ -33,6 +35,7 @@ class SectionController extends Controller
         $section = null;
         $chapters = Chapter::pluck('name','id');
 
+
         return view('pages.section.add', compact('section', 'chapters'));
     }
 
@@ -52,7 +55,14 @@ class SectionController extends Controller
         $section->title = $request->title;
         $section->description = $request->description;
         $section->item_index = $request->item_index;
+        $section->nb_of_hours = $request->nb_of_hours;
         $section->chapter_id = $request->chapter_id;
+        $section->material_id = $request->material_id;
+        $videoName = 'path';
+        $path = $this->genericController->uploadVideo($request, $videoName);
+        if ($path) {
+            $section->video_path = $path;
+        }
         $section->save();
         return redirect()->route('section.index');
     }
@@ -65,6 +75,7 @@ class SectionController extends Controller
         }
         $section = Section::findOrFail($id);
         $chapters = Chapter::pluck('name','id');
+//        $materials = Material::pluck('name','id');
         return view('pages.section.add', compact('section', 'chapters'));
     }
 
@@ -84,7 +95,14 @@ class SectionController extends Controller
         $section->title = $request->title;
         $section->description = $request->description;
         $section->item_index = $request->item_index;
+        $section->nb_of_hours = $request->nb_of_hours;
         $section->chapter_id = $request->chapter_id;
+        $section->material_id = $request->material_id;
+        $videoName = 'path';
+        $path = $this->genericController->uploadVideo($request, $videoName);
+        if ($path) {
+            $section->video_path = $path;
+        }
         $section->save();
         return redirect()->route('section.index');
     }

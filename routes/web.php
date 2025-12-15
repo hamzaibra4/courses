@@ -68,6 +68,7 @@ Route::resource('chapter', ChapterController::class);
 Route::resource('course', CourseController::class);
 Route::resource('section-video',SectionVideoController::class);
 Route::resource('material',MaterialController::class);
+Route::delete('material-pdf/{id}', [MaterialController::class, 'deletePdf'])->name('material-pdf.delete');
 Route::resource('watched-video',WatchedVideoController::class);
 Route::resource('favorite-video',FavoriteVideoController::class);
 Route::resource('enrolled-course',EnrolledCourseController::class);
