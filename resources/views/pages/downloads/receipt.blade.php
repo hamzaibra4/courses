@@ -7,7 +7,7 @@
         body {
             font-family: 'Segoe UI', sans-serif;
             color: #333;
-            margin: 40px;
+
             line-height: 1.6;
         }
         .container {
@@ -49,6 +49,7 @@
 
         .invoice-meta{
             text-align: end;
+
         }
         .bill-to p, .invoice-meta p {
             margin: 2px 0;
@@ -128,6 +129,92 @@
             align-items: flex-start;
         }
 
+
+        .amount-table {
+            width: 100%;
+
+            border-collapse: collapse;
+            margin-top: 25px;
+            font-size: 14px;
+            background-color: #fafafa;
+        }
+
+        .amount-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e6e6e6;
+        }
+
+        .amount-table .label {
+            color: #666;
+        }
+
+        .amount-table .value {
+            text-align: right;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .amount-table .received {
+            color: #2e7d32;
+        }
+
+        .amount-table .total-row td {
+            border-top: 2px solid #333;
+            background-color: #f2f2f2;
+            font-size: 15px;
+        }
+
+        .amount-table .total {
+            font-weight: bold;
+            color: #000;
+        }
+
+        .amount-table .signature-row td {
+            border: none;
+            text-align: center;
+            padding-top: 28px;
+        }
+
+        .signature-row {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .signature-cell {
+            display: inline-block;
+        }
+
+        .signature-label {
+            display: block;
+            margin-top: 6px;
+            font-size: 12px;
+            color: #777;
+            font-style: italic;
+        }
+
+        .details-row {
+            margin-top: 30px;
+        }
+
+        .bill-to {
+            float: left;
+            width: 55%;
+        }
+
+        .invoice-heading {
+            float: right;
+            width: 40%;
+            text-align: right;
+        }
+
+        .bill-to p,
+        .invoice-heading p {
+            margin: 3px 0;
+        }
+
+
+
+
     </style>
 
     @if($download == 0)
@@ -155,7 +242,13 @@
 <div class="container">
     <div class="top-section">
         <div class="clinic-info">
-          <div class="media">
+            <div style="float: right">
+                <h2>Invoice <br> <span style="font-size: 18px"> #{{$data->enrollment_number}} </span> </h2>
+
+            </div>
+            <div class="media">
+
+              <img src="{{ public_path($company->logo) }}" width="120">
               <p>
                   {{$company->name}}<br>
                   @if($company->address)
@@ -166,29 +259,32 @@
                   @isset($company->email) Email: <a href="mailto:{{$company->email}}">{{$company->email}}</a> <br> @endisset
               </p>
           </div>
-        </div>
-        <div class="invoice-heading">
-            <h2>Invoice</h2>
-            <p>#{{$data->enrollment_number}}</p>
+
         </div>
     </div>
 
     <div class="details-row">
         <div class="bill-to">
             <strong>Invoice To</strong><br>
-            <p>{{$data->getStudent?->f_name}} {{$data->getStudent?->l_name}}</p>
-            <p><a href="tel:{{ $data->getStudent?->telephone }}">{{ $data->getStudent?->telephone }}</a></p>
+            <p>{{ $data->getStudent?->f_name }} {{ $data->getStudent?->l_name }}</p>
+            <p>{{ $data->getStudent?->telephone }}</p>
+
             @if(!empty($data->getStudent?->getUser?->email))
-                <p><a href="mailto:{{ $data->getStudent?->getUser?->email }}">{{ $data->getStudent?->getUser?->email }}</a></p>
+                <p>{{ $data->getStudent?->getUser?->email }}</p>
             @endif
         </div>
 
-        <div class="invoice-meta">
-            <p><strong>Total Amount:</strong> ${{ number_format($data->total_amount, 2, '.', ' ') }}</p>
-            <p><strong>Invoice Date:</strong>  {{ $data->created_at->format('d/m/Y') }}</p>
+        <div class="invoice-heading">
+            <p>
+                <strong>Total Amount:</strong>
+                ${{ number_format($data->total_amount, 2, '.', ' ') }}<br>
+
+                <strong>Invoice Date:</strong>
+                {{ $data->created_at->format('d/m/Y') }}
+            </p>
         </div>
 
-
+        <div style="clear: both;"></div>
     </div>
 
     <table class="table">
@@ -216,8 +312,9 @@
     </table>
 
     <div class="amounts">
-        <table>
-            <tr>
+        <table class="amount-table">
+
+        <tr>
                 <td class="label">Sub Total</td>
                 <td class="value">$ {{ number_format($data->total_amount, 2, '.', ' ') }}</td>
             </tr>
@@ -235,13 +332,25 @@
             </tr>
 
         </table>
+
+
+        <div class="signature-row">
+            <div class="signature-cell">
+                <img src="{{ public_path($company->signature_image) }}" width="120"><br>
+                <span class="signature-label">Authorized Signature</span>
+            </div>
+        </div>
+
+
+
+
     </div>
 
-    <div>
-        <p><strong>Payment Method</strong> <br>
-            dsad
-        </p>
-    </div>
+{{--    <div>--}}
+{{--        <p><strong>Payment Method</strong> <br>--}}
+
+{{--        </p>--}}
+{{--    </div>--}}
 </div>
 
 
