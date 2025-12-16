@@ -62,6 +62,11 @@ Route::delete('material-pdf/{id}', [MaterialController::class, 'deletePdf'])->na
 Route::resource('watched-video',WatchedVideoController::class);
 Route::resource('favorite-video',FavoriteVideoController::class);
 Route::resource('enrolled-course',EnrolledCourseController::class);
+Route::get('download-enrollment/{id}',[EnrolledCourseController::class,'receipt'])->name('download-enrollment');
+
+
+
+
 Route::get('view-student/{id}', [StudentController::class, 'viewStudent'])->name('view-student');
 
 Route::get('home-student', [FrontController::class, 'myCourses'])->name('home-student');

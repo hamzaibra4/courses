@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Course;
 use App\Models\EnrolledCourse;
 use App\Models\MultipleCoursesEnrolled;
 use App\Models\Payment;
 use App\Models\RelatedCoursesStatus;
 use App\Models\Student;
+use App\Models\Transaction;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
+
 
 class EnrolledCourseController extends Controller
 {
@@ -218,5 +223,14 @@ class EnrolledCourseController extends Controller
                 'msg' => $msg
             ]);
         }
+    }
+
+
+    public function receipt($id)
+    {
+            $company  =Company::firstOrFail();
+            $data = EnrolledCourse::findOrFail($id);
+            $pdf = Pdf::loadView('pages.downloads.receipt',['data'=>$data, 'company'=>$company,'download'=>true]);
+            return $pdf->download($data->enrollment_number.".pdf");
     }
 }
