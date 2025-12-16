@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('student_id');
+            $table->uuid('enrolled_course_id');
             $table->string('date');
             $table->double('amount');
             $table->string('trx_number');
             $table->integer('counter')->nullable();
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->foreign('enrolled_course_id')->references('id')->on('enrolled_courses')->onDelete('cascade');
             $table->timestamps();
         });
     }

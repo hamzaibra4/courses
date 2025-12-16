@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\Payment;
 use App\Models\PaymentCourse;
+use App\Models\RelatedCoursesStatus;
 use App\Models\Student;
 use App\Models\EnrolledCourse;
 use Illuminate\Http\Request;
@@ -57,25 +58,58 @@ class PaymentController extends Controller
         if (!$user->can('Add_Payments')) {
             abort(403);
         }
+
         $request->validate([
-           'amount'=>'required',
-           'student_id'=>'required',
-           'course_id'=>'required',
+            'enrollment_number' => 'required',
+            'student_id'        => 'required',
         ]);
+
+        $remainingAmount = EnrolledCourse::where('student_id', $request->student_id)
+            ->value('remaining_amount');
+
+        $request->validate([
+            'amount'    => ['required', 'numeric', 'lte:' . $remainingAmount],
+        ]);
+
+        $enrolledCourse = EnrolledCourse::where('student_id', $request->student_id)  ->firstOrFail();
+
+
         $payment=new Payment();
         $counter = DB::table('payments')->max('counter') + 1;
         $payment->trx_number = "TRX-" . $counter;
         $payment->counter = $counter;
         $payment->amount=$request->amount;
-        $payment->date="!223";
+        $payment->date=$request->date;
         $payment->student_id=$request->student_id;
+        $payment->enrolled_course_id = $enrolledCourse->id;
         $payment->save();
-        foreach ($request->course_id as $courseId) {
-            $obj=new PaymentCourse();
-            $obj->payment_id=$payment->id;
-            $obj->course_id=$courseId;
-            $obj->save();
+
+
+        $amount = (float) $request->amount;
+
+        if ($amount > $enrolledCourse->remaining_amount) {
+        abort(422, 'Amount exceeds remaining balance.');
+         }
+
+         $enrolledCourse->received_amount  += $amount;
+         $enrolledCourse->remaining_amount -= $amount;
+         $enrolledCourse->remaining_amount = max(0, $enrolledCourse->remaining_amount);
+
+
+        $pendingStatus   = RelatedCoursesStatus::where('key', 'PE')->firstOrFail();
+        $partiallyStatus = RelatedCoursesStatus::where('key', 'PP')->firstOrFail();
+        $paidStatus      = RelatedCoursesStatus::where('key', 'PA')->firstOrFail();
+        if($enrolledCourse->remaining_amount==0){
+            $enrolledCourse->status_id = $paidStatus->id;
         }
+        elseif ($enrolledCourse->received_amount > 0) {
+            $enrolledCourse->status_id = $partiallyStatus->id;
+        }
+        else {
+            $enrolledCourse->status_id = $pendingStatus->id;
+        }
+
+        $enrolledCourse->save();
         return redirect()->route('payment.index');
     }
 
@@ -116,22 +150,58 @@ class PaymentController extends Controller
         }
         $request->validate([
             'date'=>'required',
-            'amount'=>'required',
-            'student_id'=>'required',
-            'course_id'=>'required',
+            'amount' => 'required|numeric|min:0',
         ]);
         $payment=Payment::find($id);
-        $payment->amount=$request->amount;
-        $payment->date=$request->date;
-        $payment->student_id=$request->student_id;
-        $payment->save();
-        PaymentCourse::where('payment_id',$payment->id)->delete();
-        foreach ($request->course_id as $courseId) {
-            $obj=new PaymentCourse();
-            $obj->payment_id=$payment->id;
-            $obj->course_id=$courseId;
-            $obj->save();
+        $enrolledCourse = EnrolledCourse::findOrFail($payment->enrolled_course_id);
+        $oldAmount = (float) $payment->amount;
+        $newAmount = (float) $request->amount;
+
+        /**
+         * STEP 1: revert old payment
+         */
+        $enrolledCourse->received_amount  -= $oldAmount;
+        $enrolledCourse->remaining_amount += $oldAmount;
+
+
+        /**
+         * STEP 2: validate new amount
+         */
+        if ($newAmount > $enrolledCourse->remaining_amount) {
+            abort(422, 'Amount exceeds remaining balance.');
         }
+
+
+
+
+
+        /**
+         * STEP 3: apply new payment
+         */
+        $enrolledCourse->received_amount  += $newAmount;
+        $enrolledCourse->remaining_amount -= $newAmount;
+
+
+
+        $payment->amount = $newAmount;
+        $payment->date   = $request->date;
+        $payment->save();
+
+
+        $pendingStatus   = RelatedCoursesStatus::where('key', 'PE')->firstOrFail();
+        $partiallyStatus = RelatedCoursesStatus::where('key', 'PP')->firstOrFail();
+        $paidStatus      = RelatedCoursesStatus::where('key', 'PA')->firstOrFail();
+        if($enrolledCourse->remaining_amount==0){
+            $enrolledCourse->status_id = $paidStatus->id;
+        }
+        elseif ($enrolledCourse->received_amount > 0) {
+            $enrolledCourse->status_id = $partiallyStatus->id;
+        }
+        else {
+            $enrolledCourse->status_id = $pendingStatus->id;
+        }
+        $enrolledCourse->save();
+
         return redirect()->route('payment.index');
     }
 
@@ -144,7 +214,38 @@ class PaymentController extends Controller
         if (!$user->can('Delete_Payments')) {
             abort(403);
         }
-        $payment=Payment::find($id);
+        $payment=Payment::findOrFail($id);
+        $enrolledCourse = EnrolledCourse::findOrFail($payment->enrolled_course_id);
+        $amount = (float) $payment->amount;
+
+        /**
+         * STEP 1: revert payment effect
+         */
+        $enrolledCourse->received_amount  -= $amount;
+        $enrolledCourse->remaining_amount += $amount;
+
+        // safety
+        $enrolledCourse->received_amount  = max(0, $enrolledCourse->received_amount);
+        $enrolledCourse->remaining_amount = min(
+            $enrolledCourse->total_amount,
+            $enrolledCourse->remaining_amount
+        );
+
+        $pendingStatus   = RelatedCoursesStatus::where('key', 'PE')->firstOrFail();
+        $partiallyStatus = RelatedCoursesStatus::where('key', 'PP')->firstOrFail();
+        $paidStatus      = RelatedCoursesStatus::where('key', 'PA')->firstOrFail();
+        if($enrolledCourse->remaining_amount==0){
+            $enrolledCourse->status_id = $paidStatus->id;
+        }
+        elseif ($enrolledCourse->received_amount > 0) {
+            $enrolledCourse->status_id = $partiallyStatus->id;
+        }
+        else {
+            $enrolledCourse->status_id = $pendingStatus->id;
+        }
+        $enrolledCourse->save();
+
+
         $payment->delete();
         $code = 200;
         $msg = 'The selected payment has been successfully deleted!';
@@ -170,7 +271,7 @@ class PaymentController extends Controller
 
         $enrollments = EnrolledCourse::where('student_id', $request->student_id)
             ->orderBy('created_at', 'desc')
-            ->get(['id', 'enrollment_number']);
+            ->get(['id', 'enrollment_number','remaining_amount']);
 
         return response()->json([
             'code' => 200,

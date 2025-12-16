@@ -56,6 +56,23 @@
                                         <div class="form-body">
                                             <div class="row">
 
+                                                @if($payments)
+
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="student_id">Student<span>*</span></label>
+                                                            <input id="student_id" readonly type="text" class="form-control"
+                                                                   name="student_id" placeholder=""
+                                                                   value="{{ $payments->getStudent->f_name }} {{ $payments->getStudent->l_name }}">
+
+                                                            @error('student_id')
+                                                            <div class="error-msg">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+
+                                                @else
+
                                                 <div class="form-group cust-form-input col-12">
                                                     <label for="student_id">Student<span class="is-required">*</span></label>
                                                     @php $current = old('student_id', optional($payments)->student_id); @endphp
@@ -67,6 +84,23 @@
                                                     </select>
                                                     @error('student_id') <div class="error-msg">{{ $message }}</div> @enderror
                                                 </div>
+                                                @endif
+
+                                                @if($payments)
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="enrollment_number">Enrollment Number<span>*</span></label>
+                                                            <input id="enrollment_number" readonly type="text" class="form-control"
+                                                                   name="enrollment_number" placeholder=""
+                                                                   value="{{ $payments->getEnrollment->enrollment_number }}">
+
+                                                            @error('enrollment_number')
+                                                            <div class="error-msg">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+
+                                                @else
 
                                                 <div class="form-group cust-form-input col-12">
                                                     <label for="enrollment_number">Enrollment Number<span class="is-required">*</span></label>
@@ -74,20 +108,18 @@
                                                         <option value="">Select Enrollment Number</option>
                                                     </select>
                                                     @error('enrollment_number') <div class="error-msg">{{ $message }}</div> @enderror
+                                                    <p id="remaingincontainer" class="small-text onadd">The remaining amount is: <span id="theremaining"></span>$</p>
                                                 </div>
+                                                @endif
 
-
-                                                <div class="form-group cust-form-input col-12">
-                                                    <label for="course_id">Course(s)<span class="is-required">*</span></label>
-                                                    @php
-                                                        $current = old('course_id', $payments ? $payments->getCourses->pluck('id')->toArray() : []);
-                                                    @endphp
-                                                    <select multiple class="form-control my-2 select2" name="course_id[]" id="course_id" required>
-                                                        @foreach($courses as $id => $name)
-                                                            <option value="{{ $id }}" @selected(in_array($id, $current))>{{ $name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    @error('course_id') <div class="error-msg">{{ $message }}</div> @enderror
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="date">Date<span>*</span></label>
+                                                        <input id="date" type="text" class="form-control dobpickdate_year" name="date" required  value="{{ old('date', $payments->date ?? now()->format('Y-m-d')) }}">
+                                                        @error('date')
+                                                        <div class='error-msg'>{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
                                                 </div>
 
                                                 <div class="col-md-12">

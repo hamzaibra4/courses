@@ -33,7 +33,7 @@ if (typeof existingdataRaw !== "undefined" && existingdataRaw.trim() !== "") {
 function addNewItem(title = "") {
     var counter = getNextIndex();
     var newRow = `
-    <div class="col-md-12 descriptionData align-items-center pr-0" id="descriptionRow${counter}">
+    <div class="col-md-12 descriptionData align-items-center pr-0 mt-2" id="descriptionRow${counter}">
       <label>Title:
         <a onclick="deleteItem(${counter});">
           <i id="deleteoffer5rule${counter}" class="fa fa-trash icon-trash"></i>

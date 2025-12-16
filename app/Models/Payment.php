@@ -16,4 +16,9 @@ class Payment extends Model
     public function getCourses(){
         return $this->belongsToMany(Course::class, 'payment_courses', 'payment_id', 'course_id');
     }
+
+    public function getEnrollment()
+    {
+        return $this->belongsTo(EnrolledCourse::class,'enrolled_course_id','id');
+    }
 }

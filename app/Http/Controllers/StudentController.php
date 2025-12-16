@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EnrolledCourse;
 use App\Models\Student;
 use App\Models\StudentType;
 use App\Models\User;
@@ -179,6 +180,9 @@ class StudentController extends Controller
     }
     public function viewStudent($id){
         $student=Student::find($id);
-        return view('pages.student.View')->with('student',$student);
+        $total_amount = EnrolledCourse::where('student_id',$id)->sum('total_amount');
+        $received_amount = EnrolledCourse::where('student_id',$id)->sum('received_amount');
+        $remaining_amount = EnrolledCourse::where('student_id',$id)->sum('remaining_amount');
+        return view('pages.student.View',compact('student','total_amount','received_amount','remaining_amount'));
     }
 }

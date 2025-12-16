@@ -11,33 +11,19 @@
                 </li>
             @endcan
 
-            @if(auth()->user()->can('List_Students_Type') || auth()->user()->can('List_Students'))
-                <li id="content" class="nav-item {{ isActiveRoute(['student-type.*','student.*'], 'open') }}">
-                    <a href="#">
-                        <i class="fa-solid fa-folder-tree"></i>
-                        <span class="menu-title">Manage Students</span>
-                    </a>
-                    <ul class="menu-content">
-                        @can('List_Students_Type')
-                            <li class="nav-item {{ isActiveRoute(['student-type.index', 'student-type.create', 'student-type.edit'], 'active') }}">
-                                <a href="{{ route('student-type.index') }}">
-                                    <i class="fa-solid fa-tags"></i>
-                                    <span class="menu-title">Student Type</span>
-                                </a>
-                            </li>
-                        @endcan
 
-                        @can('List_Students')
-                            <li class="nav-item {{ isActiveRoute(['student.index', 'student.create', 'student.edit'], 'active') }}">
-                                <a href="{{ route('student.index') }}">
-                                    <i class="fa-regular fa-newspaper"></i>
-                                    <span class="menu-title">Students</span>
-                                </a>
-                            </li>
-                        @endcan
-                    </ul>
-                </li>
-            @endif
+
+
+                @can('List_Students')
+                    <li class="nav-item {{ isActiveRoute(['student.index', 'student.create', 'student.edit'], 'active') }}">
+                        <a href="{{ route('student.index') }}">
+                            <i class="fa-regular fa-newspaper"></i>
+                            <span class="menu-title">Students</span>
+                        </a>
+                    </li>
+                @endcan
+
+
                 @can('List_Custom_Field')
                     <li class="nav-item {{ isActiveRoute(['custom-field.index', 'custom-field.create', 'custom-field.edit'], 'active') }}">
                         <a href="{{ route('custom-field.index') }}">
@@ -46,6 +32,17 @@
                         </a>
                     </li>
                 @endcan
+
+                @can('List_enRolled_Course')
+                    <li class="nav-item {{ isActiveRoute(['enrolled-course.index', 'enrolled-course.create', 'enrolled-course.edit'], 'active') }}">
+                        <a href="{{ route('enrolled-course.index') }}">
+                            <i class="fa-solid fa-sign-in"></i>
+                            <span class="menu-title">Student Enrollments</span>
+                        </a>
+                    </li>
+                @endcan
+
+
                 @can('List_Payments')
                     <li class="nav-item {{ isActiveRoute(['payment.index', 'payment.create', 'payment.edit'], 'active') }}">
                         <a href="{{ route('payment.index') }}">
@@ -55,14 +52,7 @@
                     </li>
                 @endcan
 
-                @can('List_enRolled_Course')
-                    <li class="nav-item {{ isActiveRoute(['enrolled-course.index', 'enrolled-course.create', 'enrolled-course.edit'], 'active') }}">
-                        <a href="{{ route('enrolled-course.index') }}">
-                            <i class="fa-solid fa-arrow-right"></i>
-                            <span class="menu-title">Student Enrollments</span>
-                        </a>
-                    </li>
-                @endcan
+
 
                 @can('List_Course')
                     <li class="nav-item {{ isActiveRoute(['course.index', 'course.create', 'course.edit'], 'active') }}">
@@ -81,14 +71,6 @@
                         </a>
                     </li>
                 @endcan
-                @can('List_Material')
-                    <li class="nav-item {{ isActiveRoute(['material.index', 'material.create', 'material.edit'], 'active') }}">
-                        <a href="{{ route('material.index') }}">
-                            <i class="fa-solid fa-list"></i>
-                            <span class="menu-title">Material</span>
-                        </a>
-                    </li>
-                @endcan
                 @can('List_Section')
                     <li class="nav-item {{ isActiveRoute(['section.index', 'section.create', 'section.edit'], 'active') }}">
                         <a href="{{ route('section.index') }}">
@@ -98,39 +80,17 @@
                     </li>
                 @endcan
 
+                @can('List_Material')
+                    <li class="nav-item {{ isActiveRoute(['material.index', 'material.create', 'material.edit'], 'active') }}">
+                        <a href="{{ route('material.index') }}">
+                            <i class="fa-solid fa-list"></i>
+                            <span class="menu-title">Material</span>
+                        </a>
+                    </li>
+                @endcan
 
-{{--                @if(auth()->user()->can('List_Section') || auth()->user()->can('List_Section_Video'))--}}
-{{--                    <li id="content" class="nav-item {{ isActiveRoute(['section.*','section-video.*'], 'open') }}">--}}
-{{--                        <a href="#">--}}
-{{--                            <i class="fa-solid fa-folder-tree"></i>--}}
-{{--                            <span class="menu-title">Manage Sections</span>--}}
-{{--                        </a>--}}
-{{--                        <ul class="menu-content">--}}
-{{--                            @can('List_Section')--}}
-{{--                                <li class="nav-item {{ isActiveRoute(['section.index', 'section.create', 'section.edit'], 'active') }}">--}}
-{{--                                    <a href="{{ route('section.index') }}">--}}
-{{--                                        <i class="fa-solid fa-atlas"></i>--}}
-{{--                                        <span class="menu-title">Section</span>--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-{{--                            @endcan--}}
 
-{{--                                @can('List_Section_Video')--}}
-{{--                                    <li class="nav-item {{ isActiveRoute(['section-video.index', 'section-video.create', 'section-video.edit'], 'active') }}">--}}
-{{--                                        <a href="{{ route('section-video.index') }}">--}}
-{{--                                            <i class="fa-solid fa-video"></i>--}}
-{{--                                            <span class="menu-title">Section Video</span>--}}
-{{--                                        </a>--}}
-{{--                                    </li>--}}
-{{--                                @endcan--}}
-{{--                        </ul>--}}
-{{--                    </li>--}}
-{{--                @endif--}}
 
-{{--                <li class=" nav-item "><a href="{{route('watched-video.index')}}"><i class="fa-solid fa-eye"></i> <span class="menu-title" data-i18n="nav.dash.main">Watched Videos</span></a>--}}
-{{--                </li>--}}
-{{--                <li class=" nav-item "><a href="{{route('favorite-video.index')}}"><i class="fa-solid fa-star"></i> <span class="menu-title" data-i18n="nav.dash.main">Favorite Videos</span></a>--}}
-{{--                </li>--}}
 
 
                 @if(auth()->user()->can('List_Role') || auth()->user()->can('Assign_Permission'))
@@ -160,6 +120,15 @@
                         </ul>
                     </li>
                 @endif
+
+                @can('List_Students_Type')
+                    <li class="nav-item {{ isActiveRoute(['student-type.index', 'student-type.create', 'student-type.edit'], 'active') }}">
+                        <a href="{{ route('student-type.index') }}">
+                            <i class="fa-solid fa-tags"></i>
+                            <span class="menu-title">Student Type</span>
+                        </a>
+                    </li>
+                @endcan
 
             <li class=" nav-item"><a href="{{route('logout')}}"><i class=" la la-sign-out"></i><span class="menu-title" data-i18n="nav.dash.main">logout</span></a>
             </li>

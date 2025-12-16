@@ -54,10 +54,11 @@
                                                         <thead>
                                                         <tr>
                                                             <th>Enrollment No</th>
-                                                            <th>Enrollment Date</th>
+                                                            <th>Date</th>
                                                             <th>Student</th>
                                                             <th>nb of Courses</th>
                                                             <th>Status</th>
+                                                            <th>Remaining Amount</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                         </thead>
@@ -69,6 +70,7 @@
                                                                 <td>{{$obj->getStudent->f_name}} {{$obj->getStudent->l_name}}</td>
                                                                 <td>{{count($obj->getCourses)}}</td>
                                                                 <td>{{$obj->getStatus->name}}</td>
+                                                                <td>{{$obj->remaining_amount}}$</td>
                                                                 <td>
                                                                     @can('Edit_enRolled_Course')
                                                                         <a href="{{ route('enrolled-course.edit', ['enrolled_course' => $obj->id]) }}" class="icons warning"><i class="fa-solid fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="Edit"></i></a>
@@ -83,10 +85,11 @@
                                                         <tfoot>
                                                         <tr>
                                                             <th>Enrollment No</th>
-                                                            <th>Student</th>
+                                                            <th>Date</th>
                                                             <th>Phone Number</th>
                                                             <th>nb of Courses</th>
                                                             <th>Status</th>
+                                                            <th>Remaining Amount</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                         </tfoot>

@@ -88,11 +88,55 @@
                                      aria-labelledby="baseIcon-tab21">
 
                                     <div class="row">
-                                        <div class="col-xl-3 col-lg-3 col-12">
+                                        <div class="col-xl-4 col-lg-4 col-12">
+                                            <div class="card crypto-card-3 bg-gradient-directional-amber">
+                                                <div class="card-body pb-1">
+                                                    <h4 class="text-white mb-3">
+                                                        <i class="fa-solid fa-dollar-sign"></i> Total Amount
+                                                    </h4>
+                                                    <h6 class="text-white mb-1">
+                                                        {{ $total_amount}}$
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-4 col-lg-4 col-12">
+                                            <div class="card crypto-card-3 bg-gradient-directional-success">
+                                                <div class="card-body pb-1">
+                                                    <h4 class="text-white mb-3">
+                                                        <i class="fa-solid fa-dollar-sign"></i> Received Amount
+                                                    </h4>
+                                                    <h6 class="text-white mb-1">
+                                                        {{ $received_amount}}$
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="col-xl-4 col-lg-4 col-12">
                                             <div class="card crypto-card-3 bg-gradient-directional-red">
                                                 <div class="card-body pb-1">
                                                     <h4 class="text-white mb-3">
-                                                        <i class="fa-solid fa-dollar-sign"></i> Payment
+                                                        <i class="fa-solid fa-dollar-sign"></i> Remaining Amount
+                                                    </h4>
+                                                    <h6 class="text-white mb-1">
+                                                        {{ $remaining_amount}}$
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="col-xl-4 col-lg-4 col-12">
+                                            <div class="card crypto-card-3 bg-gradient-directional-info">
+                                                <div class="card-body pb-1">
+                                                    <h4 class="text-white mb-3">
+                                                        # Payments
                                                     </h4>
                                                     <h6 class="text-white mb-1">
                                                         {{ count($student->getPayment) }}
@@ -101,11 +145,11 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-xl-3 col-lg-3 col-12">
-                                            <div class="card crypto-card-3 bg-gradient-directional-blue">
+                                        <div class="col-xl-4 col-lg-4 col-12">
+                                            <div class="card crypto-card-3 bg-gradient-directional-blue-grey">
                                                 <div class="card-body pb-1">
                                                     <h4 class="text-white mb-3">
-                                                        <i class="fa-solid fa-paperclip"></i> In Rolled Courses
+                                                       # Enrolled Courses
                                                     </h4>
                                                     <h6 class="text-white mb-1">
                                                         {{ count($student->getInRolledCourses) }}

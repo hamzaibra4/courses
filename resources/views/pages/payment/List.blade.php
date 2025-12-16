@@ -54,7 +54,7 @@
                                                         <tr>
                                                             <th>Transaction-Number</th>
                                                             <th>Student</th>
-                                                            <th>Nb of Courses</th>
+                                                            <th>Amount</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                         </thead>
@@ -63,9 +63,8 @@
                                                             <tr id="row{{$obj->id}}">
                                                                 <td>{{$obj->trx_number}}</td>
                                                                 <td>{{$obj->getStudent->f_name}} {{$obj->getStudent->l_name}}</td>
-                                                                <td>{{count($obj->getCourses)}}</td>
+                                                                <td>{{$obj->amount}}$</td>
                                                                 <td>
-                                                                    @can('Edit_Payments')<a href="{{route('payment.edit',['payment'=>$obj])}}" class="icons warning"><i class="fa-solid fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="Edit"></i></a>@endcan
                                                                     @can('Delete_Payments') <a href="#" data-id='{{$obj->id}}' data-url='{{route('payment.destroy',['payment'=>$obj])}}' class="deleteRow icons danger"><i class="fa-solid fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i></a>@endcan
                                                                 </td>
                                                             </tr>
@@ -75,7 +74,7 @@
                                                         <tr>
                                                             <th>Transaction-Number</th>
                                                             <th>Student</th>
-                                                            <th>Nb of Courses</th>
+                                                            <th>Amount</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                         </tfoot>

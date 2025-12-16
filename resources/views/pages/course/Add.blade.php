@@ -126,9 +126,10 @@
                                                     </div>
                                                 @endif
 
+                                            </div>
                                                     <div class="col-md-12">
-                                                        <label>What we learn
-                                                            <a style="padding:20px" onclick="addNewItem()">
+                                                        <label>What you will learn
+                                                            <a  onclick="addNewItem()">
                                                                 <i class="fa fa-plus icon-plus iconStyle"></i>
                                                             </a>
                                                         </label>
@@ -142,6 +143,8 @@
                                                             <input type="hidden" id="existing-data" value="">
                                                         @endif
                                                     </div>
+
+                                            </div>
                                             <div class="form-actions mt-3">
                                                 @can('List_Course')
                                                     <a href="{{ route('course.index') }}">

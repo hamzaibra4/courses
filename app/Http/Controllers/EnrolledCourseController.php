@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\EnrolledCourse;
 use App\Models\MultipleCoursesEnrolled;
+use App\Models\Payment;
 use App\Models\RelatedCoursesStatus;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Model;
@@ -99,6 +100,17 @@ class EnrolledCourseController extends Controller
 
         $obj->save();
 
+        $payment=new Payment();
+        $counter = DB::table('payments')->max('counter') + 1;
+        $payment->trx_number = "TRX-" . $counter;
+        $payment->counter = $counter;
+        $payment->date=now()->toDateString();;
+        $payment->student_id=$request->student_id;
+        $payment->enrolled_course_id = $obj->id;
+        $payment->amount=$obj->received_amount;
+        $payment->save();
+
+
 
 
         foreach ($request->course_id as $courseId) {
@@ -158,21 +170,17 @@ class EnrolledCourseController extends Controller
         $partiallyStatus = RelatedCoursesStatus::where('key', 'PP')->firstOrFail();
         $paidStatus      = RelatedCoursesStatus::where('key', 'PA')->firstOrFail();
 
+        $alreadyPaid = Payment::where('enrolled_course_id',$id)->sum('amount');
         $obj=EnrolledCourse::findOrFail($id);
         $obj->student_id=$request->student_id;
         $obj->total_amount = (float) $request->amount;
-        $obj->received_amount = (float) ($request->r_amount ?? 0);
+        $obj->received_amount = (float) ($request->r_amount ?? 0) + (float) $alreadyPaid;
         $obj->remaining_amount = max(
             0,
             $obj->total_amount - $obj->received_amount
         );
 
-        if ($request->paid) {
-            $obj->status_id = $paidStatus->id;
-            $obj->received_amount = $obj->total_amount;
-            $obj->remaining_amount = 0;
-        }
-        elseif ($obj->received_amount > 0) {
+       if ($obj->received_amount > 0) {
             $obj->status_id = $partiallyStatus->id;
         }
         else {
@@ -180,6 +188,7 @@ class EnrolledCourseController extends Controller
         }
 
         $obj->save();
+
         MultipleCoursesEnrolled::where('enrolled_course_id',$obj->id)->delete();
         foreach ($request->course_id as $courseId) {
             $obj2=new MultipleCoursesEnrolled();

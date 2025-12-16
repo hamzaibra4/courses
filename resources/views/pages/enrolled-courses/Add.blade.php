@@ -92,7 +92,7 @@
                                                         @enderror
                                                     </div>
 
-
+                                                    @if(!$rolledCourse)
                                                     <div class="form-group cust-form-input col-12">
                                                         <label for="r_amount">Received Amount </label>
                                                         <input id="r_amount"  type="number" class="form-control"
@@ -113,6 +113,7 @@
                                                         <div class="error-msg">{{ $message }}</div>
                                                         @enderror
                                                     </div>
+                                                        @endif
 
 
                                                 </div>
