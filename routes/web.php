@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\ConfigurationController;
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\EnrolledCourseController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -62,8 +63,8 @@ Route::delete('material-pdf/{id}', [MaterialController::class, 'deletePdf'])->na
 Route::resource('watched-video',WatchedVideoController::class);
 Route::resource('favorite-video',FavoriteVideoController::class);
 Route::resource('enrolled-course',EnrolledCourseController::class);
-Route::get('download-enrollment/{id}',[EnrolledCourseController::class,'receipt'])->name('download-enrollment');
-
+Route::get('download-enrollment/{id}',[DownloadController::class,'receipt'])->name('download-enrollment');
+Route::get('download-payment/{id}',[DownloadController::class,'payment'])->name('download-payment');
 
 
 
