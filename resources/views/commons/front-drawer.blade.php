@@ -7,10 +7,10 @@
             <!-- Sidebar Content -->
 
 
-            <div class="sidebar-heading mt-3 ">Student</div>
+            <div class="sidebar-heading firstone">Student</div>
             <ul class="sidebar-menu">
 
-                <li class="sidebar-menu-item active">
+                <li class="sidebar-menu-item activeme">
                     <a class="sidebar-menu-button"
                        href="{{route('home-student')}}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">home</span>
