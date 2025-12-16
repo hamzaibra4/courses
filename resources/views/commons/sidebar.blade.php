@@ -1,7 +1,14 @@
 <div class="main-menu menu-fixed menu-light menu-accordion no-print   menu-shadow " data-scroll-to-active="true">
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-
+            @can('List_Company')
+                <li class="nav-item {{ isActiveRoute(['company.index', 'company.edit'], 'active') }}">
+                    <a href="{{ route('company.index') }}">
+                        <i class="fa-solid fa-building"></i>
+                        <span class="menu-title">Company</span>
+                    </a>
+                </li>
+            @endcan
             @can('List_Users')
                 <li class="nav-item {{ isActiveRoute(['user.index', 'user.create', 'user.edit'], 'active') }}">
                     <a href="{{ route('user.index') }}">

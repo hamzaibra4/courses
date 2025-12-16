@@ -24,6 +24,7 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\WatchedVideoController;
 use App\Http\Controllers\FavoriteVideoController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\CompanyController;
 
 
 Route::get('/', function () {
@@ -77,8 +78,14 @@ Route::get('change-password', [FrontController::class, 'updatePassword'])->name(
 Route::get('view-lesson/{id}', [FrontController::class, 'viewLesson'])->name('view-lesson');
 
 
+Route::resource('enrolled-course',EnrolledCourseController::class);
+Route::get('enRolled-invoice/{id}', [EnrolledCourseController::class, 'getInvoice'])->name('enRolled-invoice');
+Route::get('payment-invoice/{id}', [PaymentController::class, 'getInvoice'])->name('payment-invoice');
 
 
+
+
+Route::resource('company', CompanyController::class);
 
 
 

@@ -2,29 +2,18 @@
 @section('content')
     <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2">
-            <h3 class="content-header-title">Student Enrollments</h3>
+            <h3 class="content-header-title">Company</h3>
             <div class="row breadcrumbs-top">
                 <div class="breadcrumb-wrapper col-12">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{route('enrolled-course.index')}}">Home</a>
+                        <li class="breadcrumb-item"><a href="{{route('company.index')}}">Home</a>
                         </li>
-                        <li class="breadcrumb-item active"><a href="#">Student Enrollments</a>
+                        <li class="breadcrumb-item active"><a href="#">Company</a>
                         </li>
                     </ol>
                 </div>
             </div>
         </div>
-        @can('Add_enRolled_Course')
-            <div class="content-header-right col-md-6 col-12">
-                <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
-                    <a class="btn btn-info  box-shadow-2 px-2"
-                       href="{{route('enrolled-course.create')}}"
-                       role="button"><i class="fa-solid fa-plus"></i>Create</a>
-                    <div>
-                    </div>
-                </div>
-            </div>
-        @endcan
     </div>
 
     <div class="content-body">
@@ -38,7 +27,7 @@
                                     <div class="col-12">
                                         <div class="card itemcard">
                                             <div class="card-header">
-                                                <h4 class="card-title">Student Enrollments</h4>
+                                                <h4 class="card-title">Company</h4>
                                                 <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                                 <div class="heading-elements">
                                                     <ul class="list-inline mb-0">
@@ -53,46 +42,28 @@
                                                     <table class="table table-striped table-bordered file-export2">
                                                         <thead>
                                                         <tr>
-                                                            <th>Enrollment No</th>
-                                                            <th>Date</th>
-                                                            <th>Student</th>
-                                                            <th>nb of Courses</th>
-                                                            <th>Status</th>
-                                                            <th>Remaining Amount</th>
+                                                            <th>Company Name</th>
+                                                            <th>Logo</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        @foreach(($rolledCourse) as $obj)
+                                                        @foreach(($companies ?? []) as $obj)
                                                             <tr id="row{{$obj->id}}">
-                                                                <td>{{$obj->enrollment_number}}</td>
-                                                                <td>{{$obj->created_at}}</td>
-                                                                <td>{{$obj->getStudent->f_name}} {{$obj->getStudent->l_name}}</td>
-                                                                <td>{{count($obj->getCourses)}}</td>
-                                                                <td>{{$obj->getStatus->name}}</td>
-                                                                <td>{{$obj->remaining_amount}}$</td>
+                                                                <td>{{$obj->name}}</td>
+                                                                <td><img data-enlargable src="{{asset($obj->logo)}}" width="250px"/></td>
                                                                 <td>
-                                                                    @can('Edit_enRolled_Course')
-                                                                        <a href="{{ route('enrolled-course.edit', ['enrolled_course' => $obj->id]) }}" class="icons warning"><i class="fa-solid fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="Edit"></i></a>
+                                                                    @can('Edit_Company')
+                                                                        <a href="{{ route('company.edit', ['company' => $obj->id]) }}" class="icons warning"><i class="fa-solid fa-pen-to-square" data-toggle="tooltip" data-placement="top" title="Edit"></i></a>
                                                                     @endcan
-                                                                    @can('Delete_enRolled_Course')
-                                                                        <a href="#" data-id='{{$obj->id}}' data-url='{{route('enrolled-course.destroy',['enrolled_course'=>$obj])}}' class="deleteRow icons danger"><i class="fa-solid fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i></a>
-                                                                    @endcan
-
-                                                                        <a href="{{route('enRolled-invoice', ['id' => $obj->id])}}" class="icons"><i class="fa-solid fa-file-invoice"></i></a>
-
                                                                 </td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
                                                         <tfoot>
                                                         <tr>
-                                                            <th>Enrollment No</th>
-                                                            <th>Date</th>
-                                                            <th>Phone Number</th>
-                                                            <th>nb of Courses</th>
-                                                            <th>Status</th>
-                                                            <th>Remaining Amount</th>
+                                                            <th>Company Name</th>
+                                                            <th>Logo</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                         </tfoot>
