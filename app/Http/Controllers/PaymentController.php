@@ -6,8 +6,7 @@ use App\Models\Course;
 use App\Models\Payment;
 use App\Models\PaymentCourse;
 use App\Models\Student;
-use App\Models\StudentType;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\EnrolledCourse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -59,7 +58,6 @@ class PaymentController extends Controller
             abort(403);
         }
         $request->validate([
-           'date'=>'required',
            'amount'=>'required',
            'student_id'=>'required',
            'course_id'=>'required',
@@ -69,7 +67,7 @@ class PaymentController extends Controller
         $payment->trx_number = "TRX-" . $counter;
         $payment->counter = $counter;
         $payment->amount=$request->amount;
-        $payment->date=$request->date;
+        $payment->date="!223";
         $payment->student_id=$request->student_id;
         $payment->save();
         foreach ($request->course_id as $courseId) {
@@ -153,6 +151,30 @@ class PaymentController extends Controller
         return response()->json([
             'code' => $code,
             'msg'=>$msg
+        ]);
+    }
+
+    /**
+     * Return enrollment numbers for a given student (AJAX).
+     */
+    public function getEnrollmentStatus(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user->can('Add_Payments') && !$user->can('Edit_Payments')) {
+            abort(403);
+        }
+
+        $request->validate([
+            'student_id' => 'required|uuid',
+        ]);
+
+        $enrollments = EnrolledCourse::where('student_id', $request->student_id)
+            ->orderBy('created_at', 'desc')
+            ->get(['id', 'enrollment_number']);
+
+        return response()->json([
+            'code' => 200,
+            'enrollment_numbers' => $enrollments,
         ]);
     }
 }

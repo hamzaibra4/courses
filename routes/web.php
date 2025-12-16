@@ -51,6 +51,7 @@ Route::get('reset-password-modal', [UserController::class, 'resetPasswordModal']
 Route::post('reset-password-form', [UserController::class, 'updatePassword'])->name('reset-password-form');
 Route::resource('custom-field', CustomFieldController::class);
 Route::resource('payment', PaymentController::class);
+Route::post('get-enrollment-status', [PaymentController::class, 'getEnrollmentStatus'])->name('get-enrollment-status');
 Route::resource('courses-status', RelatedCoursesStatusController::class);
 Route::resource('section', SectionController::class);
 Route::resource('chapter', ChapterController::class);
