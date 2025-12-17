@@ -95,7 +95,7 @@
                                                     <div class="form-group">
                                                         <label for="description">Description</label>
                                                         <textarea id="description"
-                                                                  class="form-control"
+                                                                  class="form-control ckeditor"
                                                                   name="description"
                                                                   placeholder="Enter your Description">{{ old('description', $section->description ?? ($section->document ?? '')) }}</textarea>
                                                         @error('description')
@@ -227,4 +227,11 @@
         </div>
 
     </div>
+@endsection
+@section('customjs')
+    <script src="https://cdn.ckeditor.com/4.15.1/full-all/ckeditor.js"></script>
+
+    <script>
+        CKEDITOR.replace('description');
+    </script>
 @endsection

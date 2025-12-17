@@ -90,6 +90,9 @@ class permissionSeeder extends Seeder
         Permission::create(['name' => 'Delete_enRolled_Course']);
         Permission::create(['name' => 'List_enRolled_Course']);
 
+        Permission::create(['name' => 'Edit_Company']);
+        Permission::create(['name' => 'List_Company']);
+
 
         Permission::create(['name' => 'Assign_Permission']);
         $admin = User::first();

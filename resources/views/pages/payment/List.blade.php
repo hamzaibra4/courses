@@ -66,6 +66,8 @@
                                                                 <td>{{$obj->amount}}$</td>
                                                                 <td>
                                                                     @can('Delete_Payments') <a href="#" data-id='{{$obj->id}}' data-url='{{route('payment.destroy',['payment'=>$obj])}}' class="deleteRow icons danger"><i class="fa-solid fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i></a>@endcan
+                                                                        <a href="{{route('payment-invoice', ['id' => $obj->id])}}" class="icons"><i class="fa-solid fa-file-invoice"></i></a>
+
                                                                 </td>
                                                             </tr>
                                                         @endforeach

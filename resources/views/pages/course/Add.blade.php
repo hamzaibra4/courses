@@ -77,7 +77,7 @@
                                             <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="description">Description<span>*</span></label>
-                                                <textarea id="description" class="form-control" name="description">{{ $course->description ?? old('description') }}</textarea>
+                                                <textarea id="description" class="form-control ckeditor" name="description">{{ $course->description ?? old('description') }}</textarea>
                                                 @error('description') <div class="error-msg">{{ $message }}</div> @enderror
                                             </div>
                                             </div>
@@ -162,7 +162,7 @@
                                             </div>
 
                                         </div>
-                                            </div>
+
                                     </form>
 
                                 </div>
@@ -178,5 +178,13 @@
 
 @endsection
 @section('customjs')
-    <script src="{{asset('cms/custom/course.js')}}" type="text/javascript"></script>
+    <script src="https://cdn.ckeditor.com/4.15.1/full-all/ckeditor.js"></script>
+    <script src="{{ asset('cms/custom/course.js') }}"></script>
+
+    <script>
+        CKEDITOR.replace('description');
+    </script>
 @endsection
+
+
+

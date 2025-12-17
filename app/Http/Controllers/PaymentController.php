@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Course;
 use App\Models\Payment;
 use App\Models\PaymentCourse;
@@ -277,5 +278,10 @@ class PaymentController extends Controller
             'code' => 200,
             'enrollment_numbers' => $enrollments,
         ]);
+    }
+    public function getInvoice($id){
+        $company = Company::first();
+        $obj = Payment::findOrFail($id);
+        return view('pages.payment.Invoice')->with('obj', $obj)->with('company', $company);
     }
 }
