@@ -67,7 +67,7 @@
                                                     <div class="col-md-12">
                                                         <div class="form-group">
                                                             <label for="text">Description <span>*</span></label>
-                                                            <textarea id="text" class="form-control ckeditor" name="text"
+                                                            <textarea id="text" class="form-control " name="text"
                                                                       placeholder="Enter your description">{{ $chapter->text ?? old('text') }}</textarea>
                                                             @error('text')
                                                             <div class="error-msg">{{ $message }}</div>
@@ -140,7 +140,6 @@
 @endsection
 @section('customjs')
     <script src="https://cdn.ckeditor.com/4.15.1/full-all/ckeditor.js"></script>
-
     <script>
         CKEDITOR.replace('description');
     </script>

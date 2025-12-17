@@ -78,9 +78,8 @@
                                                                     @can('Delete_enRolled_Course')
                                                                         <a href="#" data-id='{{$obj->id}}' data-url='{{route('enrolled-course.destroy',['enrolled_course'=>$obj])}}' class="deleteRow icons danger"><i class="fa-solid fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i></a>
                                                                     @endcan
-
-                                                                        <a href="{{route('enRolled-invoice', ['id' => $obj->id])}}" class="icons"><i class="fa-solid fa-file-invoice"></i></a>
-
+                                                                        <a href="{{route('enrolled-invoice', ['id' => $obj->id])}}" class="icons"><i class="fa-solid fa-file-invoice"  data-toggle="tooltip" data-placement="top" title="Invoice"></i></a>
+                                                                        <a href="{{route('download-enrollment', ['id' => $obj->id])}}" class="icons"><i class="fa-solid fa-file-download"  data-toggle="tooltip" data-placement="top" title="Download"></i></a>
                                                                 </td>
                                                             </tr>
                                                         @endforeach

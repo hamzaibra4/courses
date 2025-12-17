@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="content-wrapper">
-        <div class="content-header row hide-on-print">
+        <div class="content-header row hide-on-print no-print">
             <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
                 <h3 class="content-header-title mb-0 d-inline-block">Invoice</h3>
                 <div class="row breadcrumbs-top d-inline-block">
@@ -27,20 +27,35 @@
                                 />
                                 <div class="media-body mt-2">
                                     <ul class="ml-2 px-0 list-unstyled">
-                                        <li class="text-bold-800">{{$company->name}},</li>
-                                        <li>{{$company->telephone}},</li>
-                                        <li>{{$company->address}}.</li>
+                                        <li class="text-bold-800">{{$company->name}}</li>
+                                        @isset($company->address)
+                                            <li>
+                                               {{$company->address}}
+                                            </li>
+                                        @endisset
+
+                                        @isset($company->telephone)
+                                            <li>
+                                                <a href="tel:{{$company->telephone}}">{{$company->telephone}}</a>
+                                            </li>
+                                        @endisset
+
+                                        @isset($company->email)
+                                            <li>
+                                                <a href="mailto:{{$company->email}}">{{$company->email}}</a>
+                                            </li>
+                                        @endisset
+
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-12 text-center text-md-right">
-                            <h2>Enrollment Number</h2>
-                            <p class="pb-3">{{$obj->enrollment_number}}</p>
+                            <h2>Invoice</h2>
+                            <p class="pb-3">#{{$obj->enrollment_number}}</p>
                             <ul class="px-0 list-unstyled">
-                                <li><h4>Amount</h4></li>
-                                <li class="lead text-bold-800">{{$obj->total_amount}}$</li>
-                                <li class="lead text-bold-800">{{$obj->getStatus->name}}</li>
+                                <li>Balance Due</li>
+                                <li class="lead text-bold-800">$ {{ number_format($obj->remaining_amount, 2, '.', ' ') }}</li>
                             </ul>
                         </div>
                     </div>
@@ -60,8 +75,9 @@
                         </div>
                         <div class="col-md-6 col-sm-12 text-center text-md-right">
                             <p>
-                                <span class="text-muted">Date: </span>
-                            {{ $obj->created_at->format('d/m/Y') }}
+                                <span class="text-muted">Invoice Date :</span> {{ $obj->created_at->format('d/m/Y') }}</p>
+                            <p>
+                                <span class="text-muted">Status :</span> {{$obj->getStatus->name}}</p>
                         </div>
 
                     </div>
@@ -73,33 +89,24 @@
                                 <table class="table">
                                     <thead>
                                     <tr>
-
-                                        <th>Received Amount</th>
-                                        <th class="text">Remaining Amount</th>
+                                        <th>#</th>
+                                        <th>Item & Description</th>
+                                        <th>Unit Price</th>
+                                        <th>Price</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
+                                    @foreach($obj->getCourses as $course)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>
+                                                <p>{{$course->name}}</p>
+                                            </td>
+                                            <td >{{ number_format($course->price, 2, '.', ' ') }}</td>
+                                            <td >$ {{ number_format($course->price, 2, '.', ' ') }}</td>
+                                        </tr>
+                                    @endforeach
 
-                                        @if($obj->received_amount)
-                                            <td>
-                                                <p class="text-muted">{{$obj->received_amount}}</p>
-                                            </td>
-                                        @else
-                                            <td>
-                                                <p class="text-muted">NA</p>
-                                            </td>
-                                        @endif
-                                            @if($obj->remaining_amount)
-                                                <td>
-                                                    <p class="text-muted">{{$obj->remaining_amount}}</p>
-                                                </td>
-                                            @else
-                                                <td>
-                                                    <p class="text-muted">NA</p>
-                                                </td>
-                                            @endif
-                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -108,26 +115,49 @@
                             <div class="col-md-7 col-sm-12 text-center text-md-left">
                             </div>
                             <div class="col-md-5 col-sm-12">
-                                <p class="lead">Total</p>
+                                <p class="lead">Total due
+                                </p>
                                 <div class="table-responsive">
                                     <table class="table">
                                         <tbody>
-                                        {{--                                            <tr>--}}
-                                        {{--                                                <td>{{ __('messages.subtotal') }}</td>--}}
-                                        {{--                                                <td class="text-right">{{$invoice->subtotal}}$</td>--}}
-                                        {{--                                            </tr>--}}
                                         <tr>
-                                            <td class="text-bold-800">Total</td>
-                                            <td class="text-bold-800 text-right"> {{$obj->total_amount}}$</td>
+                                            <td>Sub Total</td>
+                                            <td class="text-right">$ {{ number_format($obj->total_amount, 2, '.', ' ') }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Received</td>
+                                            <td class="text-right">$ {{ number_format($obj->received_amount, 2, '.', ' ') }}</td>
+                                        </tr>
+                                        <tr class="bg-grey bg-lighten-4">
+                                            <td class="text-bold-800">Balance Due</td>
+                                            <td class="text-bold-800 text-right">$ {{ number_format($obj->remaining_amount, 2, '.', ' ') }}</td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
+                                @isset($company->signature_image)
+                                <div class="text-center">
+                                    <p>Authorized person</p>
+                                    <img src="{{asset($company->signature_image)}}" alt="signature" class="height-100"
+                                    />
+                                </div>
+                                @endisset
                             </div>
                         </div>
                     </div>
                     <!-- Invoice Footer -->
                     <div id="invoice-footer">
+                        <div class="row">
+                            <div class="col-md-7 col-sm-12">
+{{--                                <h6>Terms & Condition</h6>--}}
+{{--                                <p>You know, being a test pilot isn't always the healthiest business--}}
+{{--                                    in the world. We predict too much for the next year and yet far--}}
+{{--                                    too little for the next 10.</p>--}}
+                            </div>
+                            <div class="col-md-5 col-sm-12 text-center no-print">
+                              <a class="btn btn-info btn-lg my-1" href="{{route('download-enrollment',['id'=>$obj->id])}}"><i class="la la-download"></i> Download Invoice</a>
+                            </div>
+                        </div>
                     </div>
                     <!--/ Invoice Footer -->
                 </div>

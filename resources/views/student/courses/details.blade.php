@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="pb-lg-64pt py-32pt">
-        <div class="container page__container">
+        <div class=" ">
 {{--            <nav class="course-nav">--}}
 {{--                <a data-toggle="tooltip"--}}
 {{--                   data-placement="bottom"--}}
@@ -59,7 +59,7 @@
                 </div>
             </div>
 
-            <div class="d-flex flex-wrap align-items-end mb-16pt">
+            <div class="d-flex flex-wrap align-items-end mb-16pt ml-4">
                 <h1 class="flex m-0">{{$lesson->title}}</h1>
                 <p class="h1  font-weight-light m-0">{{$lesson->nb_of_hours}}</p>
             </div>
@@ -67,8 +67,8 @@
 
         </div>
     </div>
-    <div class="navbar navbar-expand-sm navbar-light bg-white border-bottom-2 navbar-list p-0 m-0 align-items-center">
-        <div class=" container page__container">
+    <div class="navbar navbar-expand-sm navbar-light bg-white border-bottom-2 navbar-list p-0 m-0 align-items-center ">
+        <div class="  ">
             <div class="card dashboard-area-tabs p-relative o-hidden mb-0 w-100 border-0 no-border-radius">
                 <!-- Tabs -->
                 <div class="card-header2 p-0 nav">
@@ -106,7 +106,7 @@
                 <!-- Tab contents -->
                 <div class="card-body tab-content  ">
                     <div id="tab-active" class="tab-pane fade show active text-70 w-100">
-                        <p class="mb-24pt text-justify">{{$lesson->description}}</p>
+                        <p class="mb-24pt text-justify">{!! $lesson->description !!}</p>
                     </div>
 
                     <div id="tab-archived" class="tab-pane fade text-70 w-100">

@@ -77,7 +77,8 @@ class PaymentController extends Controller
 
         $payment=new Payment();
         $counter = DB::table('payments')->max('counter') + 1;
-        $payment->trx_number = "TRX-" . $counter;
+        $prefix = Company::first()?->payment_prefix ?? "PAY";
+        $payment->trx_number = $prefix . "-" . $counter;
         $payment->counter = $counter;
         $payment->amount=$request->amount;
         $payment->date=$request->date;

@@ -36,7 +36,7 @@
                     <div class="page-separator">
                         <div class="page-separator__text">About this course</div>
                     </div>
-                    <p class="text-70 text-justify">{{$course->description}}</p>
+                    <p class="text-70 text-justify">{!! $course->description !!}</p>
                 </div>
                 @if(count($course->getDetails) > 0)
                 <div class="col-md-5">

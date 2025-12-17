@@ -7,7 +7,10 @@
           content="IE=edge">
     <meta name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Luma</title>
+    <meta name="description" content="TechnoMath ">
+    <meta name="keywords"  content="TechnoMath">
+    <meta name="author"  content="BA Solutions">
+    <title>TechnoMath</title>
 
     <meta name="robots"
           content="noindex">

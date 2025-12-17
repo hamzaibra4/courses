@@ -107,7 +107,8 @@ class EnrolledCourseController extends Controller
 
         $payment=new Payment();
         $counter = DB::table('payments')->max('counter') + 1;
-        $payment->trx_number = "TRX-" . $counter;
+        $prefix = Company::first()?->payment_prefix ?? "PAY";
+        $payment->trx_number = $prefix . "-" . $counter;
         $payment->counter = $counter;
         $payment->date=now()->toDateString();;
         $payment->student_id=$request->student_id;

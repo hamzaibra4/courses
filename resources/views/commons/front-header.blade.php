@@ -28,11 +28,11 @@
     <ul class="nav navbar-nav d-none d-sm-flex flex justify-content-start ml-8pt">
         <li class="nav-item active">
             <a href="index.html"
-               class="nav-link">Home</a>
+               class="nav-link nav-link2">Home</a>
         </li>
         <li class="nav-item">
             <a href="pricing.html"
-               class="nav-link">Courses</a>
+               class="nav-link nav-link2">Courses</a>
         </li>
     </ul>
 

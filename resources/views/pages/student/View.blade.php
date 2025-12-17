@@ -60,11 +60,22 @@
 
                                 <li class="nav-item">
                                     <a class="nav-link"
+                                       id="baseIcon-tab33"
+                                       data-toggle="tab"
+                                       href="#tabIcon33"
+                                       aria-controls="tabIcon33">
+                                        <i class="fa-solid fa-book-open"></i> Courses
+                                    </a>
+                                </li>
+
+
+                                <li class="nav-item">
+                                    <a class="nav-link"
                                        id="baseIcon-tab22"
                                        data-toggle="tab"
                                        href="#tabIcon22"
                                        aria-controls="tabIcon22">
-                                    Custom Field
+                                        <i class="fa-solid fa-bars"></i> Custom Field
                                     </a>
                                 </li>
 
@@ -189,6 +200,42 @@
                                     </table>
                                 </div>
 
+                                {{-- TAB 2: TABLE VIEW (LIKE PAYMENTS) --}}
+                                <div class="tab-pane"
+                                     id="tabIcon33"
+                                     aria-labelledby="baseIcon-tab33">
+
+                                    <table class="table table-striped table-bordered file-export w-100">
+                                        <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Enrollment Number</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($student->getInRolledCourses as $enrollment)
+                                            @foreach($enrollment->getCourses as $course)
+                                            <tr>
+                                                <td>{{ $course->name }}</td>
+                                                <td>{{ $enrollment->enrollment_number }}</td>
+                                                <td>
+                                                    <a href="{{route('enrolled-invoice', ['id' => $enrollment->id])}}" class="icons"><i class="fa-solid fa-file-invoice"  data-toggle="tooltip" data-placement="top" title="Invoice"></i></a>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Enrollment Number</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+
                                 {{-- TAB 3: PAYMENTS (UNCHANGED) --}}
                                 <div class="tab-pane"
                                      id="tabIcon23"
@@ -198,17 +245,21 @@
                                         <thead>
                                         <tr>
                                             <th>Payment Number</th>
-                                            <th>Courses</th>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Actions</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach($student->getPayment as $obj)
                                             <tr>
-                                                <td>{{ $obj->trx_number }}</td>
+                                                <td>{{ $obj->trx_number }} </td>
+                                                <td>{{ $obj->date }} </td>
+                                                <td>{{ $obj->amount }}$</td>
                                                 <td>
-                                                    @foreach($obj->getCourses as $course)
-                                                        {{ $course->name }}@if(!$loop->last), @endif
-                                                    @endforeach
+                                                    <a href="{{route('payment-invoice', ['id' => $obj->id])}}" class="icons"><i class="fa-solid fa-file-invoice" data-toggle="tooltip" data-placement="top" title="Invoice"></i></a>
+                                                    <a href="{{route('download-payment', ['id' => $obj->id])}}" class="icons"><i class="fa-solid fa-file-download"  data-toggle="tooltip" data-placement="top" title="Download"></i></a>
+
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -216,6 +267,8 @@
                                         <tfoot>
                                         <tr>
                                             <th>Payment Number</th>
+                                            <th>Date</th>
+                                            <th>Amount</th>
                                             <th>Courses</th>
                                         </tr>
                                         </tfoot>

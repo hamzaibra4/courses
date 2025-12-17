@@ -22,7 +22,7 @@
 
 
                 @can('List_Students')
-                    <li class="nav-item {{ isActiveRoute(['student.index', 'student.create', 'student.edit'], 'active') }}">
+                    <li class="nav-item {{ isActiveRoute(['student.index', 'student.create', 'student.edit','view-student'], 'active') }}">
                         <a href="{{ route('student.index') }}">
                             <i class="fa-regular fa-newspaper"></i>
                             <span class="menu-title">Students</span>
@@ -41,7 +41,7 @@
                 @endcan
 
                 @can('List_enRolled_Course')
-                    <li class="nav-item {{ isActiveRoute(['enrolled-course.index', 'enrolled-course.create', 'enrolled-course.edit'], 'active') }}">
+                    <li class="nav-item {{ isActiveRoute(['enrolled-course.index', 'enrolled-course.create', 'enrolled-course.edit','enrolled-invoice'], 'active') }}">
                         <a href="{{ route('enrolled-course.index') }}">
                             <i class="fa-solid fa-sign-in"></i>
                             <span class="menu-title">Student Enrollments</span>
@@ -51,7 +51,7 @@
 
 
                 @can('List_Payments')
-                    <li class="nav-item {{ isActiveRoute(['payment.index', 'payment.create', 'payment.edit'], 'active') }}">
+                    <li class="nav-item {{ isActiveRoute(['payment.index', 'payment.create', 'payment.edit','payment-invoice'], 'active') }}">
                         <a href="{{ route('payment.index') }}">
                             <i class="fa-solid fa-file-invoice-dollar"></i>
                             <span class="menu-title">Payments</span>

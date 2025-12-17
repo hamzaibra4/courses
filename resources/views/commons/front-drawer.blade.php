@@ -10,37 +10,28 @@
             <div class="sidebar-heading firstone">Student</div>
             <ul class="sidebar-menu">
 
-                <li class="sidebar-menu-item activeme">
+                <li class="sidebar-menu-item {{ isActiveRoute(['home-student','view-lesson'], 'activeme') }} ">
                     <a class="sidebar-menu-button"
                        href="{{route('home-student')}}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">home</span>
-                        <span class="sidebar-menu-text">Home</span>
+                        <span class="sidebar-menu-text">Courses</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-menu-item {{ isActiveRoute(['change-password'], 'activeme') }} ">
+                    <a class="sidebar-menu-button"
+                       href="{{route('change-password')}}">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">lock</span>
+                        <span class="sidebar-menu-text">Change Password</span>
                     </a>
                 </li>
 
                 <li class="sidebar-menu-item">
                     <a class="sidebar-menu-button"
-                       data-toggle="collapse"
-                       href="#account_menu">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">account_box</span>
-                        Account
-                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                       href="{{route('logout')}}">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">logout</span>
+                        <span class="sidebar-menu-text">Logout</span>
                     </a>
-                    <ul class="sidebar-submenu collapse sm-indent"
-                        id="account_menu">
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="{{route('change-password')}}">
-                                <span class="sidebar-menu-text">Change Password</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button"
-                               href="{{route('my-account')}}">
-                                <span class="sidebar-menu-text">Edit Account</span>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
 
             </ul>

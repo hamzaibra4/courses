@@ -14,36 +14,62 @@
         </div>
     </div>
 
-    <div class="page-section">
-        <div class="container page__container">
-            <div class="page-separator">
-                <div class="page-separator__text">Change Password</div>
-            </div>
+    <div class="page-section ">
+        <div class="container page__container mycard">
 
-            <form action="https://luma.humatheme.com/Demos/App_Layout/login.html"
-                  class="col-sm-12 p-0">
+            <form action="{{ route('user.password.update') }}" method="POST" class="col-sm-12 p-0">
+                @csrf
 
                 <div class="form-row">
+
                     <div class="form-group col-12">
-                        <label class="form-label" for="password">Password:</label>
-                        <input id="password"
-                               type="password"
+                        <label class="form-label">Old Password</label>
+                        <input type="password"
+                               name="current_password"
                                class="form-control"
-                               placeholder="Type a new password ...">
+                               placeholder="Enter old password"
+                               required>
                     </div>
 
                     <div class="form-group col-12">
-                        <label class="form-label" for="password2">Confirm Password:</label>
-                        <input id="password2"
-                               type="password"
+                        <label class="form-label">New Password</label>
+                        <input type="password"
+                               name="password"
                                class="form-control"
-                               placeholder="Confirm your new password ...">
+                               placeholder="Enter new password"
+                               required>
                     </div>
+
+                    <div class="form-group col-12">
+                        <label class="form-label">Confirm New Password</label>
+                        <input type="password"
+                               name="password_confirmation"
+                               class="form-control"
+                               placeholder="Confirm new password"
+                               required>
+                    </div>
+
                 </div>
 
-                <button type="submit" class="btn btn-primary">Save password</button>
-
+                <button type="submit" class="btn btn-primary">Save Password</button>
             </form>
+
+            @if(session('success'))
+                <div class="alert alert-success mt-4">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="alert alert-danger mt-4">
+                    <ul class="mb-0">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
         </div>
     </div>
 

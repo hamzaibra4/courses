@@ -79,9 +79,10 @@ Route::get('view-lesson/{id}', [FrontController::class, 'viewLesson'])->name('vi
 
 
 Route::resource('enrolled-course',EnrolledCourseController::class);
-Route::get('enRolled-invoice/{id}', [EnrolledCourseController::class, 'getInvoice'])->name('enRolled-invoice');
+Route::get('enrolled-invoice/{id}', [EnrolledCourseController::class, 'getInvoice'])->name('enrolled-invoice');
 Route::get('payment-invoice/{id}', [PaymentController::class, 'getInvoice'])->name('payment-invoice');
-
+Route::post('change-password', [UserController::class, 'changePassword'])
+    ->name('user.password.update');
 
 
 

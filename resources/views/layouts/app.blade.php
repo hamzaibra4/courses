@@ -5,8 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta name="description" content="Prime Court Sport Club ">
-    <meta name="keywords"  content="Prime Court Sport Club, Padel, Sport, Ball,Sport, Padel ">
+    <meta name="description" content="TechnoMath ">
+    <meta name="keywords"  content="TechnoMath">
     <meta name="author"  content="BA Solutions">
     <title>TechnoMath</title>
     <link rel="apple-touch-icon" href="{{asset('cms/app-assets/images/ico/apple-icon-120.png')}}">

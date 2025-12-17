@@ -243,7 +243,7 @@
     <div class="top-section">
         <div class="clinic-info">
             <div style="float: right">
-                <h2>Invoice <br> <span style="font-size: 18px"> #{{$data->trx_number}} </span> </h2>
+                <h2>Receipt <br> <span style="font-size: 18px"> #{{$data->trx_number}} </span> </h2>
 
             </div>
             <div class="media">
@@ -265,7 +265,7 @@
 
     <div class="details-row">
         <div class="bill-to">
-            <strong>Invoice To</strong><br>
+            <strong>Receipt To</strong><br>
             <p>{{ $data->getStudent?->f_name }} {{ $data->getStudent?->l_name }}</p>
             <p>{{ $data->getStudent?->telephone }}</p>
 
@@ -297,7 +297,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($data->getCourses as $course)
+        @foreach($data->getEnrollment->getCourses as $course)
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>
@@ -315,8 +315,8 @@
         <table class="amount-table">
 
         <tr>
-                <td class="label">Sub Total</td>
-                <td class="value">$ {{ number_format($data->total_amount, 2, '.', ' ') }}</td>
+                <td class="label">Total Amount Paid</td>
+                <td class="value">$ {{ number_format($data->amount, 2, '.', ' ') }}</td>
             </tr>
 
         </table>

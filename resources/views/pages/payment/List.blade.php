@@ -53,8 +53,10 @@
                                                         <thead>
                                                         <tr>
                                                             <th>Transaction-Number</th>
+                                                            <th>Date</th>
                                                             <th>Student</th>
                                                             <th>Amount</th>
+
                                                             <th>Actions</th>
                                                         </tr>
                                                         </thead>
@@ -62,11 +64,15 @@
                                                         @foreach($payments as $obj)
                                                             <tr id="row{{$obj->id}}">
                                                                 <td>{{$obj->trx_number}}</td>
+                                                                <td>{{$obj->date}}</td>
                                                                 <td>{{$obj->getStudent->f_name}} {{$obj->getStudent->l_name}}</td>
                                                                 <td>{{$obj->amount}}$</td>
+
                                                                 <td>
                                                                     @can('Delete_Payments') <a href="#" data-id='{{$obj->id}}' data-url='{{route('payment.destroy',['payment'=>$obj])}}' class="deleteRow icons danger"><i class="fa-solid fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i></a>@endcan
-                                                                        <a href="{{route('payment-invoice', ['id' => $obj->id])}}" class="icons"><i class="fa-solid fa-file-invoice"></i></a>
+                                                                        <a href="{{route('payment-invoice', ['id' => $obj->id])}}" class="icons"><i class="fa-solid fa-file-invoice" data-toggle="tooltip" data-placement="top" title="Invoice"></i></a>
+                                                                        <a href="{{route('download-payment', ['id' => $obj->id])}}" class="icons"><i class="fa-solid fa-file-download"  data-toggle="tooltip" data-placement="top" title="Download"></i></a>
+
 
                                                                 </td>
                                                             </tr>
@@ -77,6 +83,7 @@
                                                             <th>Transaction-Number</th>
                                                             <th>Student</th>
                                                             <th>Amount</th>
+                                                            th>Date</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                         </tfoot>
