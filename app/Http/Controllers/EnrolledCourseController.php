@@ -225,11 +225,6 @@ class EnrolledCourseController extends Controller
             ]);
         }
     }
-    public function getInvoice($id){
-        $company=Company::first();
-        $obj=EnrolledCourse::find($id);
-        return view('pages.enrolled-courses.Invoice')->with('obj',$obj)->with('company',$company);
-}
 
 
 }

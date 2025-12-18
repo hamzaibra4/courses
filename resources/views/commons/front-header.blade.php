@@ -27,12 +27,17 @@
 
     <ul class="nav navbar-nav d-none d-sm-flex flex justify-content-start ml-8pt">
         <li class="nav-item active">
-            <a href="index.html"
+            <a href="{{route('home-student')}}"
                class="nav-link nav-link2">Home</a>
         </li>
         <li class="nav-item">
-            <a href="pricing.html"
-               class="nav-link nav-link2">Courses</a>
+            <a href="{{route('my-invoices')}}"
+               class="nav-link nav-link2">Invoices</a>
+        </li>
+
+        <li class="nav-item">
+            <a href="{{route('my-payments')}}"
+               class="nav-link nav-link2">Payments</a>
         </li>
     </ul>
 

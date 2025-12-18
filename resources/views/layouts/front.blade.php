@@ -48,9 +48,18 @@
           href="{{asset('front/public/css/app.css')}}"
           rel="stylesheet">
 
+    <link type="text/css"
+          href="{{asset('front/public/css/custom.css')}}"
+          rel="stylesheet">
+
+
+    @yield('customcss')
 </head>
 
 <body class="layout-app ">
+
+@yield('watermark')
+
 
 <div class="preloader">
     <div class="sk-chase">
@@ -112,6 +121,9 @@
 
 <!-- Preloader -->
 <script src="{{asset('front/public/js/preloader.js')}}"></script>
+
+
+@yield('customjs')
 
 </body>
 

@@ -27,7 +27,10 @@ class HomeController extends Controller
         $role = Auth::user()->getType->key;
         if ($role === 'A') {
             return view('home');
-        }else{
+        }else if ($role === 'S') {
+            return redirect()->route('home-student');
+        }
+        else{
             abort(403);
         }
     }

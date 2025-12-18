@@ -1,6 +1,9 @@
-@extends('layouts.app')
+@extends (auth()->user()->getType->key=="A" ? 'layouts.app' : 'layouts.ext-layout')
+
 @section('content')
     <div class="content-wrapper">
+
+        @if(auth()->user()->getType->key=="A")
         <div class="content-header row hide-on-print no-print">
             <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
                 <h3 class="content-header-title mb-0 d-inline-block">Receipt</h3>
@@ -16,6 +19,8 @@
                 </div>
             </div>
         </div>
+        @endif
+
         <div class="content-body">
             <section class="card">
                 <div id="invoice-template" class="card-body">
@@ -137,6 +142,7 @@
                             </div>
                         </div>
                     </div>
+                    @if(auth()->user()->getType->key=="A")
                     <!-- Invoice Footer -->
                     <div id="invoice-footer">
                         <div class="row">
@@ -152,6 +158,7 @@
                         </div>
                     </div>
                     <!--/ Invoice Footer -->
+                    @endif
                 </div>
 
             </section>

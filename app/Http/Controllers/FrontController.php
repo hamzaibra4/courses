@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\EnrolledCourse;
 use App\Models\MultipleCoursesEnrolled;
+use App\Models\Payment;
 use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class FrontController extends Controller
 {
@@ -50,5 +52,46 @@ class FrontController extends Controller
     public function updatePassword(){
         return view('student.account.password');
     }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required'],
+            'password' => ['required', 'confirmed'],
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors([
+                'current_password' => 'Old password is incorrect.'
+            ]);
+        }
+
+        // Update password
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return back()->with('success', 'Password updated successfully.');
+    }
+
+    public function myInvoices()
+    {
+        $studentId = Auth::user()->getStudent->id;
+        $data = EnrolledCourse::where('student_id', $studentId)->orderBy('counter','desc')->get();
+        return view('student.courses.invoices', compact('data'));
+    }
+
+    public function myPayments()
+    {
+        $studentId = Auth::user()->getStudent->id;
+        $data = Payment::where('student_id', $studentId)->orderBy('counter','desc')->get();
+        return view('student.courses.payments', compact('data'));
+    }
+
+
+
+
+
 
 }

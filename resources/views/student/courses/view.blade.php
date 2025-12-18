@@ -121,7 +121,7 @@
                                                         @foreach($material->getMaterialPdfs as $pdf)
                                                         <span class="material-icons icon-16pt icon--left text-body">receipt</span>
                                                         <a class="flex"
-                                                          download href="{{asset($pdf->path)}}">{{$pdf->name}}</a>
+                                                           href="{{route('pdf.show',['id'=>$pdf->id])}}">{{$pdf->name}}</a>
                                                         @endforeach
                                                     </li>
                                                 @endforeach

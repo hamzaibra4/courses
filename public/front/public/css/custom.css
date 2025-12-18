@@ -1,0 +1,13 @@
+
+.pdf-watermark {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    color: rgba(0,0,0,0.18);
+    transform: rotate(-30deg);
+    pointer-events: none;
+    z-index: 9999;
+}

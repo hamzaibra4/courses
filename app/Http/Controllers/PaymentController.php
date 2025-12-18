@@ -280,9 +280,5 @@ class PaymentController extends Controller
             'enrollment_numbers' => $enrollments,
         ]);
     }
-    public function getInvoice($id){
-        $company = Company::first();
-        $obj = Payment::findOrFail($id);
-        return view('pages.payment.Invoice')->with('obj', $obj)->with('company', $company);
-    }
+
 }

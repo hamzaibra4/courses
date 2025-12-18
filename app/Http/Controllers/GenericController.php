@@ -86,37 +86,28 @@ class GenericController extends Controller
 
     public function uploadPdfs($request, $pdfName)
     {
-        $pdfPaths = []; // Array to store the paths of uploaded PDFs
+        $pdfPaths = [];
 
         if ($request->hasFile($pdfName)) {
-            $files = $request->file($pdfName); // Retrieve all files
+            $files = $request->file($pdfName);
 
             foreach ($files as $file) {
-                // Optional: Validate PDF file type
-                $extension = strtolower($file->getClientOriginalExtension());
-
-                if ($extension !== 'pdf') {
-                    continue; // Skip non-PDF files
+                if (strtolower($file->getClientOriginalExtension()) !== 'pdf') {
+                    continue;
                 }
 
-                $fileNameWithExt = $file->getClientOriginalName();
-                $fileNameWithExt = str_replace(' ', '', $fileNameWithExt);
+                $original = str_replace([' ', '(', ')'], '', $file->getClientOriginalName());
+                $name = pathinfo($original, PATHINFO_FILENAME);
 
-                if (strpos($fileNameWithExt, '(') !== false || strpos($fileNameWithExt, ')') !== false) {
-                    $fileNameWithExt = str_replace(['(', ')'], '', $fileNameWithExt);
-                }
+                $fileNameToStore = $name . '_' . time() . '_' . rand(1000, 9999) . '.pdf';
+                $file->storeAs('protected/pdfs', $fileNameToStore);
 
-                $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
-                $fileNameToStore = $fileName . '_' . time() . '_' . rand(1000, 9999) . '.' . $extension;
-
-                // Store in pdfs directory
-                $file->storeAs('public/pdfs', $fileNameToStore, 'public');
-                $pdfPaths[] = 'storage/public/pdfs/' . $fileNameToStore;
+                $pdfPaths[] = 'protected/pdfs/' . $fileNameToStore;
             }
         }
-        return $pdfPaths; // Return array of PDF paths
-    }
 
+        return $pdfPaths;
+    }
 
     public function uploadPdfsWithNames($request, $pdfName)
     {
@@ -126,27 +117,26 @@ class GenericController extends Controller
             $files = $request->file($pdfName);
 
             foreach ($files as $file) {
-                $extension = strtolower($file->getClientOriginalExtension());
-                if ($extension !== 'pdf') {
+                if (strtolower($file->getClientOriginalExtension()) !== 'pdf') {
                     continue;
                 }
 
-                $originalName = $file->getClientOriginalName();
-                $cleanName = str_replace([' ', '(', ')'], '', $originalName);
+                $original = str_replace([' ', '(', ')'], '', $file->getClientOriginalName());
+                $nameWithoutExt = pathinfo($original, PATHINFO_FILENAME);
 
-                $nameWithoutExt = pathinfo($cleanName, PATHINFO_FILENAME);
-                $fileNameToStore = $nameWithoutExt . '_' . time() . '_' . rand(1000, 9999) . '.' . $extension;
+                $fileNameToStore = $nameWithoutExt . '_' . time() . '_' . rand(1000, 9999) . '.pdf';
 
-                $file->storeAs('public/pdfs', $fileNameToStore, 'public');
+                $file->storeAs('protected/pdfs', $fileNameToStore);
 
                 $pdfs[] = [
                     'name' => $nameWithoutExt,
-                    'path' => 'storage/public/pdfs/' . $fileNameToStore,
+                    'path' => 'protected/pdfs/' . $fileNameToStore,
                 ];
             }
         }
 
         return $pdfs;
     }
+
 
 }

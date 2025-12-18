@@ -1,5 +1,12 @@
 @extends('layouts.front')
 
+@section('watermark')
+    <div class="pdf-watermark">
+        TECHNOMATH – INTERNAL ACADEMIC MATERIAL • {{ auth()->user()->email }}
+    </div>
+@endsection
+
+
 @section('content')
     <!-- Page Content -->
     <div class="navbar navbar-light border-0 navbar-expand-sm"
@@ -69,7 +76,7 @@
     </div>
     <div class="navbar navbar-expand-sm navbar-light bg-white border-bottom-2 navbar-list p-0 m-0 align-items-center ">
         <div class="  ">
-            <div class="card dashboard-area-tabs p-relative o-hidden mb-0 w-100 border-0 no-border-radius">
+            <div class=" dashboard-area-tabs p-relative o-hidden mb-0 w-100 border-0 no-border-radius">
                 <!-- Tabs -->
                 <div class="card-header2 p-0 nav">
                     <div class="row no-gutters" role="tablist">
@@ -117,11 +124,12 @@
                                                 @foreach($lesson->getMaterials as $material)
                                                     <li class="accordion__menu-link">
                                                         @foreach($material->getMaterialPdfs as $pdf)
-                                                            <span class="material-icons icon-16pt icon--left text-body">receipt</span>
+                                                            <span class="material-icons icon-16pt icon--left text-body @if($loop->iteration > 1) ml-2 @endif">receipt</span>
                                                             <a class="flex"
-                                                               download href="{{asset($pdf->path)}}">{{$pdf->name}}</a>
+                                                               href="{{route('pdf.show',['id'=>$pdf->id])}}">{{$pdf->name}}</a>
                                                         @endforeach
                                                     </li>
+
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -133,4 +141,8 @@
         </div>
     </div>
 
+@endsection
+
+@section('customjs')
+    <script src="{{asset('front/public/js/security.js')}}"></script>
 @endsection

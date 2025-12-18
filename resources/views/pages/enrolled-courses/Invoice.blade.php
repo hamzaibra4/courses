@@ -1,6 +1,9 @@
-@extends('layouts.app')
+@extends (auth()->user()->getType->key=="A" ? 'layouts.app' : 'layouts.ext-layout')
+
 @section('content')
     <div class="content-wrapper">
+
+        @if(auth()->user()->getType->key=="A")
         <div class="content-header row hide-on-print no-print">
             <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
                 <h3 class="content-header-title mb-0 d-inline-block">Invoice</h3>
@@ -16,6 +19,7 @@
                 </div>
             </div>
         </div>
+        @endif
         <div class="content-body">
             <section class="card">
                 <div id="invoice-template" class="card-body">
@@ -154,9 +158,11 @@
 {{--                                    in the world. We predict too much for the next year and yet far--}}
 {{--                                    too little for the next 10.</p>--}}
                             </div>
+                            @if(auth()->user()->getType->key=="A")
                             <div class="col-md-5 col-sm-12 text-center no-print">
                               <a class="btn btn-info btn-lg my-1" href="{{route('download-enrollment',['id'=>$obj->id])}}"><i class="la la-download"></i> Download Invoice</a>
                             </div>
+                            @endif
                         </div>
                     </div>
                     <!--/ Invoice Footer -->
