@@ -156,7 +156,7 @@
                                                                 <div class="d-flex flex-wrap" id="pdf-list">
                                                                     @foreach($material->getMaterialPdfs as $pdf)
                                                                         <div class="mr-2 mb-2 pdf-item d-inline-flex align-items-center" data-pdf-id="{{ $pdf->id }}">
-                                                                            <a href="{{ asset($pdf->path) }}" target="_blank"
+                                                                            <a href="#"
                                                                                class="btn btn-primary btn-sm mr-1">
                                                                                 <i class="fa fa-file-pdf"></i> PDF {{ $loop->iteration }}
                                                                             </a>

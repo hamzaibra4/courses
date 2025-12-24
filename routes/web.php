@@ -7,6 +7,7 @@ use App\Http\Controllers\EnrolledCourseController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\VideoController;
 use App\Models\Configuration;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
@@ -96,3 +97,12 @@ Route::get('/pdf/stream/{id}', [PdfController::class, 'stream'])
 
 Route::get('my-invoices',[FrontController::class,'myInvoices'])->name('my-invoices');
 Route::get('my-payments',[FrontController::class,'myPayments'])->name('my-payments');
+
+
+Route::get('/video/{id}', [VideoController::class, 'show'])
+    ->middleware('auth')
+    ->name('video.show');
+
+Route::get('/video/stream/{id}', [VideoController::class, 'stream'])
+    ->middleware('auth')
+    ->name('video.stream');

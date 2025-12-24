@@ -25,7 +25,7 @@ class PdfController extends Controller
     {
         $pdf = MaterialPdf::findOrFail($id);
 
-        abort_unless(Storage::disk('local')->exists($pdf->path), 404);
+        abort_unless(auth()->check() && Storage::disk('local')->exists($pdf->path), 403);
 
         $absolutePath = Storage::disk('local')->path($pdf->path);
 

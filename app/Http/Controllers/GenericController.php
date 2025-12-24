@@ -14,7 +14,6 @@ class GenericController extends Controller
         if ($request->hasFile($imageName)) {
             $file = $request->file($imageName);
             $fileNameWithExt = $file->getClientOriginalName();
-            error_log("----------------" . $fileNameWithExt);
             $fileNameWithExt = str_replace(' ', '', $fileNameWithExt);
             if (strpos($fileNameWithExt, '(') !== false || strpos($fileNameWithExt, ')') !== false) {
                 $fileNameWithExt = str_replace(['(', ')'], '', $fileNameWithExt);
@@ -77,8 +76,9 @@ class GenericController extends Controller
             $fileNameToStore = $fileName . '_' . time() . '.' . $extension;
 
             // Store in videos directory instead of images
-            $file->storeAs('public/videos', $fileNameToStore, 'public');
-            $videoPath = 'storage/public/videos/' . $fileNameToStore;
+            $file->storeAs('protected/videos', $fileNameToStore);
+
+            $videoPath = 'protected/videos/' . $fileNameToStore;
         }
 
         return $videoPath;

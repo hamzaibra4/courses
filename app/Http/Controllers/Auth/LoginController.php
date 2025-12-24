@@ -23,6 +23,8 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
+        $user->session_id = session()->getId();
+        $user->save();
         $role = $user->getType->key; // A = Admin, S = Student
 
         if ($role === 'A') {

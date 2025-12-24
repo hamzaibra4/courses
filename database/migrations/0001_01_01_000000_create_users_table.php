@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('plain_password')->nullable();
             $table->uuid('user_type_id');
+            $table->string('session_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

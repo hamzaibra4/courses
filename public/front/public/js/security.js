@@ -94,3 +94,29 @@ document.addEventListener('contextmenu', e => e.preventDefault());
         `;
     }
 })();
+
+// Disable right click globally
+document.addEventListener('contextmenu', e => e.preventDefault());
+
+// Blur when user switches tab / tries screen capture
+window.addEventListener('blur', () => {
+    document.body.style.filter = 'blur(12px)';
+    document.getElementById('secureVideo').pause();
+});
+
+window.addEventListener('focus', () => {
+    document.body.style.filter = 'none';
+});
+
+// Disable common download shortcuts
+document.addEventListener('keydown', function (e) {
+    if (
+        e.key === 'PrintScreen' ||
+        (e.ctrlKey && ['s','u','p'].includes(e.key.toLowerCase())) ||
+        (e.metaKey && ['s','u'].includes(e.key.toLowerCase()))
+    ) {
+        e.preventDefault();
+        alert('This content is protected.');
+    }
+});
+

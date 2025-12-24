@@ -58,10 +58,22 @@
                             <span class="material-icons">play_arrow</span>
                         </a>
                     </div>
-                    <div class="player__embed d-none">
-                        <iframe class="embed-responsive-item"
-                                src="{{asset('storage/public/videos/NewAdventureExploreTheWorldVideo_1765790913.mp4')}}"
-                                allowfullscreen=""></iframe>
+                    <div class="player__embed d-none video-wrapper">
+{{--                        <iframe class="embed-responsive-item"--}}
+{{--                                src="{{asset('storage/public/videos/NewAdventureExploreTheWorldVideo_1765790913.mp4')}}"--}}
+{{--                                allowfullscreen=""></iframe>--}}
+
+
+                        <video  class="embed-responsive-item" id="secureVideo"
+                               controls
+                               controlsList="nodownload noremoteplayback"
+                               disablePictureInPicture
+                               oncontextmenu="return false;">
+                            <source src="{{ route('video.stream', $lesson->id) }}" type="video/mp4">
+                            Your browser does not support video playback.
+                        </video>
+
+
                     </div>
                 </div>
             </div>
@@ -145,4 +157,5 @@
 
 @section('customjs')
     <script src="{{asset('front/public/js/security.js')}}"></script>
+    <script src="{{asset('front/public/js/video.js')}}"></script>
 @endsection
