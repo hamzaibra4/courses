@@ -83,8 +83,8 @@ Route::get('view-lesson/{id}', [FrontController::class, 'viewLesson'])->name('vi
 Route::resource('enrolled-course',EnrolledCourseController::class);
 Route::get('enrolled-invoice/{id}', [DownloadController::class, 'getInvoice'])->name('enrolled-invoice');
 Route::get('payment-invoice/{id}', [DownloadController::class, 'getPayment'])->name('payment-invoice');
-Route::post('change-password', [FrontController::class, 'changePassword'])
-    ->name('user.password.update');
+//Route::post('change-password', [FrontController::class, 'changePassword'])
+//    ->name('user.password.update');
 Route::resource('company', CompanyController::class);
 Route::get('/pdf/{id}', [PdfController::class, 'show'])
     ->name('pdf.show')

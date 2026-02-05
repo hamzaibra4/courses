@@ -36,7 +36,7 @@
                     <td class="text-right">
                         <div class="d-inline-flex align-items-center">
                             <a target="_blank" href="{{route('payment-invoice', ['id' => $obj->id])}}"
-                               class="btn btn-sm btn-outline-secondary mr-16pt">View invoice <i class="icon--right material-icons">keyboard_arrow_right</i></a>
+                               class="btn btn-sm btn-outline-secondary mr-16pt">View receipt <i class="icon--right material-icons">keyboard_arrow_right</i></a>
                             <a href="{{route('download-payment', ['id' => $obj->id])}}"
                                class="btn btn-sm btn-outline-secondary">Download <i class="icon--right material-icons">file_download</i></a>
                         </div>

@@ -18,13 +18,13 @@
                     </a>
                 </li>
 
-                <li class="sidebar-menu-item {{ isActiveRoute(['change-password'], 'activeme') }} ">
-                    <a class="sidebar-menu-button"
-                       href="{{route('change-password')}}">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">lock</span>
-                        <span class="sidebar-menu-text">Change Password</span>
-                    </a>
-                </li>
+{{--                <li class="sidebar-menu-item {{ isActiveRoute(['change-password'], 'activeme') }} ">--}}
+{{--                    <a class="sidebar-menu-button"--}}
+{{--                       href="{{route('change-password')}}">--}}
+{{--                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">lock</span>--}}
+{{--                        <span class="sidebar-menu-text">Change Password</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
 
                 <li class="sidebar-menu-item {{ isActiveRoute(['my-invoices'], 'activeme') }} ">
                     <a class="sidebar-menu-button"
