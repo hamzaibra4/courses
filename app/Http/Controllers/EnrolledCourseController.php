@@ -105,16 +105,19 @@ class EnrolledCourseController extends Controller
 
         $obj->save();
 
-        $payment=new Payment();
-        $counter = DB::table('payments')->max('counter') + 1;
-        $prefix = Company::first()?->payment_prefix ?? "PAY";
-        $payment->trx_number = $prefix . "-" . $counter;
-        $payment->counter = $counter;
-        $payment->date=now()->toDateString();;
-        $payment->student_id=$request->student_id;
-        $payment->enrolled_course_id = $obj->id;
-        $payment->amount=$obj->received_amount;
-        $payment->save();
+        if($request->r_amount > 0 || $request->paid){
+            $payment=new Payment();
+            $counter = DB::table('payments')->max('counter') + 1;
+            $prefix = Company::first()?->payment_prefix ?? "PAY";
+            $payment->trx_number = $prefix . "-" . $counter;
+            $payment->counter = $counter;
+            $payment->date=now()->toDateString();;
+            $payment->student_id=$request->student_id;
+            $payment->enrolled_course_id = $obj->id;
+            $payment->amount=$obj->received_amount;
+            $payment->save();
+        }
+
 
 
 
